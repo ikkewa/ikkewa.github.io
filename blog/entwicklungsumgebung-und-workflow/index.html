@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="language" content="en">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="">
+    <meta name="robots" content="index">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+    <link href="/css/style.css" rel="stylesheet">
+    <!-- build:remove-->
+    <script src="/assets/devreload.js"></script>
+    <!-- endbuild-->
+  </head>
+  <nav class="navigation">
+    <figure class="logo_icon transCubic"><a href="/" style="background-image: url('/assets/logo.png');" class="transCubic">Ikke</a></figure>
+    <h2 class="nav_title transCubic"><a href="/">IkkeBlog</a></h2>
+    <figure class="nav_menu"><a href="#menu" class="nav_menu_btn transCubic">Menu</a></figure>
+    <ul class="nav_drop transCubic">
+      <li><a href="/" class="transCubic">go home</a></li>
+      <li><a href="/blog" class="transCubic">go to blog</a></li>
+      <li><a href="https://twitter.com/ikkewa_" class="transCubic">my twitter</a></li>
+      <li><a href="/about" class="transCubic">about this</a></li>
+      <li>
+        <hr>
+      </li>
+    </ul>
+  </nav>
+  <section class="container">
+    <article class="post">
+      <time datetime="2015-10-14T02:00:00+02:00">14. Oktober10 2015</time>
+      <h1 class="article_title"><a href="#">Entwicklungsumgebung und Workflow</a></h1>
+      <div><p>Nach Abschluss des letzten Blogpost habe ich mich kurzfristig entschlossen meine Entwicklungsumgebung
+fit und nutzbar zu machen f&#xFC;r alle die, die es m&#xF6;gen und m&#xF6;chten. Wer sich den ganzen Text und Infos
+sparen m&#xF6;chte, kann direkt auf <a href="https://github.com/ikkewa/generator-phaser-alt">Github</a> oder
+<a href="https://www.npmjs.com/package/generator-phaser-alt">NPM</a> den Code ansehen und nutzen.</p>
+<h4 id="basis-ist-nodejs-mitsamt-npm">Basis ist NodeJS mitsamt NPM</h4>
+<p>Es gibt viele Programmiersprachen und Umgebungen mit Vorteilen und Nachteilen. Nachdem ich PhaserJS
+und damit JavaScript in der Entwicklung des Spiels nutzen werde, war es f&#xFC;r mich ein leichtes auch
+JavaScript auf der Tooling Seite nutzen zu wollen.</p>
+<p>JavaScript auf dem Server ist seit NodeJS ein wunderbares Werkzeug und die Entwicklungsumgebung f&#xFC;r
+die Programmierung des Spiels ist eigentlich nichts anderes als ein Server der lokal l&#xE4;uft.
+Da wir aber nicht nur einen Webserver ben&#xF6;tigen der Daten ausliefert, sondern auch
+ein Tooling das bei der Entwicklung des Spiels an allen m&#xF6;glichen Stellen helfen soll, nehme ich
+NodeJS nicht nur als Webserver, sondern als allgemeines Tool f&#xFC;r s&#xE4;mtliche Aufgaben/Tasks.
+Wenn ihr mehr zu NodeJS erfahren wollt, dann hilft euch das Internet mit Millionen Treffern in der
+Suchmaschine des Vertrauens. F&#xFC;r diesen Blogpost ist jetzt nur wichtig: NodeJS ist Javascript
+und es steht vielen anderen Sprachen als allgemeine Tooling Plattform in nichts nach.</p>
+<h4 id="tooling-was-ist-denn-das-">Tooling - was ist denn das?</h4>
+<p>Ich verwende immer das Wort <del>Tooling</del> f&#xFC;r unterst&#xFC;tzende Helfer beim Programmieren. Ein Tool
+ist ein Werkzeug und NodeJS ist quasi der Werkzeugkoffer, der fast jedes Problem l&#xF6;sen kann.
+Wo werde ich den Tools ben&#xF6;tigen? Eigentlich kann man sagen, das jede Aufgabe die man &#xF6;fters
+wiederholen muss, durch ein Tool ersetzen sollte das diese Aufgabe automatisiert durchf&#xFC;hrt.</p>
+<p>Das automatisieren von Aufgaben funktioniert nat&#xFC;rlich nur bei programmatischen Aufgaben, also
+kopiere Datei A in Ordner B oder reloade ein Fenster. Ein Tool, das mir automatisiert fantastische
+Grafiken f&#xFC;r ein Spiel generiert habe ich noch nicht gefunden, aber sicherlich wird es in der
+Richtung bereits etwas geben.</p>
+<p>Bleiben wir erst mal bei den doch einfachen Tasks. In dem letzten Intro Blogpost zu PhaserJS
+wurden die States vorgestellt und jeder State war in einer eigenen Datei gespeichert. Dann
+musste jede Datei in der HTML Datei einzeln referenziert werden damit wir damit arbeiten k&#xF6;nnen.
+Jetzt k&#xF6;nnte man auch einfach eine gro&#xDF;e JavaScript Datei erstellen und alle States dort rein packen,
+aber das w&#xE4;re gegen meine Vorstellung von Organisation von Code und die Abgrenzung von Inhalten.
+Logisch w&#xE4;re jetzt, wenn wir nach dem Erstellen der State Files diese zusammenf&#xFC;gen in eine
+Datei und dann diese eine Datei nur noch im HTML referenzieren. Klingt gut, ist einfach, aber
+wird beim zweiten Durchf&#xFC;hren bereits l&#xE4;stig und damit haben wir auch schon unser erstes Tool
+definiert: Nehme alle JavaScript Dateien und f&#xFC;ge diese in eine JavaScript Datei zusammen.</p>
+<p>Es gibt weitere einfache Beispiele, die ich jetzt nicht alle benennen m&#xF6;chte, aber ein weiteres
+w&#xE4;re: Sobald eine Datei ge&#xE4;ndert und gespeichert wurde, f&#xFC;hre den oben beschriebenen Task
+automatisch aus (zusammenf&#xFC;hren einzelner JS Files). Der n&#xE4;chste Task w&#xE4;re: Wenn eine neue
+Zusammengef&#xFC;hrte JavaScript Datei erstellt wurde, reload das Browserfenster.</p>
+<p>Diese drei beschrieben Tasks w&#xFC;rde dann w&#xE4;hrend der Entwicklung des Spiels bedeuten, das ich
+Code schreibe und irgendwann speichere, direkt zu meinem Browserfenster wechseln kann und sehe
+den aktuellsten Code direkt im Browser laufen. Ohne Dateien anfassen, ohne F5 im Browser dr&#xFC;cken.</p>
+<h4 id="willkommen-nodejs">Willkommen NodeJS</h4>
+<p>Die oben beschriebenen Tasks habe alle Webdesigner und Entwickler in einer Form in ihren Projekten
+und daher ist es kein Wunder das die JavaScript / NodeJS / WebDeveloper Community hier bereits
+ein unglaubliches Portfolio an Tools entwickelt und frei zur Verf&#xFC;gung gestellt hat.
+Da mein kleines Spiel auch ein <em>Web</em> Ding ist, k&#xF6;nnen wir auf diese Tools 1:1 zur&#xFC;ckgreifen.</p>
+<p>Tools die verwendet werden:</p>
+<ul>
+<li>Gulp</li>
+<li>JSHint</li>
+<li>Browserify</li>
+<li>Jade</li>
+<li>Stylus</li>
+<li>UglifyJS</li>
+<li>CSS Optimizer</li>
+<li>ImageMin</li>
+<li>LiveReload</li>
+<li>Serve</li>
+</ul>
+<p>Jeweils eine kurze Erkl&#xE4;rung zu den Tools:</p>
+<h5 id="gulp">Gulp</h5>
+<p><a href="http://www.gulpjs.com">Gulp</a> ist ein Taskrunner, also ein Tool das ein oder mehrere definierte
+Tasks in einer Reihenfolge durchf&#xFC;hren kann. In anderen Programmiersprachen sind das ANT, MAKE usw.</p>
+<h5 id="jshint">JSHint</h5>
+<p><a href="http://www.jshint.com">JSHint</a> ist ein Tool um grobe Schnitzer im JS Code aufzudecken und
+an zu mahnen. Es kann nicht jeden Fehler im Code entdecken oder logische Fehler erkennen, aber
+Tippfehler, ung&#xFC;ltige Nutzung von Funktionen und Sprachkonstrukten werden erkannt. Das hilft
+sehr gut gegen komische Effekte und unerkl&#xE4;rliche Erscheinungen im Spiel/App.</p>
+<h5 id="browserify">Browserify</h5>
+<p><a href="http://www.browserify.org">Browserify</a> ist unser Bundler, also das Tool das mehrere JavaScript
+Dateien zusammenf&#xFC;hrt und daraus eine JavaScript Datei macht. Es ist eigentlich noch viel mehr,
+aber als Erkl&#xE4;rung soll das hier ausreichen. Beim Schreiben von JavaScript Code bedeutet das nur
+eine kleine &#xC4;nderung und zwar das man das Prinzip <em>CommonJS</em> verwenden muss (<code>module.exports</code>).</p>
+<h5 id="jade">Jade</h5>
+<p><a href="http://www.jade-lang.com">Jade</a> ist ein HTML Preprocessor und um das zu Erkl&#xE4;ren k&#xF6;nnte man
+einen eigenen Blogpost schreiben. Kurzum: Wer schon &#xF6;fters HTML Markup geschrieben hat der
+wird irgendwann keine Lust mehr haben dauern die <code>&lt;&gt;</code> Syntax zu verwenden. Bei mir ist der
+Punkt erreicht, an dem ich nichts mehr mit HTML Markup zu tun haben will, denn es nervt.
+Daher Jade als Helfer in der Not vor HTML Markup. Jade ist eine eigene Sprache und erm&#xF6;glicht
+es mittels eine eigenen Syntax (&#xE4;hnlich HTML) daraus dann valides HTML zu generieren. Anstatt
+also zu schreiben</p>
+<pre><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>myId<span class="token punctuation">&quot;</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>hello<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>Text<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+<p>kann man in Jade schreiben</p>
+<pre><code>div#myId.hello Text
+</code></pre><p>und der Jade Preprocessor wandelt es in das obige HTML Fragment um. Herrlich!</p>
+<h5 id="stylus">Stylus</h5>
+<p><a href="https://github.com/stylus/stylus">Stylus</a> ist ebenfalls ein Preprocessor nur f&#xFC;r CSS und
+es hat den gleichen Gedanken wie Jade f&#xFC;r HTML: Weniger schreiben, mehr erreichen. Und hier
+ist direkt das vergleichende Beispiel f&#xFC;r CSS versus Stylus:</p>
+<p>CSS</p>
+<pre><code class="language-css"><span class="token selector">#myId .hello </span><span class="token punctuation">{</span>
+  <span class="token property">margin</span><span class="token punctuation">:</span> 10px<span class="token punctuation">;</span>
+  <span class="token property">position</span><span class="token punctuation">:</span> relative<span class="token punctuation">;</span>
+  <span class="token property">float</span><span class="token punctuation">:</span> left
+<span class="token punctuation">}</span>
+</code></pre>
+<p>kann man in Stylus schreiben</p>
+<pre><code>#myId .hello
+  margin 10px
+  position relative
+  float left
+</code></pre><p>und es wird das gleiche CSS erzeugt ohne die Verwendung der Zeichen <code>{};:</code> usw. Auch
+hier gibt es unendlich viele weitere Features (die ich auch nutze), aber f&#xFC;r die Vorstellung
+in diesem Blogpost nicht notwendig sind. Googlen und lesen...</p>
+<h5 id="uglifyjs">UglifyJS</h5>
+<p><a href="https://github.com/mishoo/UglifyJS2">UglifyJS</a> komprimiert JavaScript Dateien auf
+die m&#xF6;glichst kleinste Dateigr&#xF6;&#xDF;e. Das ist bei Webanwendung wichtig, denn der Ladevorgang
+von JS Files im Web (gerade im Mobile Bereich) erzeugt die l&#xE4;ngste Wartezeit. In der
+Zeit der lokalen Entwicklung des Spiels ist das Tool allerdings nicht zwingend notwendig.</p>
+<h5 id="css-optimizer">CSS Optimizer</h5>
+<p><a href="https://github.com/css/csso">CSSO</a> ist wie UglifyJS ein Optimierer allerdings f&#xFC;r CSS.
+Es organisiert den CSS Code und kann dadurch doppelte oder ung&#xFC;ltige CSS Definitionen
+erkennen und entfernen (Ziel: kleinerer Code).</p>
+<h5 id="imagemin">ImageMin</h5>
+<p><a href="https://github.com/imagemin/imagemin">ImageMin</a> ist ebenfalls ein Optimierer f&#xFC;r Bilddaten.
+Teilweise werden Grafiken von den erstellenden Tools nicht optimal gespeichert oder es ist
+ein gewollter Overhead in den Grafiken vorhanden. Da dies aber f&#xFC;r den Enduser nicht das
+beste Erlebnis bietet, wenn ein Bild nur gro&#xDF;er ist weil irgendein unn&#xF6;tiger Overhead
+die Ladezeiten der Webseite erh&#xF6;ht, wird das Tool verwendet um entgegenzuwirken.</p>
+<h5 id="livereload">LiveReload</h5>
+<p><a href="https://github.com/vohof/gulp-livereload">LiveReload</a> ist das Tool das den Browser
+automatisch refreshed, wenn eine bestimmte Aktion diesen Refresh ausgel&#xF6;st hat.
+Das F5 dr&#xFC;cken im Browser dauert zwar immer nur 2 Sekunden, aber hunderte Male
+manuell den Refresh ansto&#xDF;en ergibt eine Menge Lebenszeit. Einmal genutzt will man
+es nie wieder missen.</p>
+<h5 id="serve">Serve</h5>
+<p><a href="https://www.npmjs.com/package/gulp-serve">Gulp-Serve</a> ist ein lokalen Webserver f&#xFC;r
+statische Dateien. Wie ganz am Anfang erw&#xE4;hnt ben&#xF6;tigen wir einen Webserver der unser
+Spiel an den Browser ausliefert und diese minimale Tool macht es.</p>
+<h4 id="kosten">Kosten</h4>
+<p>Wenn man sich die ganzen Tools anschaut und was sie alles beherrschen k&#xF6;nnte die Frage
+aufkommen, was das den alles kostet. Nicht das ich etwas dagegen h&#xE4;tte Geld auszugeben
+f&#xFC;r Tools, die mir das Leben viel einfacher machen, aber wenn es kostenlos geht, sage
+ich nicht Nein.</p>
+<p>Und das ist auch das gute an den ganzen Tools: Fast alle stehen unter der
+<a href="http://opensource.org/licenses/MIT">MIT Lizenz</a> oder anderen freien OpenSource Lizenzen
+und die private und sogar kommerzielle Nutzung ist ausdr&#xFC;cklich erlaubt.
+Damit sind wir wieder bei einem Punkt, der bereits in einer der letzten Postings erw&#xE4;hnt
+wurde: Die &quot;Share &amp; Help&quot; Mentalit&#xE4;t der JavaScript Community!</p>
+<h4 id="entwicklungsumgebung-und-workflow">Entwicklungsumgebung und Workflow</h4>
+<p>Nachdem ganzen Vorstellen von Tools und was sie alle f&#xFC;r sich alleine k&#xF6;nnen, kommt nun
+die Frage, wie das ganze nun im Zusammenspiel funktioniert. Ich habe die Tools
+bereits zusammengef&#xFC;hrt und bestm&#xF6;glich aufeinander abgestimmt und im Sinne des
+&quot;Share &amp; Help&quot; Gedankens zur Verf&#xFC;gung gestellt auf
+<a href="https://github.com/ikkewa/generator-phaser-alt">Github</a>, bzw.
+<a href="https://www.npmjs.com/package/generator-phaser-alt">NPM</a></p>
+<p>Wenn ihr das auch nutzen wollt, dann schaut euch einfach mal die README an.
+Dort ist beschrieben, was alles notwendig ist um das Tooling direkt nutzen zu k&#xF6;nnen.</p>
+<p>F&#xFC;r den Blog eine kurze Zusammenfassung: NodejS + NPM + Yeoman installieren, ein Order
+erstellen und meinen Generator laufen lassen. Fertig.</p>
+<p>Wenn ihr den Generator nutzt, dann wird innerhalb kurzer Zeit ein Template f&#xFC;r euer
+neues Game aufgesetzt. Eine Ordnerstruktur, die ganzen Tools mit den Tasks im Background.</p>
+<p>Die Ordnerstruktur sieht dann wie folgt aus:</p>
+<pre><code>.
+&#x251C;&#x2500;&#x2500; app                       // main app folder, contains Jade files
+&#x2502;   &#x251C;&#x2500;&#x2500; images                // image folder for your website images, not game images
+&#x2502;   &#x251C;&#x2500;&#x2500; js                    // main folder vor all your javascripts including game js files
+&#x2502;   &#x2502;   &#x251C;&#x2500;&#x2500; components        // components in your game
+&#x2502;   &#x2502;   &#x251C;&#x2500;&#x2500; prefabs           // prefabs in your game
+&#x2502;   &#x2502;   &#x2514;&#x2500;&#x2500; states            // states folder with predefined states
+&#x2502;   &#x2514;&#x2500;&#x2500; stylesheets           // folder for the Stylus files
+&#x251C;&#x2500;&#x2500; assets                    // main assets folder for your game assets
+&#x2502;   &#x251C;&#x2500;&#x2500; audio                 // audio game assets, used when build game
+&#x2502;   &#x251C;&#x2500;&#x2500; designs               // design folder, contains only design which are not used in the game
+&#x2502;   &#x251C;&#x2500;&#x2500; images                // game image folder, which will be used when build
+&#x2502;   &#x251C;&#x2500;&#x2500; js                    // extra JS files, which are not directly game related
+&#x2502;   &#x2514;&#x2500;&#x2500; tilemaps              // tilemaps folder
+&#x251C;&#x2500;&#x2500; build                     // build folder will be created on each build
+&#x2502;   &#x251C;&#x2500;&#x2500; assets                // assets copied from the /assets folder
+&#x2502;   &#x2502;   &#x251C;&#x2500;&#x2500; audio
+&#x2502;   &#x2502;   &#x2514;&#x2500;&#x2500; images
+&#x2502;   &#x251C;&#x2500;&#x2500; css                   // generated CSS files from stylus
+&#x2502;   &#x2514;&#x2500;&#x2500; js                    // copied JS files (game js files, included JS)
+&#x251C;&#x2500;&#x2500; dist                      // distribution folder, all assets are optimized and minified
+&#x2514;&#x2500;&#x2500; gulp                      // gulp folder with config
+    &#x2514;&#x2500;&#x2500; task                  // js files with the definition of all tasks
+</code></pre><p>Im Ordner <code>app/js/states</code> sind dann die einzelnen JavaScript State Files (boot.js, preload.js ...)
+und die werden durch die Tools automatisch bei jedem Speichern in den Ordner <code>build/js</code>
+zusammengef&#xFC;hrt, optimiert usw. usf.</p>
+<p>Mein Workflow mit diesem Template Generator l&#xE4;sst mich also sofort das Spiel entwickeln
+und ich muss keine Zeit mehr verschwenden um Dateien zu kopieren, zusammenzuf&#xFC;hren oder F5 im Browser zu dr&#xFC;cken.</p>
+<h4 id="weitere-infos">Weitere Infos</h4>
+<p>Der Generator enth&#xE4;lt ein kompletten Flow von <code>boot</code> zum <code>gameover</code> State mitsamt dem beispielhaften Laden von
+Bildern und Keybindings. Startet man also Gulp (indem man <code>gulp</code> in der Kommandozeilen ausf&#xFC;hrt) und den Browser
+auf die Webseite <code>http://localhost:3000</code> f&#xFC;hrt, wird ein neues Phaser.Game initiiert und die States <code>boot</code> und 
+<code>preload</code> durchlaufen. Den <code>preload</code> State wird man nicht wahrnehmen, da die Ladephase vom lokalen Server zu
+schnell erfolgt. Nach dem Ladevorgang wird dann im <code>menu</code> State ein einfaches Menu angezeigt mit einem <em>Play</em>
+Button, der beim klicken den <code>play</code> State startet. Der <code>play</code> State stellt einfach nur den sich drehenden <em>Play</em>
+Button da und soll zeigen, das man im <code>play</code> State ist. Beim dr&#xFC;cken von <em>ESC</em> springt man in den <code>gameover</code>
+State und ein kompletter Flow durch das Phaser.Game ist erfolgt.</p>
+<p>Nat&#xFC;rlich dient das nur als Orientierung, wo und wann man etwas einf&#xFC;gen und programmieren kann. F&#xFC;r mich ist
+es immer eine Gedankenst&#xFC;tze und so soll es auch gesehen werden.</p>
+<h5 id="commonjs-und-js-code-schreiben">CommonJS und JS Code schreiben</h5>
+<p>Wie weiter oben geschrieben nutzen wir die Methodik <em>CommonJS</em> um unseren Code zu schreiben. CommonJS ist
+ein Best-Practice wie JS Code, prim&#xE4;r durch NodeJS und die Entwicklung auf dem NodeJS Server, strukturiert
+sein soll, damit er mit NodeJS strukturiert geladen werden kann.</p>
+<p>Grobe Zusammenfassung CommonJS:</p>
+<ul>
+<li>es gibt Module</li>
+<li>jedes Modul wird in eine eigene Datei abgelegt</li>
+<li>jedes Modul hat <em>einen</em> Zweck/Funktion/Ziel</li>
+<li>Module k&#xF6;nnen untereinander eingebunden werden</li>
+</ul>
+<p>Ziel des ganzen ist es den Code zu strukturieren und das Prinzip <strong>DRY</strong> (Don<code>t Repeat Yourself) zu etablieren.
+Wenn wir Code haben der einen einfachen Zweck erf&#xFC;llt, wird daraus Module-A erstellt. Haben wir
+ein Modul-B, das genaue diesen Zweck aus Module-A ben&#xF6;tigt um zu funktionieren, k&#xF6;nnen wir
+Module-A einbinden durch das Keyword</code>require()`. Somit m&#xFC;ssen wir den Zweck in Modul-B nicht neu entwickeln
+und bei Bugs in der Implementierung des Zwecks in Modul-A, m&#xFC;ssen wir nur Modul-A korrigieren.</p>
+<p>Beispiel (Zwei Dateien: modul-a.js und modul-b.js):</p>
+<pre><code class="language-javascript"><span class="token comment" spellcheck="true">// module-a.js</span>
+
+<span class="token keyword">function</span> <span class="token function">addTwo</span><span class="token punctuation">(</span>num<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> num <span class="token operator">+</span> <span class="token number">2</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> addTwo<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// end of modul-a.js</span>
+<span class="token comment" spellcheck="true">// -----</span>
+<span class="token comment" spellcheck="true">// modul-b.js</span>
+
+<span class="token keyword">var</span> add2 <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&apos;./modul-a&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> val <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">add2</span><span class="token punctuation">(</span>val<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// will print 12</span>
+<span class="token comment" spellcheck="true">// end of modul-b.js</span>
+</code></pre>
+<p>In Modul-A m&#xFC;ssen wir also sagen, welche Funktion (oder Variablen) exportiert werden mit <code>module.exports</code>.
+In Modul-B binden wir das Modul-A dann mit <code>require(&apos;./modul-a&apos;)</code> ein und k&#xF6;nnen es dort nutzen.</p>
+<p>Bei dem Spiel das ich hier entwickle nutzen wir dieses Prinzip nat&#xFC;rlich aus, da ein organisierter Code
+der frei von redundanten Code einfacher sch&#xF6;ner aussieht und viel einfacher zu  warten ist.
+Um das ganze an den bisher bekannten States sichtbar zu machen (Beispiel <code>boot.js</code> State):</p>
+<pre><code class="language-javascript">
+<span class="token keyword">function</span> <span class="token function">Boot</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+
+Boot<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// definition of preload(), create() et cetera</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> Boot<span class="token punctuation">;</span>
+</code></pre>
+<p>Diese reduzierte Version der in dem letzten Blogpost gezeigten <code>boot.js</code> Datei exportiert die
+Funktion <code>Boot</code> als Modul. In dem Blogpost habe ich dann die ganzen States einzeln im HTML Code
+durch das <code>&lt;script&gt;</code> HTML Tag eingebunden und dann sp&#xE4;ter in der <code>script.js</code> genutzt.
+Mit CommonJS und dem automatisierten Workflow sieht die gleiche Datei nun wie folgt aus:</p>
+<pre><code class="language-javascript">  window<span class="token punctuation">.</span>onload <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> Boot <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&apos;./states/boot&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">var</span> Preload <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&apos;./states/preload&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// more states here</span>
+
+    <span class="token keyword">var</span> game <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Phaser<span class="token punctuation">.</span>Game</span><span class="token punctuation">(</span><span class="token number">960</span><span class="token punctuation">,</span> <span class="token number">640</span><span class="token punctuation">,</span> Phaser<span class="token punctuation">.</span>AUTO<span class="token punctuation">,</span> <span class="token string">&apos;gamecanvas&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    game<span class="token punctuation">.</span>state<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">&apos;boot&apos;</span><span class="token punctuation">,</span> Boot<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    game<span class="token punctuation">.</span>state<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">&apos;preload&apos;</span><span class="token punctuation">,</span> Preload<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// add more states here</span>
+
+    <span class="token comment" spellcheck="true">// boot the game</span>
+    game<span class="token punctuation">.</span>state<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token string">&apos;boot&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Dank des Workflows wird das ganze automatisch nun zu einer Javascript Datei geb&#xFC;ndelt und diese
+eine Javascript Datei muss dann nur noch im HTML Code referenziert werden mittels <code>&lt;script&gt;</code> Tag. Easy!</p>
+<h4 id="zusammenfassung">Zusammenfassung</h4>
+<p>Die Zusammenfassung f&#xE4;llt mir etwas schwer, denn der Workflow ist f&#xFC;r mich t&#xE4;gliches Brot und viele Punkte
+sind f&#xFC;r mich selbstverst&#xE4;ndlich und ich denke dar&#xFC;ber einfach gar nicht mehr nach. Da ich nicht wei&#xDF; ob
+und wer meine Leser sind, versuche ich f&#xFC;r ein Level zu dokumentieren, das auch ein Einsteiger in das Thema
+hoffentlich sich zurecht findet. Das wirkt zumindest f&#xFC;r mich beim Gegenlesen des Textes teilweise sehr
+komisch, da ich nicht absch&#xE4;tzen kann, was noch Anf&#xE4;nger-Unwissenheit oder Profi-Wissen ist.
+Alles in allem hoffe ich jedoch, das es mindestens zum Nachdenken und selbst ausprobieren anregt oder man
+weitere Quellen sucht, sich mit dem Thema zu besch&#xE4;ftigen.</p>
+<p>Zum Workflow kann ich zu diesem Zeitpunkt nicht mehr sagen, denn alles sollte gesagt sein. Wenn dieser
+Workflow und die Tools nicht gefallen, es gibt viele weitere dieser Yeoman Generators oder andere Optionen
+die man f&#xFC;r den Einstieg nutzen kann. Es muss auch nicht NodeJS sein, sondern kann Python, Java, PHP sein.</p>
+<p>Feedback via Twitter w&#xFC;rde mich freuen :)</p>
+</div>
+      <div class="share-social clearfix">
+        <h6>Share this if you like</h6>
+        <ul><a href="/rss.xml" class="social-item rss">
+            <li><i class="fa fa-rss"></i></li></a><a href="http://twitter.com/intent/tweet?url=http://ikkewa.github.io/blog/entwicklungsumgebung-und-workflow&amp;text=Read:%20Entwicklungsumgebung und Workflow&amp;via=ikkewa_" class="social-item twitter">
+            <li><i class="fa fa-twitter"></i></li></a><a href="https://github.com/ikkewa" class="social-item github">
+            <li><i class="fa fa-github-alt"></i></li></a><a href="https://plus.google.com/share?url=http://ikkewa.github.io/blog/entwicklungsumgebung-und-workflow" class="social-item google">
+            <li><i class="fa fa-google"></i></li></a><a href="https://www.facebook.com/sharer.php?u=http://ikkewa.github.io/blog/entwicklungsumgebung-und-workflow&amp;t=#{Read:%20title}" class="social-item facebook">
+            <li><i class="fa fa-facebook"></i></li></a></ul>
+      </div>
+      <div class="tags"><b>Tags:</b><a href="/tags/workflow.html" class="tag">workflow</a><a href="/tags/gulp.html" class="tag">gulp</a><a href="/tags/yeoman.html" class="tag">yeoman</a><a href="/tags/dev.html" class="tag">dev</a>
+      </div>
+      <div id="disqus_thread"></div>
+    </article>
+  </section>
+  <footer class="footer clearfix">
+    <ul class="links">
+      <li><a href="https://twitter.com/ikkewa_">@ikkewa_</a></li>
+      <li><a href="mailto:xikkewa@gmail.com">mail@me</a></li>
+      <li><a href="/rss.xml">rss</a></li>
+    </ul>
+    <figure class="logo_icon transCubic"><a href="/" style="background-image: url('/assets/logo.png');" class="transCubic">Ikke</a></figure>
+    <h2 class="nav_title transCubic"><a href="/">IkkeBlog</a></h2>
+  </footer>
+  <script src="/assets/script.js"></script>
+</html>

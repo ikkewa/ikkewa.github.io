@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="language" content="en">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="">
+    <meta name="robots" content="index">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+    <link href="/css/style.css" rel="stylesheet">
+    <!-- build:remove-->
+    <script src="/assets/devreload.js"></script>
+    <!-- endbuild-->
+  </head>
+  <nav class="navigation">
+    <figure class="logo_icon transCubic"><a href="/" style="background-image: url('/assets/logo.png');" class="transCubic">Ikke</a></figure>
+    <h2 class="nav_title transCubic"><a href="/">IkkeBlog</a></h2>
+    <figure class="nav_menu"><a href="#menu" class="nav_menu_btn transCubic">Menu</a></figure>
+    <ul class="nav_drop transCubic">
+      <li><a href="/" class="transCubic">go home</a></li>
+      <li><a href="/blog" class="transCubic">go to blog</a></li>
+      <li><a href="https://twitter.com/ikkewa_" class="transCubic">my twitter</a></li>
+      <li><a href="/about" class="transCubic">about this</a></li>
+      <li>
+        <hr>
+      </li>
+    </ul>
+  </nav>
+  <section class="container">
+    <article class="post">
+      <time datetime="2015-10-16T02:00:00+02:00">16. Oktober10 2015</time>
+      <h1 class="article_title"><a href="#">Game Mechanic 101 - Bewegung</a></h1>
+      <div><p>Mit diesem Posting geht es an die erste Spielmechanik - im englischen h&#xF6;rt sich das spannender an: game mechanic.
+F&#xFC;r mich war es zun&#xE4;chst wichtig was GameMechanics sind und ich habe mich auf den Weg gemacht das herauszufinden.
+Beim Lesen von Wikipedia, Blogartikeln und Expertenmeinungen kommt man dann schon etwas in Wanken und fragt sich 
+ob dieser Begriff so eindeutig definiert ist. Von Spielmechanik, game mechanics, gameplay, game design, usability,
+game theory springen die erkl&#xE4;renden Seiten von Begriff zu Begriff.</p>
+<p>F&#xFC;r mich definiere ich die Begriff nun wie folgt:</p>
+<h4 id="game-theory">Game Theory</h4>
+<p>Der Begriff &quot;Game Theory&quot; ist f&#xFC;r mich die akademische Ann&#xE4;herung an Games und untersucht die Einfl&#xFC;sse und
+Auswirkungen von Spielen oder Inhalte eines Spiels auf das Spiel, den Spieler oder den Spielproduzenten.
+Somit ist der Faktor von politischer Situation und wirtschaftliches Umfeld genauso einzubeziehen, wie die
+psychologischen, physiologischen und biologischen Eigenschaften von Spielern. Damit kann dann ein Spiel
+grob skizziert werden in der Planung oder bei der Bewertung des Effekts.</p>
+<h4 id="game-design">Game Design</h4>
+<p>Der Begriff &quot;Game Design&quot; ist das konkrete Planen eines Spieles. Game Designer sind die k&#xFC;nstlerische Komponente
+in der Planungsphase, die mit ihrer Vorstellungskraft die technischen M&#xF6;glichkeiten, (zu erstellenden) visuellen
+oder akustischen Effekte ausloten und verbinden mit einer Geschichte die erz&#xE4;hlt werden m&#xF6;chte.
+Sie greifen bei der Erstellung des Konzepts auf Ergebnisse der &quot;Game Theory&quot; zur&#xFC;ck und erzeugen mit dem Konzept
+das grundlegende Spiel von Singleplayer Jump&amp;Run bis Multiplayer Fantasygame (das eine Story haben kann, aber nicht muss).
+Wenn das Spiel dann entwickelt wird, sind sie die Berater und bewerten &quot;Soll&quot; von &quot;Ist&quot; und passen notfalls die Idee
+und das Konzept an technische Machbarkeit an.</p>
+<h4 id="game-mechanic">Game Mechanic</h4>
+<p>Der Begriff &quot;Game Mechanic&quot; ist ein Element in einem Spiel das dem Konzept aus dem &quot;Game Design&quot; folgt und
+unterst&#xFC;tzt, die gew&#xFC;nschte Wirkung zu erreichen. Es ist der technische Aspekt in der Entwicklung, da
+eine Reihung von Spielmechaniken die Stimmung oder das &quot;Gameplay&quot; mitentwickelt.
+Eine Mechanik kann von Einfach bis Komplex das ganze Spiel bestimmen und reicht von nicht-interaktiven Inhalten
+bis hin zu interaktiven, k&#xF6;rperlichen Einbringung.</p>
+<h4 id="gameplay">GamePlay</h4>
+<p>GamePlay ist das Ergebnis f&#xFC;r den Spieler, das mit GameDesign und GameMechanic erzeugt wurde. Im deutschen w&#xE4;re
+es einfach der Spielspa&#xDF; und die Bindung zu einem Spiel die man aufbauen kann.</p>
+<hr>
+<p>Nachdem ich die Begriffe aufgeschrieben habe w&#xFC;rde ich die n&#xE4;chsten T&#xE4;tigkeiten eindeutig als &quot;GameMechanic&quot;
+sehen, denn es geht nur um einen kleinen Teil in einem Spiel. Es ist kein Design und kein Konzept, sondern
+nur ein Baustein in einem Puzzle: Die GameMechanic &quot;Bewegung&quot; - die Bewegung einer Spielfigur in einer Welt.</p>
+<p>Direkt zum Github Repository geht es <a href="https://github.com/ikkewa/game-mechanics-01">mit diesem Link</a> und zur
+Online Demo <a href="http://ikkewa.github.io/game-mechanics-01/">mit diesem Link</a></p>
+<p>In einem vorherigen Artikel habe ich meine Entwicklungsumgebung beschrieben und diese werde ich f&#xFC;r dieses
+Projekt nat&#xFC;rlich auch nutzen. Zuerst wird ein neuer Ordner erstellt und in dem Ordner lasse ich den
+Yeoman Generator <code>phaser-alt</code> seine Arbeit erledigen, sodass das Grundger&#xFC;st steht.</p>
+<pre><code class="language-bash">$ <span class="token function">mkdir</span> mech01
+$ <span class="token function">cd</span> mech01
+$ yo phaser<span class="token operator">-</span>alt
+</code></pre>
+<p>Um sich vorzustellen zu k&#xF6;nnen wie das Ergebnis aussehen sein soll, habe ich mit <a href="https://inkscape.org/">Inkscape</a>
+eine grobe Zeichnung erstellt auf der ein Boden (schwarz), drei Hindernisse (blau) und die Startposition der
+Spielfigur (rot) zu sehen ist.</p>
+<p><img src="/assets/mech01_idea.png" alt="Mechanic pre drawing" title="Mechanic Pre Drawing"></p>
+<p>Diese Blockformen werden wir auch als einfachen Grafikersatz nutzen, sprich es gibt keine k&#xFC;nstlerisch
+animierten Charakter oder detaillierte Texturen. Es geht mir nur um den Aufbau und die M&#xF6;glichkeiten
+der Mechanik &quot;Bewegung&quot;. Die Grafiken sind drei quadratische Bilder (32x32px) mit den jeweiligen Farben:</p>
+<p><img src="/assets/mech01_sprite_blackblock.png" alt="Asset black block" title="Asset: Black Block">
+<img src="/assets/mech01_sprite_blueblock.png" alt="Asset blue block" title="Asset: Blue Block">
+<img src="/assets/mech01_sprite_redblock.png" alt="Asset red block" title="Asset: Red Block"></p>
+<p>Nun kann man endlich mit dem coden anfangen und wir beginnen damit die Image Assets im <code>preload</code> State
+einzubinden und zu laden:</p>
+<pre><code class="language-javascript"><span class="token string">&apos;use strict&apos;</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">/**
+ * Preload state
+ *
+ * Preloader for the game to load all kind of
+ * assets and lastly start the menu state
+ */</span>
+<span class="token keyword">function</span> <span class="token function">Preload</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token punctuation">}</span>
+
+Preload<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">/**
+   * Preload the preload state
+   *
+   * In the preload state all assets are loaded
+   * via the `this.load` reference to Phaser.Loader.
+   *
+   * The visually indicate for the use the loading,
+   * setup the preloadSprite system.
+   */</span>
+  preload<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">preload</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> cx <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>width <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>
+    <span class="token keyword">var</span> cy <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">this</span><span class="token punctuation">.</span>loadBackground <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span>cx <span class="token operator">-</span> <span class="token number">100</span><span class="token punctuation">,</span> cy <span class="token operator">-</span> <span class="token number">30</span><span class="token punctuation">,</span> <span class="token string">&apos;preload-bg&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>loadBar <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span>cx <span class="token operator">-</span> <span class="token number">100</span><span class="token punctuation">,</span> cy <span class="token operator">-</span> <span class="token number">30</span><span class="token punctuation">,</span> <span class="token string">&apos;preload-fg&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">this</span><span class="token punctuation">.</span>load<span class="token punctuation">.</span><span class="token function">setPreloadSprite</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>loadBar<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// load the play button spritesheet</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>load<span class="token punctuation">.</span><span class="token function">spritesheet</span><span class="token punctuation">(</span>
+      <span class="token string">&apos;menu-btn-play&apos;</span><span class="token punctuation">,</span>
+      <span class="token string">&apos;/assets/images/menu-btn-play.png&apos;</span><span class="token punctuation">,</span>
+      <span class="token number">128</span><span class="token punctuation">,</span> <span class="token number">32</span>  <span class="token comment" spellcheck="true">// width+height of each frame</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// load the audio for the menu</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>load<span class="token punctuation">.</span><span class="token function">audio</span><span class="token punctuation">(</span><span class="token string">&apos;audio-menu-tick&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;/assets/audio/menu-tick.mp3&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>load<span class="token punctuation">.</span><span class="token function">audio</span><span class="token punctuation">(</span><span class="token string">&apos;audio-menu-select&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;/assets/audio/menu-select.mp3&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+
+    <span class="token operator">/</span><span class="token comment" spellcheck="true">/******
+    // Load the 3 quadratic 32x32 images
+    //******
+    this.load.image(&apos;block-black&apos;, &apos;/assets/images/sprite_blockblack.png&apos;);
+    this.load.image(&apos;block-blue&apos;, &apos;/assets/images/sprite_blue.png&apos;);
+    this.load.image(&apos;block-red&apos;, &apos;/assets/images/sprite_red.png&apos;);
+  },
+
+  /**
+   * Create the preload state
+   *
+   * When the `create` method is called, then the preload
+   * of assets has been done and we can jump over
+   * to the `play` state.
+   */</span>
+  create<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token string">&apos;menu&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> Preload<span class="token punctuation">;</span>
+</code></pre>
+<p>F&#xFC;r die &#xDC;bersicht folgen nun nochmal die 3 neuen Zeilen die entscheidend sind f&#xFC;r das Laden der Bilder.
+Phaser bietet via <code>Phaser.Loader</code> (nutzbar mit <code>this.load</code>) die einfache M&#xF6;glichkeit &#xFC;ber ein Imagekey (<em>block-xyz</em>)
+und der URL zum Bild (<em>/assets/images/sprite_xyz</em>), das Bild vorladen und sp&#xE4;ter zu nutzen &#xFC;ber den ImageKey</p>
+<pre><code class="language-javascript">  <span class="token comment" spellcheck="true">//******</span>
+  <span class="token comment" spellcheck="true">// Load the 3 quadratic 32x32 images</span>
+  <span class="token comment" spellcheck="true">// this.load.image(&apos;image-key&apos;, &apos;path-to-image-on-server&apos;);</span>
+  <span class="token comment" spellcheck="true">//******</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>load<span class="token punctuation">.</span><span class="token function">image</span><span class="token punctuation">(</span><span class="token string">&apos;block-black&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;/assets/images/sprite_blockblack.png&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>load<span class="token punctuation">.</span><span class="token function">image</span><span class="token punctuation">(</span><span class="token string">&apos;block-blue&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;/assets/images/sprite_blue.png&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>load<span class="token punctuation">.</span><span class="token function">image</span><span class="token punctuation">(</span><span class="token string">&apos;block-red&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;/assets/images/sprite_red.png&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Und damit verlassen wir auch die <code>preload.js</code> State Datei und begeben uns zum <code>play</code> State (<code>/app/js/states/play.js</code>).</p>
+<hr>
+<p>Der Play-State wird nun der State sein in dem wir uns die n&#xE4;chste Zeit bewegen werden. Hierbei sind die Funktionen
+<code>create()</code> und <code>update()</code> die Hauptakteure und daher werde ich das Grundger&#xFC;st der <code>play.js</code> Datei einmal
+komplett aufzeigen und bei den folgenden Ver&#xE4;nderungen nur noch die entsprechenden &#xC4;nderungen dokumentieren.</p>
+<pre><code class="language-javascript"><span class="token string">&apos;use strict&apos;</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">/**
+ * Play state - the actual game
+ */</span>
+<span class="token keyword">function</span> <span class="token function">Play</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token punctuation">}</span>
+
+Play<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">/**
+   * Preload the game
+  */</span>
+  preload<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">preload</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// prevent window jumping, by binding the keys that</span>
+    <span class="token comment" spellcheck="true">// trigger the browser to scroll</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>input<span class="token punctuation">.</span>keyboard<span class="token punctuation">.</span><span class="token function">addKeyCapture</span><span class="token punctuation">(</span><span class="token punctuation">[</span>
+      Phaser<span class="token punctuation">.</span>Keyboard<span class="token punctuation">.</span>LEFT<span class="token punctuation">,</span>
+      Phaser<span class="token punctuation">.</span>Keyboard<span class="token punctuation">.</span>RIGHT<span class="token punctuation">,</span>
+      Phaser<span class="token punctuation">.</span>Keyboard<span class="token punctuation">.</span>UP<span class="token punctuation">,</span>
+      Phaser<span class="token punctuation">.</span>Keyboard<span class="token punctuation">.</span>DOWN<span class="token punctuation">,</span>
+      Phaser<span class="token punctuation">.</span>Keyboard<span class="token punctuation">.</span>SPACEBAR
+    <span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// if arrow keys needed, use `createCursorKeys`</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>cursors <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>input<span class="token punctuation">.</span>keyboard<span class="token punctuation">.</span><span class="token function">createCursorKeys</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// enable advance (precission) timing</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>time<span class="token punctuation">.</span>advancedTiming <span class="token operator">=</span> <span class="token keyword">true</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * Create the game instance that makes a 
+   * level playable. Constructs the entities and
+   * the basic logic that is needed
+   */</span>
+  create<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * Update function - called on every frame
+   */</span>
+  update<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">update</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * Render function, mostly used for debugging
+   */</span>
+  render<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// example: debug a sprite object when physics are enabled</span>
+    <span class="token comment" spellcheck="true">//  this.game.debug.body(this.player);</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> Play<span class="token punctuation">;</span>
+</code></pre>
+<h4 id="schritt-1-laden-der-bilder-in-den-play-state">Schritt 1: Laden der Bilder in den play state</h4>
+<p>Die Bilder sind im <code>preload</code> State bereits geladen, jedoch noch nicht dem <code>play</code> State bekannt gemacht.
+Also werden wir jetzt bei der Erstellung des Play State (<code>function create()</code>) die Bilder adden und weisen
+die Referenzen auf die hinzugef&#xFC;gten Bilder direkt passenden Variablen zu.</p>
+<pre><code class="language-javascript">Play<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
+  create<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>stage<span class="token punctuation">.</span><span class="token function">setBackgroundColor</span><span class="token punctuation">(</span><span class="token number">0xffffff</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// set backgroundcolor of stage (white)</span>
+
+    <span class="token keyword">this</span><span class="token punctuation">.</span>platform <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">&apos;block-black&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole1 <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">-</span> <span class="token number">32</span><span class="token punctuation">,</span> <span class="token string">&apos;block-blue&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole2 <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">350</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">-</span> <span class="token number">32</span><span class="token punctuation">,</span> <span class="token string">&apos;block-blue&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole3 <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">-</span> <span class="token number">32</span><span class="token punctuation">,</span> <span class="token string">&apos;block-blue&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>player <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">64</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">-</span> <span class="token number">32</span><span class="token punctuation">,</span> <span class="token string">&apos;block-red&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Alle 5 Sprites werden hinzugef&#xFC;gt mittels <code>this.game.add.sprite(x-pos, y-pos, image-key)</code> - die Syntax ist
+grundlegend selbsterkl&#xE4;rend - der <code>image-key</code> Parameter ist der Name, den man im <code>preload</code> State gew&#xE4;hlt hat.
+Wenn das Spiel nun im Browser ge&#xF6;ffnet wird, dann sollte man folgendes sehen</p>
+<p><img src="/assets/mech01_step01.png" alt="Mechanic Step 01" title="Mechanic Step 01"></p>
+<h4 id="schritt-2-plattform-und-hindernisse-skalieren">Schritt 2: Plattform und Hindernisse skalieren</h4>
+<p>Die schwarze Plattform ist noch keine durchgehende Plattform und die blauen Bl&#xF6;cke als Hindernisse sind keine
+wirklichen Hindernisse, daher Skalieren wir die Elemente auf der Y-Achse.</p>
+<pre><code class="language-javascript">  create<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>stage<span class="token punctuation">.</span><span class="token function">setBackgroundColor</span><span class="token punctuation">(</span><span class="token number">0xffffff</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// set backgroundcolor of stage (white)</span>
+
+    <span class="token keyword">this</span><span class="token punctuation">.</span>platform <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">&apos;block-black&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole1 <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">-</span> <span class="token number">32</span><span class="token punctuation">,</span> <span class="token string">&apos;block-blue&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole2 <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">350</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">-</span> <span class="token number">32</span><span class="token punctuation">,</span> <span class="token string">&apos;block-blue&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole3 <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">-</span> <span class="token number">32</span><span class="token punctuation">,</span> <span class="token string">&apos;block-blue&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>player <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">64</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">-</span> <span class="token number">32</span><span class="token punctuation">,</span> <span class="token string">&apos;block-red&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">this</span><span class="token punctuation">.</span>platform<span class="token punctuation">.</span>scale<span class="token punctuation">.</span>x <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>width <span class="token operator">/</span> <span class="token number">32</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole1<span class="token punctuation">.</span>scale<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole2<span class="token punctuation">.</span>scale<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">6</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole3<span class="token punctuation">.</span>scale<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre>
+<p><img src="/assets/mech01_step02.png" alt="Mechanic Step 02" title="Mechanic Step 02"></p>
+<h5 id="ankerpunkte-anchors-eines-sprites">Ankerpunkte (Anchors) eines Sprites</h5>
+<p>Das Ergebnis der Skalierung zeigt eine durchgehende schwarze Plattform und wachsende Hindernisse.
+Jedoch sind die blauen Bl&#xF6;cke nicht mehr richtig ausgerichtet und gehen durch den schwarzen Boden.
+Was ist passiert? Phaser (und vermutlich jede andere Engine auch) hat einen Referenzpunkt auf einem Sprite
+und bei Aktionen die die Gr&#xF6;&#xDF;e, Position oder Rotation des Sprites ver&#xE4;ndern wird, abh&#xE4;ngig von diesem
+Referenzpunkt, die Aktion ausgef&#xFC;hrt. Der Referenzpunkt hei&#xDF;t Ankerpunkt (engl. Anchor) und ist der
+Punkt x:0, y:0 des Sprites. Bei Phaser befindet sich dieser Nullpunkt immer links-oben, alle Aktionen
+werden also ausgehend von der oberen, linken Ecke des Sprites ausgef&#xFC;hrt.</p>
+<p>Als einfaches Beispiel ist die Positionierung eines Sprites in unserem Spiel. Wenn wir ein Sprite an der
+Position x:100, y:100 setzen dann wird der Anchor (0, 0) des Sprites auf die Position gesetzt und von
+dieser Position das Bild gezeichnet:</p>
+<p><img src="/assets/sprite_anchors_basexample.png" alt="Sprite Anchors Example Defaults" title="Sprite Anchor Example Defaults"></p>
+<p>Das ver&#xE4;ndern des Anchorpoints in Phaser pro Sprite funktioniert &#xFC;ber die Eigenschaft <code>anchor</code></p>
+<pre><code class="language-javascript"><span class="token keyword">this</span><span class="token punctuation">.</span>pole1<span class="token punctuation">.</span>anchor<span class="token punctuation">.</span><span class="token function">setTo</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Die Zahlen <code>0, 1</code> sind zu erkl&#xE4;ren: Ausgehend vom Nullpunkt eines Sprites kann auf einer Werteskala zwischen
+0 und 1 f&#xFC;r den X und Y Ankerpunkt gew&#xE4;hlt werden. Um sich das merken zu k&#xF6;nnen eine kleine Zeichnung:</p>
+<p><img src="/assets/sprite_anchors_general.png" alt="Sprite Anchors" title="Sprite Anchors"></p>
+<p>In dem obigen Code-Beispiel setzen wir den x Ankerpunkt auf 0 (unver&#xE4;ndert zum Defaultwert) und den y Ankerpunkt
+auf 1, also die maximale Breite vom Sprite.
+Man kann sich das auch merken mit Prozentangaben. Die Werteskala zwischen 0 und 1 entspricht 0 und 100% der
+Breite (x-Achse), bzw. H&#xF6;he (y-Achse) des Bildes. Das setzen des Ankerpunkts auf die Mitte des Bildes (also
+50% der Breite und 50% der H&#xF6;he) w&#xFC;rde bedeuten, den Ankerpunkt auf x:0,5 und y:0,5 zu setzen (50%/100=0,5).</p>
+<p>Wenn wir diesen Ankerpunkt nun gesetzt haben und f&#xFC;hren eine Aktion auf das Sprite aus, f&#xFC;hrt das nat&#xFC;rlich
+zu unterschiedlichen Ergebnissen. Als Beispiel habe ich nun die Rotation eines Bildes gew&#xE4;hlt mit
+unterschiedlichen Anchorpoints und der Auswirkung der unterschiedlichen Anchors:</p>
+<p><img src="/assets/sprite_anchors_rotateexample.png" alt="Sprite Rotation Example" title="Sprite Rotation Example"></p>
+<p>Um das nun f&#xFC;r alle Elemente im Spiel anzuwenden, &#xE4;ndern wir die jeweiligen Anchors und m&#xFC;ssen dann die
+initiale Positionierung des jeweiligen Element anpassen.</p>
+<pre><code class="language-javascript">Play<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
+  create<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>stage<span class="token punctuation">.</span><span class="token function">setBackgroundColor</span><span class="token punctuation">(</span><span class="token number">0xffffff</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// set backgroundcolor of stage (white)</span>
+
+    <span class="token keyword">this</span><span class="token punctuation">.</span>platform <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">&apos;block-black&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole1 <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">&apos;block-blue&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole2 <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">350</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">&apos;block-blue&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole3 <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">&apos;block-blue&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>player <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">64</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">-</span> <span class="token number">32</span><span class="token punctuation">,</span> <span class="token string">&apos;block-red&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">this</span><span class="token punctuation">.</span>platform<span class="token punctuation">.</span>scale<span class="token punctuation">.</span>x <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>width <span class="token operator">/</span> <span class="token number">32</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole1<span class="token punctuation">.</span>scale<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole2<span class="token punctuation">.</span>scale<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">6</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole3<span class="token punctuation">.</span>scale<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole1<span class="token punctuation">.</span>anchor<span class="token punctuation">.</span><span class="token function">setTo</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole2<span class="token punctuation">.</span>anchor<span class="token punctuation">.</span><span class="token function">setTo</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole3<span class="token punctuation">.</span>anchor<span class="token punctuation">.</span><span class="token function">setTo</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Das Ergebnis sollte dann wie folgt aussehen und der Vorstellung entsprechen:</p>
+<p><img src="/assets/mech01_step03.png" alt="Mechanic Step 03" title="Mechanic Step 03"></p>
+<h4 id="physik-aktivieren">Physik aktivieren</h4>
+<p>Das Layout unserer Sprites ist abgeschlossen und es geht nun darum die Interaktivit&#xE4;t zu aktivieren.
+Interaktivit&#xE4;t bedeutet in Spielen das Arbeiten gegen etwas und in diesem einfachen Beispiel
+arbeiten wir auch gegen etwas einfaches: N&#xE4;mlich Physik.</p>
+<p>Phaser bietet das grundlegende Feature an und l&#xE4;sst w&#xE4;hlen zwischen den Physik Engines Arcade, Ninja und P2.
+Arcade die einfache und P2 eine komplexere Physik Engine, zudem kann man weitere Physik Engines
+einbinden um die Komplexit&#xE4;t der Physikberechnung zu erh&#xF6;hen.
+Auch hier gilt, einfaches Spiel -&gt; einfache Physik Engine und es wird die Arcade Engine genutzt.</p>
+<p>Im Boot State ist die Engine bereits eingestellt mittels</p>
+<pre><code class="language-javascript"><span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>physics<span class="token punctuation">.</span><span class="token function">startSystem</span><span class="token punctuation">(</span>Phaser<span class="token punctuation">.</span>Physics<span class="token punctuation">.</span>ARCADE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Jetzt geht es darum zu sagen, auf welche Elemente im Spiel die Physik Engine angewandt werden soll.
+Dazu &#xFC;berlegen wir uns was eine Physik Engine macht.</p>
+<h4 id="basics-physik-engine">Basics Physik Engine</h4>
+<p>Eine Physik Engine macht aus einem Sprite einen Gegenstand und ein Gegenstand hat unter anderem
+eine Masse und die Spielwelt erh&#xE4;lt eine Gravitation die einen Gegenstand je nach Masse nach unten zieht.</p>
+<p>Wenn in einem Phaser Game die Physik Engine aktiviert wird, m&#xFC;ssten somit alle Element (wie zum
+Beispiel der Boden oder die Hindernisse) nach unten fallen. Das passiert allerdings nicht, denn
+der Physik Engine wurden zwei Merkmale noch nicht bekannt gemacht: Welche Elemente haben eine Masse
+und m&#xFC;ssen in der Physik Engine berechnet werden und welche Gravitation herrscht in der Spielwelt.</p>
+<p>Standardm&#xE4;ssig wird kein Sprite oder Gegenstand im Spiel der Physik Engine bekannt gemacht und die
+Gravitation ist x:0, y:0 - sprich es ist ein Raum ohne Gravitation. Das ist bei einem Jump&amp;Run
+eher unvorteilhaft, denn ohne Gravitation macht das Springen wenig Sinn.
+Der Hintergrund warum Phaser kein Objekt, trotz aktivierter Physik, keine Masse gibt ist vermutlich
+dem Umstand geschuldet, das nicht jedes Element ein interaktives Element sein muss. So kann ein Sprite
+auch nur ein dekoratives Bild im Hintergrund sein oder das muss die Physik Engine ja nicht berechnen.
+Das sollte man aus dem Absatz auch mitnehmen: Physik Engine kostet Performance - je weniger die
+Physik Engine zu berechnen hat, desto fl&#xFC;ssiger wird das Spiel laufen.</p>
+<p>Also werden nun die Spielobjekte der Physik Engine bekannt gemacht und die Spielwelt erh&#xE4;lt eine
+y-Gravitation und Gegenst&#xE4;nde fallen nach unten.</p>
+<pre><code class="language-javascript">Play<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
+  create<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>stage<span class="token punctuation">.</span><span class="token function">setBackgroundColor</span><span class="token punctuation">(</span><span class="token number">0xffffff</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// set backgroundcolor of stage (white)</span>
+
+    <span class="token keyword">this</span><span class="token punctuation">.</span>platform <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">&apos;block-black&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole1 <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">&apos;block-blue&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole2 <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">350</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">&apos;block-blue&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole3 <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">&apos;block-blue&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>player <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">64</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">-</span> <span class="token number">32</span><span class="token punctuation">,</span> <span class="token string">&apos;block-red&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">this</span><span class="token punctuation">.</span>platform<span class="token punctuation">.</span>scale<span class="token punctuation">.</span>x <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>width <span class="token operator">/</span> <span class="token number">32</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole1<span class="token punctuation">.</span>scale<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole2<span class="token punctuation">.</span>scale<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">6</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole3<span class="token punctuation">.</span>scale<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole1<span class="token punctuation">.</span>anchor<span class="token punctuation">.</span><span class="token function">setTo</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole2<span class="token punctuation">.</span>anchor<span class="token punctuation">.</span><span class="token function">setTo</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole3<span class="token punctuation">.</span>anchor<span class="token punctuation">.</span><span class="token function">setTo</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+
+    <span class="token comment" spellcheck="true">// ****</span>
+    <span class="token comment" spellcheck="true">// enable pyhsics for these objects</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>physics<span class="token punctuation">.</span>arcade<span class="token punctuation">.</span><span class="token function">enable</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token keyword">this</span><span class="token punctuation">.</span>platform<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>pole1<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>pole2<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>pole3<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>player<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// enable gravity, so that elements &quot;fall down&quot;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>physics<span class="token punctuation">.</span>arcade<span class="token punctuation">.</span>gravity<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">2000</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Mit diesen zwei Zeilen ist das ganze schon erledigt und nun ergeben sich neue Probleme. Denn die
+Gravitation wirkt sich auf alle Objekte aus, die eine Masse haben (der Physik Engine bekannt sind)
+und beim starten/reloaden das Spieles f&#xE4;llt alles nach unten aus dem Bildschirm. Bl&#xF6;d aber logisch.</p>
+<p>Damit das unterbunden werden kann muss der Physik Engine gesagt werden das zum Beispiel der Boden
+und die blauen Hindernisse zwar in der Physik Engine vorhanden sein sollen, aber nicht von der
+Gravitation beeinflusst werden d&#xFC;rfen. Ebenso wird direkt gesagt, das auch kein anderer Einfluss
+diese Gegenst&#xE4;nde die Position ver&#xE4;ndern k&#xF6;nnen. Ein &quot;anderer Einfluss&quot; k&#xF6;nnte sp&#xE4;ter die Spielfigur
+sein, die gegen die Hindernisse l&#xE4;uft und damit diese wegschiebt. Das kann f&#xFC;r manche Arten von
+Spielen nat&#xFC;rlich ein gew&#xFC;nschter Effekt sein (Puzzle Game, bei dem man Kisten verschieben muss),
+aber hier in der Erkl&#xE4;rung der Mechanik &quot;Bewegung einer Spielfigur&quot; macht es kein Sinn.</p>
+<pre><code class="language-javascript">Play<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
+  create<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>stage<span class="token punctuation">.</span><span class="token function">setBackgroundColor</span><span class="token punctuation">(</span><span class="token number">0xffffff</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// set backgroundcolor of stage (white)</span>
+
+    <span class="token keyword">this</span><span class="token punctuation">.</span>platform <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">&apos;block-black&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole1 <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">&apos;block-blue&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole2 <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">350</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">&apos;block-blue&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole3 <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">&apos;block-blue&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>player <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">64</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">-</span> <span class="token number">32</span><span class="token punctuation">,</span> <span class="token string">&apos;block-red&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">this</span><span class="token punctuation">.</span>platform<span class="token punctuation">.</span>scale<span class="token punctuation">.</span>x <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>width <span class="token operator">/</span> <span class="token number">32</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole1<span class="token punctuation">.</span>scale<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole2<span class="token punctuation">.</span>scale<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">6</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole3<span class="token punctuation">.</span>scale<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole1<span class="token punctuation">.</span>anchor<span class="token punctuation">.</span><span class="token function">setTo</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole2<span class="token punctuation">.</span>anchor<span class="token punctuation">.</span><span class="token function">setTo</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole3<span class="token punctuation">.</span>anchor<span class="token punctuation">.</span><span class="token function">setTo</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// enable pyhsics for these objects</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>physics<span class="token punctuation">.</span>arcade<span class="token punctuation">.</span><span class="token function">enable</span><span class="token punctuation">(</span><span class="token punctuation">[</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>platform<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>pole1<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>pole2<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>pole3<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>player<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// enable gravity, so that elements &quot;fall down&quot;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>physics<span class="token punctuation">.</span>arcade<span class="token punctuation">.</span>gravity<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">2000</span><span class="token punctuation">;</span>
+
+
+    <span class="token comment" spellcheck="true">// *****</span>
+    <span class="token comment" spellcheck="true">// Set platform and poles to be static</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>platform<span class="token punctuation">.</span>body<span class="token punctuation">.</span>immovable <span class="token operator">=</span> <span class="token keyword">true</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>platform<span class="token punctuation">.</span>body<span class="token punctuation">.</span>allowGravity <span class="token operator">=</span> <span class="token keyword">false</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole1<span class="token punctuation">.</span>body<span class="token punctuation">.</span>immovable <span class="token operator">=</span> <span class="token keyword">true</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole1<span class="token punctuation">.</span>body<span class="token punctuation">.</span>allowGravity <span class="token operator">=</span> <span class="token keyword">false</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole2<span class="token punctuation">.</span>body<span class="token punctuation">.</span>immovable <span class="token operator">=</span> <span class="token keyword">true</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole2<span class="token punctuation">.</span>body<span class="token punctuation">.</span>allowGravity <span class="token operator">=</span> <span class="token keyword">false</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole3<span class="token punctuation">.</span>body<span class="token punctuation">.</span>immovable <span class="token operator">=</span> <span class="token keyword">true</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole3<span class="token punctuation">.</span>body<span class="token punctuation">.</span>allowGravity <span class="token operator">=</span> <span class="token keyword">false</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Bei einem neuen Test des Spieles werden die Plattform und Poles stehen bleiben, aber die
+rote Spielfigur wird weiterhin nach unten fallen. Es w&#xFC;rde keinen Sinn machen, die
+Eigenschaften <code>immovable</code> und <code>allowGravity</code> wie bei der Plattform/Poles zu setzen, denn
+eine Spielfigur die man nicht bewegen kann macht nicht besonders viel Spa&#xDF;. Das Thema wird
+sp&#xE4;ter in der <code>update()</code> Funktion gel&#xF6;st.</p>
+<p>Wir belassen die <code>create()</code> Funktion erst einmal so wie sie ist und f&#xFC;hren eine kleine
+Zusammenfassung durch. In dieser Funktion wurden die drei Sprites in den Play State
+hinzugef&#xFC;gt, positioniert und skaliert. Anschlie&#xDF;end ist diesen Objekten die Physik
+und der gesamten Spielwelt eine Gravitation auf der vertikalen Achse zugewiesen.
+Damit die Physik auf die statischen Elemente (Boden, Hindernisse) keine Auswirkung hat,
+sind diese explizit von der Beeinflussung durch die Gravitation (allowGravity = false)
+und einem generellen ver&#xE4;ndern der Position (immovable = true) ausgenommen. Der
+Spieler hat weiterhin die Eigenschaft, das er den Regeln der Physik folgt und f&#xE4;llt
+durch den Boden. Der Code ist derzeit nicht sch&#xF6;n und sehr repetetiv und muss noch aufger&#xE4;umt werden.</p>
+<h4 id="gameloop-update-">GameLoop <code>update()</code></h4>
+<p>In Phaser wird wenig von einem GameLoop gesprochen, sondern der GameLoop besteht daraus,
+das bei jedem Frame die <code>update()</code> Funktion im State aufgerufen wird. Somit wird
+jede Bewegung der Spielfigur und die Auswirkung der Bewegung in <code>update()</code> gesteuert.</p>
+<p>Das erste Thema das angegangen wird ist das fallen der roten Spielfigur. Der Spieler
+soll sich nach links/rechts/oben bewegen k&#xF6;nnen und dabei mit dem Boden und den
+Hindernissen kollidieren - sprich er l&#xE4;uft auf dem Boden und gegen die Hindernisse.
+In der Aussage ist auch gleichzeitig die L&#xF6;sung f&#xFC;r den fallen roten Klotz gegeben:
+Die Spielfigur muss mit dem Boden in der Physik Engine kollidieren, sodass die
+Physik Engine die Bewegung (fallen) stoppt.</p>
+<pre><code class="language-javascript">Play<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// other code</span>
+
+  update<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">update</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// check physics between player and ground</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>physics<span class="token punctuation">.</span>arcade<span class="token punctuation">.</span><span class="token function">collide</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>player<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>platform<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Mit dieser einen Zeile ist die Kollision zwischen Spieler und Boden bereits definiert
+und die rote Spielfigur f&#xE4;llt nicht mehr durch den Boden durch. Das gleiche k&#xF6;nnen wir
+auch direkt schon f&#xFC;r die blauen Hindernisse tun und die Kollision zwischen Player
+und Pole definieren.</p>
+<pre><code class="language-javascript">Play<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// other code</span>
+
+  update<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">update</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// check physics between player and ground</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>physics<span class="token punctuation">.</span>arcade<span class="token punctuation">.</span><span class="token function">collide</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>player<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>ptlatform<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>physics<span class="token punctuation">.</span>arcade<span class="token punctuation">.</span><span class="token function">collide</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>player<span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token keyword">this</span><span class="token punctuation">.</span>pole1<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>pole2<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>pole3<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<h5 id="die-spielfigur-bewegen">Die Spielfigur bewegen</h5>
+<p>Das nun entscheidene Element im Spiel und der eigentlichen GameMechanic kommt endlich:
+Die Bewegung der Spielfigur! Dazu ist es wichtig zu verstehen, was denn Bewegung in diesem
+kleinen Spiel eigentlich bedeutet: Wenn wir mit den Pfeiltasten auf der Tastatur eine
+Bewegung vom Spiel fordern, wird dieser Tastendruck l&#xE4;nger andauernd als 1 Frame (16ms) und
+pro Frame und gedr&#xFC;ckter Taste m&#xFC;ssen die x/y Position der Spielfigur ver&#xE4;ndert werden.
+Das k&#xF6;nnte einfach &#xFC;ber <code>this.player.position.setTo(x, y)</code> erfolgen, doch da m&#xFC;ssen wir
+zuerst noch die aktuelle Position des Spielers ermitteln und eine Anzahl von Pixel addieren.
+Also ist die Bewegung der Spielfigur im Spiel pro Frame(!) die aktuelle Position plus
+die vom Entwickler gew&#xFC;nschte Ver&#xE4;nderung &quot;v&quot; pro Pixel pro Frame. Wenn wir die Variable &quot;v&quot;
+nun hoch ansetzen, bewegt sich unsere Spielfigur pro Frame schneller vorw&#xE4;rts und das Spiel
+wirkt schnell und aktionreich. Wenn dieser Wert aber gering ist, bewegt sich die Spielfigur
+eben langsamer.</p>
+<p>Phaser als GameEngine hat zusammen mit der Physik Engine nat&#xFC;rlich bereits alles an Board
+um das sehr schnell und einfach zu l&#xF6;sen. Wir brauchen die Informationen &#xFC;ber Input vom
+Spieler (Tastendruck Keyboard) um damit der Physik Engine zu sagen das die Figur bewegt werden
+soll um einen Wert &quot;v&quot; (pro Frame). Die Physik Engine wird zun&#xE4;chst eine Kollision pr&#xFC;fen
+und wenn das erfolgreich ist, die Position der Spielfigur aktualisieren.</p>
+<p>Die &#xDC;berwachung der Pfeiltasten der Tastatur wurde bereits in Play::preload() aktiviert mit
+der Zeile <code>this.cursors = this.input.keyboard.createCursorKeys();</code> und der Status &#xFC;ber einen
+Tastendruck liegt nun in <code>this.cursors</code> vor. Da wir die Bewegung &quot;links|rechts|oben&quot; in
+dem Spiel simulieren wollen, pr&#xFC;fen wir pro Frame ob die entsprechen Pfeiltasten gedr&#xFC;ckt werden.
+Wenn einer dieser Taste gedr&#xFC;ckt wird ver&#xE4;ndern wir die &quot;velocity&quot; der Masse des Spielers,
+was bei Phaser der &quot;body&quot; ist. Velocity ist eigentlich die Geschwindigkeit und ich finde
+den Begriff nicht deutlich, daher ist f&#xFC;r mich Velocity hier die Ver&#xE4;nderung der aktuellen
+Position um einen Faktor &quot;v&quot; in Pixel und laut Phaser Dokumentation ist der Faktor &quot;v&quot; die
+Anzahl der Pixel pro Sekunde (nicht Frame).</p>
+<p>Wir lassen die Spielfigur sich bewegen:</p>
+<pre><code class="language-javascript">Play<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// other code</span>
+
+  update<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">update</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// check physics between player and ground</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>physics<span class="token punctuation">.</span>arcade<span class="token punctuation">.</span><span class="token function">collide</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>player<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>platform<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>physics<span class="token punctuation">.</span>arcade<span class="token punctuation">.</span><span class="token function">collide</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>player<span class="token punctuation">,</span>
+        <span class="token punctuation">[</span><span class="token keyword">this</span><span class="token punctuation">.</span>pole1<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>pole2<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>pole3<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">var</span> v <span class="token operator">=</span> <span class="token number">300</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>cursors<span class="token punctuation">.</span>left<span class="token punctuation">.</span>isDown<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>player<span class="token punctuation">.</span>body<span class="token punctuation">.</span>velocity<span class="token punctuation">.</span>x <span class="token operator">=</span> <span class="token operator">-</span>v<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>cursors<span class="token punctuation">.</span>right<span class="token punctuation">.</span>isDown<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>player<span class="token punctuation">.</span>body<span class="token punctuation">.</span>velocity<span class="token punctuation">.</span>x <span class="token operator">=</span> v<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>player<span class="token punctuation">.</span>body<span class="token punctuation">.</span>velocity<span class="token punctuation">.</span>x <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>cursors<span class="token punctuation">.</span>up<span class="token punctuation">.</span>isDown<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>player<span class="token punctuation">.</span>body<span class="token punctuation">.</span>velocity<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token operator">-</span>v<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>player<span class="token punctuation">.</span>body<span class="token punctuation">.</span>velocity<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Wenn die Taste &apos;Pfeil links&apos; oder &apos;Pfeil rechts&apos; gedr&#xFC;ckt ist, ver&#xE4;ndere die Velocity auf
+der x-Achse um den Wert &quot;v&quot; (sprich hier 300px pro Sekunde). Wenn keiner der beiden
+Tasten gedr&#xFC;ckt werden, dann setzte die Velocity wieder auf 0 zur&#xFC;ck (ansonsten rutscht
+die Spielfigur einfach weiter). Das Prinzip funktioniert bei der &apos;Pfeil oben&apos; Abhandlung das identisch.</p>
+<p>Dabei wird man vielleicht zwei Probleme feststellen:</p>
+<ol>
+<li>Die Spielfigur kann aus dem Bildschirm gehen</li>
+<li>Die Spielfigur springt nicht einmal, sie schwebt wie mit einem JetPack</li>
+</ol>
+<p>Und auch das wird nun gefixt. F&#xFC;r Punkt 1 bieter Phaser bereits eine einfache L&#xF6;sung. In <code>create()</code> wird
+der Player auf die Spielwelt limitiert mit der Zeile:</p>
+<pre><code class="language-javascript">
+Play<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// other code</span>
+  create<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// other code</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>player<span class="token punctuation">.</span>body<span class="token punctuation">.</span>collideWorldBounds <span class="token operator">=</span> <span class="token keyword">true</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token comment" spellcheck="true">// other code</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Bei Punkt 2 wird der Aufwand etwas gr&#xF6;&#xDF;er, denn die Situation sieht wie folgt aus:</p>
+<p>W&#xE4;hrend es beim laufen nach links oder rechts okay ist, wenn der Spieler durchgehen laufen kann (es 
+entspricht ein wenig der Logik das man lange laufen kann), so sieht es beim Springen anders aus.
+Springen ist ein Akt, bei dem einmal Kraft aufgewandt und sich vom Boden abgesto&#xDF;en wird. Ausgehend
+von der Kraft springt man hoch und wird dann sofort von der Schwerkraft herunter gezogen, jedoch hier
+kann der Spieler so lange wie er will auf die Pfeiltaste &quot;up&quot; dr&#xFC;ck und damit ist die Kraft unendlich.</p>
+<p>Als Optionen gibt es zwei Wege: Das dr&#xFC;cken der Sprungtaste h&#xE4;lt nur f&#xFC;r ~100ms an und alle Tastendr&#xFC;cke
+danach werden ignoriert oder man pr&#xFC;ft beim Tastendruck ob der Spieler Kontakt mit einem Untergrund hat
+und l&#xE4;sst ihn dann springen. Der zweite Weg unterbindet damit auch einen anderen Trick den der Spieler
+anwenden kann: F&#xE4;llt er von einem Hindernis kann er in der Luft immer noch &quot;springen&quot;, da der Timer
+erst nach dem ersten Sprung anl&#xE4;uft. Somit wird der zweite Weg, die Pr&#xFC;fung ob der Spieler auf dem
+Grund steht, gegangen.</p>
+<p>Hierbei ist Phaser aber auch wieder hilfreich, denn es gibt &#xFC;ber das Physik System die Option zu pr&#xFC;fen,
+ob das Player Sprite Ber&#xFC;hrung zu einem anderen (der Physik Engine bekannten) Sprite hat.
+Die Implementierung in <code>update()</code> sieht wie folgt aus:</p>
+<pre><code class="language-javascript">
+Play<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// other code</span>
+  update<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">update</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// other code</span>
+    <span class="token keyword">var</span> isOnGround <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>player<span class="token punctuation">.</span>body<span class="token punctuation">.</span>touching<span class="token punctuation">.</span>down<span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// check if touching ground</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>isOnGround <span class="token operator">&amp;&amp;</span> <span class="token keyword">this</span><span class="token punctuation">.</span>cursors<span class="token punctuation">.</span>up<span class="token punctuation">.</span>isDown<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>player<span class="token punctuation">.</span>body<span class="token punctuation">.</span>velocity<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token operator">-</span>v <span class="token operator">*</span> <span class="token number">2</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token comment" spellcheck="true">// other code</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Damit sollten die Probleme gefixt sein, jedoch wird der Sprung auf das erste Hindernis schon zum
+&#xC4;rgernis, denn es ist einfach zu hoch oder wie springen nicht hoch genug. Hierbei einfach mit den
+<code>scale</code> Werten der Hindernisse, Gravitation oder dem <code>v</code> Velocity Wert spielen, bis ein angenehmes
+Spielgef&#xFC;hl entsteht.</p>
+<h4 id="zusammenfassung">Zusammenfassung</h4>
+<p>Der Post war sehr lang und enth&#xE4;lt eigentlich auch nicht viel Code und Inhalt, aber es die erste
+grundlegende Spielmechanik oder so wichtig f&#xFC;r das Spielgeschehen, das es mir wichtig war jeden
+einzelnen Punkt genau zu erkl&#xE4;ren.</p>
+<p>Die Beispiele die man bei der Entwicklung entdeckt hat geben viele M&#xF6;glichkeiten f&#xFC;r Spiele. Nehmen
+wir nur die Thematik um das durchgehende Springen beim dr&#xFC;cken der Pfeiltaste &quot;up&quot;. Aus einem Sprung
+ist ein JetPack verhalten geworden nur durch eine Eigenschaft der Physik Engine und dem verhalten
+wie ein simpler Code reagiert.</p>
+<p>Weiter wird man beim einstellen der Werte f&#xFC;r Hohe der Hindernisse, Velocity oder Gravity merken,
+das man eine breite an Spielen nur mit den Werten erstellen und ein anderes Spielgef&#xFC;hl erstellen
+kann. Fastpace Jump &amp; Run oder sneaky hiding Game? Die Werte machen eine Menge aus.</p>
+<p>Das der Code nicht sch&#xF6;n aussieht, wartbar ist und schlecht zu erweitern ist, ist ein Umstand der
+gefixt werden muss. In dem Zusammenhang sollte ich auch die Erweiterung der Welt und Platzierung
+von Hindernissen angehen. Aber das ist ein Thema f&#xFC;r ein anderen Blogpost.</p>
+</div>
+      <div class="share-social clearfix">
+        <h6>Share this if you like</h6>
+        <ul><a href="/rss.xml" class="social-item rss">
+            <li><i class="fa fa-rss"></i></li></a><a href="http://twitter.com/intent/tweet?url=http://ikkewa.github.io/blog/game-mechanic-101-bewegung&amp;text=Read:%20Game Mechanic 101 - Bewegung&amp;via=ikkewa_" class="social-item twitter">
+            <li><i class="fa fa-twitter"></i></li></a><a href="https://github.com/ikkewa" class="social-item github">
+            <li><i class="fa fa-github-alt"></i></li></a><a href="https://plus.google.com/share?url=http://ikkewa.github.io/blog/game-mechanic-101-bewegung" class="social-item google">
+            <li><i class="fa fa-google"></i></li></a><a href="https://www.facebook.com/sharer.php?u=http://ikkewa.github.io/blog/game-mechanic-101-bewegung&amp;t=#{Read:%20title}" class="social-item facebook">
+            <li><i class="fa fa-facebook"></i></li></a></ul>
+      </div>
+      <div class="tags"><b>Tags:</b><a href="/tags/phaser.html" class="tag">phaser</a><a href="/tags/gamemechanic.html" class="tag">gamemechanic</a>
+      </div>
+      <div id="disqus_thread"></div>
+    </article>
+  </section>
+  <footer class="footer clearfix">
+    <ul class="links">
+      <li><a href="https://twitter.com/ikkewa_">@ikkewa_</a></li>
+      <li><a href="mailto:xikkewa@gmail.com">mail@me</a></li>
+      <li><a href="/rss.xml">rss</a></li>
+    </ul>
+    <figure class="logo_icon transCubic"><a href="/" style="background-image: url('/assets/logo.png');" class="transCubic">Ikke</a></figure>
+    <h2 class="nav_title transCubic"><a href="/">IkkeBlog</a></h2>
+  </footer>
+  <script src="/assets/script.js"></script>
+</html>

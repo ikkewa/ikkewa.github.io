@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="language" content="en">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="">
+    <meta name="robots" content="index">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+    <link href="/css/style.css" rel="stylesheet">
+    <!-- build:remove-->
+    <script src="/assets/devreload.js"></script>
+    <!-- endbuild-->
+  </head>
+  <nav class="navigation">
+    <figure class="logo_icon transCubic"><a href="/" style="background-image: url('/assets/logo.png');" class="transCubic">Ikke</a></figure>
+    <h2 class="nav_title transCubic"><a href="/">IkkeBlog</a></h2>
+    <figure class="nav_menu"><a href="#menu" class="nav_menu_btn transCubic">Menu</a></figure>
+    <ul class="nav_drop transCubic">
+      <li><a href="/" class="transCubic">go home</a></li>
+      <li><a href="/blog" class="transCubic">go to blog</a></li>
+      <li><a href="https://twitter.com/ikkewa_" class="transCubic">my twitter</a></li>
+      <li><a href="/about" class="transCubic">about this</a></li>
+      <li>
+        <hr>
+      </li>
+    </ul>
+  </nav>
+  <section class="container">
+    <article class="post">
+      <time datetime="2015-10-13T02:00:00+02:00">13. Oktober10 2015</time>
+      <h1 class="article_title"><a href="#">Technische Grundlagen und Details</a></h1>
+      <div><p>Im letzten Post wurde die Absicht, Ziele und der Rahmen gesetzt und nun kommen wir endlich
+zu einem Thema, das ich hoffentlich etwas fl&#xFC;ssiger aus den Fingern in diesen Blog geschrieben kriege.
+Es geht um die grundlegende Technik die ich benutzten werde und wie in den Zielen beschrieben, werde
+ich ein fertiges Framework als Basis f&#xFC;r das erste Spiel nutzen.</p>
+<h4 id="vorstellung-frameworks">Vorstellung Frameworks</h4>
+<p>In der Welt der Programmierung ist ein Framework die Grundlage f&#xFC;r das zu entwerfende Produkt, das
+bereits viele technische Aspekte abdeckt. Man nimmt mit einem Framework aus der Entwicklungsphase
+viel Arbeit und kann sich mehr um das eigentliche Produkt k&#xFC;mmern.</p>
+<p>In der Webentwicklung sind Frameworks oft Ansto&#xDF; einer langen und pausenlosen Diskussion, welche
+Aspekte ein Framework abdecken muss, in welche Bereiche ein Framework nicht vorsto&#xDF;en soll und somit
+die Optionen f&#xFC;r den Entwickler und sein Produkt nicht einschr&#xE4;nken darf.
+Bei nativen Anwendungen sind Frameworks auch das Fundament, jedoch sind die Entscheidungen oft
+limitiert denn das direkte Zusammenspiel zwischen Betriebssystem und Anwendung in Paarung mit der
+gew&#xE4;hlten Programmiersprache (und dem Hersteller) lassen weniger Optionen.</p>
+<p>Beim Game Development wird die Basis/Fundament nicht Framework genannt, sondern Engine (GameEngine).
+Im Vergleich zu einem Framework ist es f&#xFC;r den Entwickler aber das gleiche, denn es nimmt einem
+einen unglaublichen Berg an Arbeit ab und deckt nahezu alle Bereiche ab, die notwendig sind.
+Bekannte native GameEngines sind Epic UnrealEngine, CryTek CryEngine, Unity UnityEngine und viele
+propriet&#xE4;re Engines von GameStudios, die vom Namen bekannt, aber f&#xFC;r die Masse nicht zug&#xE4;nglich sind.</p>
+<h4 id="entscheidung-f-r-ein-framework">Entscheidung f&#xFC;r ein Framework</h4>
+<p>F&#xFC;r das Spiel ist das Ziel definiert die Webplattform/Browser zu nutzen.
+Damit ergibt sich die M&#xF6;glichkeit das Spiel auf dem PC, Smartphone und sogar modernen Fernsehern (Smart-TV)
+laufen zu lassen, denn alles was man ben&#xF6;tigt ist ein moderner Browser.
+Die Entscheidung k&#xF6;nnte weiterhin lauten: UnrealEngine, CryEngine oder Unity, denn alle Engines
+erlauben einen Export des Werkes f&#xFC;r das Web. Damit k&#xF6;nnen wir aber noch keine Entscheidung treffen,
+sondern per Zufall eine Wahl treffen, die sp&#xE4;ter bereut wird. Daher suche ich weitere Kriterien.</p>
+<p>Als n&#xE4;chstes ist f&#xFC;r mich die Auswahl der Programmiersprache ein entscheidender Faktor ob
+das Ziel erreicht werden kann oder ob man aufgrund der Programmiersprache und seinen Besonderheiten
+sich in Feinheiten verliert und nicht vorw&#xE4;rts kommt. So habe ich nur wenig bis keine Erfahrung in
+Java und C/C++ und der Anfang der Entwicklung w&#xE4;re gepr&#xE4;gt vom Lernen der Sprache.</p>
+<p>Meine Wahl f&#xE4;llt auf JavaScript/ECMAScript. Die Erkl&#xE4;rung m&#xF6;chte ich kurz halten. Javascript
+ist in allen Browser bereits vorhanden, die Community ist gro&#xDF; und es existiert in der Community
+ein gro&#xDF;es Gef&#xFC;hl an &quot;Share &amp; Help&quot;. Das zeigt sich in Unmengen an Tutorials in Blogs und Youtube,
+an Communityprojekten die offen f&#xFC;r jeden sind und jeder sich beteiligen kann und darf.
+Somit wird dieser Blog auch ein Teil dieses Spirits beinhalten: Ich teile mein Wissen was
+ich gelernt habe w&#xE4;hrend der Entwicklung und es besteht die M&#xF6;glichkeit sich zu beteiligen.</p>
+<p>Mit der Auswahl der Sprache habe ich zwar die Auswahl der GameEngines reduziert, aber nicht die
+Engine bestimmt. Engines wie Unity erlauben einen JavaScript &#xE4;hnlichen Dialekt in ihrer Engine.
+UnrealEngine kann theoretisch ohne eine Programmiersprache genutzt werden durch die Nutzung der
+Blueprints und des &quot;visualisierten Programmierens&quot;.</p>
+<h5 id="die-entscheidung">Die Entscheidung</h5>
+<p>Ich habe mich entschieden f&#xFC;r das FrameWork <a href="http://www.phaser.io" title="Phaser Website">PhaserJS</a>.
+Phaser ist ein quell-offenes Framework das in JavaScript geschrieben und f&#xFC;r die direkte Nutzung
+im Browser gedacht ist. Es deckt viele Bereiche ab die man f&#xFC;r die Entwicklung eines Spiels ben&#xF6;tigt:
+Graphics, Video, Timing, Input, Audio, Assets...</p>
+<p>Weiter ist der Support f&#xFC;r die Engine grandios und sucht meiner Meinung nach seines Gleichen.
+Es gibt hunderte Beispiele f&#xFC;r fast jeden Aspekt der Engine inklusive Code und kurzen Erkl&#xE4;rungen.
+Die Dokumentation ist vollst&#xE4;ndig und auf einem aktuellen Stand, via Forum kann man auf die freundliche
+Unterst&#xFC;tzung von vielen anderen Entwicklern bauen oder sogar direkten Kontakt mit den Entwicklern
+herstellen. Und das ganze f&#xFC;r lau und ohne Klauseln, denn die Engine steht unter der <a href="https://github.com/photonstorm/phaser/blob/master/license.txt">MIT Lizenz</a>.</p>
+<h4 id="einstieg-in-phaserjs">Einstieg in PhaserJS</h4>
+<p>Die Webseite von Phaser bietet ein Tutorial, wie man die GameEngine herunterl&#xE4;dt und die ersten
+Schritte hin zu einer Entwicklungsumgebung, die das Programmieren und Experimentieren vereinfachen.
+Ich erspare mir diese Erkl&#xE4;rung zu wiederholen, merke aber direkt an das ich hier zu diesem Zeitpunkt
+einen Teil unterschlage.</p>
+<p>Im Vorfeld zu diesem Blog habe ich mir bereits eine Entwicklungsumgebung und einen Workflow
+zusammengesetzt, der es mir erm&#xF6;glicht, nur auf das entwickeln zu konzentrieren.
+Basis ist daf&#xFC;r NodeJS mit all seinen Helfern und Tools die ich gerne in Zukunft noch weiter
+beschreiben werden, sowie meinen darauf aufsetzenden Workflow und Tooling.</p>
+<p>Jetzt aber m&#xF6;chte ich erst einmal etwas Lust auf Phaser machen und warum es meine Wahl war als Engine.</p>
+<h5 id="state-konzept-von-phaser">State Konzept von Phaser</h5>
+<p>Phaser ist eine GameEngine und erm&#xF6;glicht mit der unkomplizierten Programmiersprache JavaScript
+einen schnellen Einstieg und Ergebnisse. Dazu passiert viel im Hintergrund (wof&#xFC;r eine Engine
+auch da ist) und man besch&#xE4;ftigt sich prim&#xE4;r nur mit der Spitze vom Eisberg.</p>
+<p>Zun&#xE4;chst hat Phaser das Konzept der &quot;States&quot; die in einer Reihenfolge von Phaser abgespielt werden.
+In jedem dieser States wird ein Programmteil abgedeckt und triggered eventuell den Aufruf eines
+weiteren States an. Best Practice sind die States: Boot, Preload, Menu, Play, GameOver, jedoch
+kann jeder die States nennen wie er lustig ist, es sind einfach nur Namen f&#xFC;r einen Spielstatus.</p>
+<p><img src="/assets/phaser_state_cycle.png" alt="Phaser state cycle" title="Phaser state cycle"></p>
+<p>Wenn wir Phaser initiieren, sagen wir zun&#xE4;chst: Rufe den <code>boot</code> State auf. Im Bootvorgang
+werden dann Dinge erledigt wie das Setzen von Parametern f&#xFC;r das gesamte Spiel (z.B. Skalierung)
+und Assets (Bilder/Ton) f&#xFC;r den n&#xE4;chsten State vorladen und sobald abgeschlossen auch aufgerufen.
+Denn der n&#xE4;chste State ist <code>preload</code> State und hier laden wir, wie der Name schon sagt, alle
+Assets vor, die sp&#xE4;ter im eigentlichen Spiel genutzt werden. Damit das f&#xFC;r den Spieler nicht
+das Starren auf einen schwarzen Screen bedeutet, haben wir im <code>boot</code> state als Asset einen
+Ladebalken und gegebenenfalls ein Logo vorgeladen und der User kann nun den Fortschritt beobachten.
+Sobald der Fortschritt die 100% erreicht hat, springen wir zum <code>menu</code> State. Ein Men&#xFC; ist ein Men&#xFC;
+und es gibt dazu nicht viel zu erkl&#xE4;ren. Man gibt dem User die M&#xF6;glichkeit Spieleinstellungen
+vorzunehmen, sich Credits und Bonusmaterial anzusehen und das wichtigste, den <code>play</code> State aufzurufen.
+Denn der <code>play</code> State ist das Herz des ganzen Spiels, denn hier wird das eigentliche Spiel
+abgehandelt: Userinput wird erkannt und verarbeitet, Audio zum richtigen Zeitpunkt abgespielt oder
+die Physikberechnung einbezogen und final dann Bilder generiert, positioniert und dargestellt.
+Zum Schluss dann der <code>gameOver</code> State, der dem User das Ergebnis seines Spiels aufzeigt und die
+M&#xF6;glichkeit gibt, wieder zum Men&#xFC; zur&#xFC;ckzukehren f&#xFC;r eine neue Runde.</p>
+<p>Diesen ganzen Zyklus kennen wir aus jedem Spiel und jede Spielengine bietet eine L&#xF6;sung, die
+Namen sind nur unterschiedlich. Unity nennt es &quot;Scene&quot;, bei UnrealEngine m&#xFC;sste es ein &quot;Level&quot; sein.</p>
+<p>F&#xFC;r Phaser vielleicht notwendig zu sagen: Abh&#xE4;ngig vom Umfang des Spiels kann es notwendig und
+sinnvoll sein den <code>play</code> State zu unterteilen. Dieser Unterteilung kann zum Beispiel die
+Aufteilung jedes Levels in einen eigenen State sein, womit die Abfolge w&#xE4;re: Boot, Preload, Menu,
+Level1, Level2, Level3, ..., Gameover.</p>
+<h4 id="gliederung-eines-state">Gliederung eines State</h4>
+<p>Ein State ist aber nicht nur ein gro&#xDF;er Block, sondern ein State hat jeweils f&#xFC;r sich ebenfalls
+eine Abfolge von Funktionen die automatisch abgearbeitet werden. Das ist ein Unterschied zum
+Aufruf eines State, denn ein State wird durch den Programmierer absichtlich getriggered, wobei
+innerhalb eines States die Funktionen durch die Phaser Engine automatisch aufgerufen werden.</p>
+<p><img src="/assets/phaser_state_metods.png" alt="Phaser State Methods" title="Phaser state methods"></p>
+<p>In dieser dargestellten State Transition von <code>boot</code> nach <code>preload</code> passiert folgendes:
+Der <code>boot</code> state wird von oben nach unten abgearbeitet bis zu <code>shutddown()</code> und irgendwo
+im <code>boot</code> State setzt der Programmierer den Trigger, den <code>preload</code> State zu starten.
+Aufgrund des Triggers wird jetzt <code>shutdown()</code> im <code>boot</code> durchlaufen und es geht weiter mit 
+<code>init()</code> im <code>preload</code> State und endet zun&#xE4;chst wieder bei <code>render()</code>, bis ein Trigger
+vom Programmierer erreicht wird, das den Aufruf eines weiteren States bedeutete.</p>
+<h4 id="code-endlich-code-">Code, endlich Code!</h4>
+<p>Nun mit diesem kurzen Intro in Phaser States will ich auf das HTML Grundger&#xFC;st eingehen.
+In diesem Beispiel nutze ich nicht meine Entwicklungsumgebung und Workflow, sondern einfaches
+HTML mit Javascript auf den klassischen Weg.</p>
+<p>Zun&#xE4;chst definiere ich f&#xFC;r jeden State eine eigene JavaScript Datei und benenne sie wie der State
+auch hei&#xDF;t, also <code>boot</code> State wird zu <code>boot.js</code>, der <code>preload</code> State wird <code>preload.js</code> usw.
+Dabei hat jeder State keine wirkliche Funktion, da es sich hier bei nur ein Beispiel handelt und
+der Wechsel zwischen den einzelnen States wird durch Timer gel&#xF6;st.</p>
+<pre><code class="language-javascript">
+  <span class="token keyword">function</span> <span class="token function">Boot</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token punctuation">}</span>
+
+  Boot<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token operator">/</span>`
+     <span class="token operator">*</span> Boot preload
+     <span class="token operator">*</span>
+     <span class="token operator">*</span> Load the images used <span class="token keyword">in</span> the preload state
+     <span class="token operator">*</span><span class="token operator">/</span>
+    preload<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">preload</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// prepare the boot, load images used</span>
+      <span class="token comment" spellcheck="true">// in the preload state</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+    <span class="token operator">/</span>`
+     <span class="token operator">*</span> Create the boot state
+     <span class="token operator">*</span>
+     <span class="token operator">*</span> Setup the game settings <span class="token keyword">for</span> phaser framework
+     <span class="token operator">*</span> and kick off the preload state
+     <span class="token operator">*</span><span class="token operator">/</span>
+    create<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>scale<span class="token punctuation">.</span>windowConstraints<span class="token punctuation">.</span>bottom <span class="token operator">=</span> <span class="token string">&apos;visual&apos;</span><span class="token punctuation">;</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>scale<span class="token punctuation">.</span>scaleMode <span class="token operator">=</span> Phaser<span class="token punctuation">.</span>ScaleManager<span class="token punctuation">.</span>SHOW_ALL<span class="token punctuation">;</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>scale<span class="token punctuation">.</span>pageAlignHorizontally <span class="token operator">=</span> <span class="token keyword">true</span><span class="token punctuation">;</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>scale<span class="token punctuation">.</span>pageAlignVertically <span class="token operator">=</span> <span class="token keyword">false</span><span class="token punctuation">;</span>
+
+      <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>state<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token string">&apos;preload&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// trigger transition to preload state</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Im <code>boot</code> State wird die Skalierung definiert und sofort der <code>preload</code> State
+aufgerufen via <code>this.game.state.start(&apos;preload&apos;);</code>. Eine berechtigte Frage w&#xE4;re:
+Woher kommt <code>this.game</code> und <code>this.scale</code>? Nun, die Properties werden nachher durch
+das Einbinden der States in die jeweiligen States durch Phaser gesetzt. Das sehen
+wir aber sp&#xE4;ter im file <code>script.js</code></p>
+<pre><code class="language-javascript">  <span class="token keyword">function</span> <span class="token function">Preload</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+  Preload<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token operator">/</span>`
+     <span class="token operator">*</span> Preload the Menu state
+     <span class="token operator">*</span><span class="token operator">/</span>
+    preload<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">preload</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// here we would load assets (images/sounds used in the game)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+    <span class="token operator">/</span>`
+     <span class="token operator">*</span> After everything has been preloaded<span class="token punctuation">,</span>
+     <span class="token operator">*</span> `create` the preload state<span class="token punctuation">,</span> which means<span class="token punctuation">,</span>
+     <span class="token operator">*</span> go to the next state<span class="token punctuation">.</span>
+     <span class="token operator">*</span><span class="token operator">/</span>
+    create<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token string">&apos;menu&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Auch im <code>preload</code> State passiert aktuell nicht viel, sondern es wird sofort
+(und ohne Timer) der <code>menu</code> State getriggered.</p>
+<pre><code class="language-javascript">  <span class="token keyword">function</span> <span class="token function">Menu</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+  Menu<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token operator">/</span>`
+     <span class="token operator">*</span> Preload the Menu state
+     <span class="token operator">*</span><span class="token operator">/</span>
+    preload<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">preload</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// mostly nothing to do here</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+    <span class="token operator">/</span>`
+     <span class="token operator">*</span> Create the menu and bind interactions when
+     <span class="token operator">*</span> clicking on buttons and stuff<span class="token punctuation">.</span>
+     <span class="token operator">*</span>
+     <span class="token operator">*</span> As example<span class="token punctuation">:</span> use a timer that kicks off after <span class="token number">5</span> seconds
+     <span class="token operator">*</span><span class="token operator">/</span>
+    create<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>time<span class="token punctuation">.</span>events<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>Phaser<span class="token punctuation">.</span>Timer<span class="token punctuation">.</span>SECOND <span class="token operator">*</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>onTimerEnd<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+    <span class="token operator">/</span>`
+     <span class="token operator">*</span> Callback <span class="token keyword">for</span> timer
+     <span class="token operator">*</span>
+     <span class="token operator">*</span> Call the play state
+     <span class="token operator">*</span>
+     <span class="token operator">*</span> @param <span class="token punctuation">{</span>Phaser<span class="token punctuation">.</span>Timer<span class="token punctuation">}</span> timer
+     <span class="token operator">*</span><span class="token operator">/</span>
+    onTimerEnd<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">onTimerEnd</span><span class="token punctuation">(</span>timer<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token string">&apos;play&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Der <code>menu</code> State verh&#xE4;lt etwas anders als die vorherigen States, denn es wird ein
+Timer gesetzt, der nach 5 Sekunden ein Callback Event ausl&#xF6;st und die Function <code>onTimerEnd()</code>
+aufruft. In diesem Callback wird der <code>play</code> State getriggered.</p>
+<pre><code class="language-javascript">  <span class="token keyword">function</span> <span class="token function">Play</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+  Play<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token operator">/</span>`
+     <span class="token operator">*</span> Preload the play state
+     <span class="token operator">*</span><span class="token operator">/</span>
+    preload<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">preload</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// setup some general state things</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+    <span class="token operator">/</span>`
+     <span class="token operator">*</span> Create the play state means here<span class="token punctuation">,</span> create
+     <span class="token operator">*</span> the game<span class="token punctuation">:</span> load images<span class="token punctuation">,</span> setup inputcontrollers
+     <span class="token operator">*</span> and a lot more<span class="token punctuation">.</span>
+     <span class="token operator">*</span> Basicly everything that needs to be created to
+     <span class="token operator">*</span> show the game at time<span class="token operator">=</span><span class="token number">0</span>
+     <span class="token operator">*</span>
+     <span class="token operator">*</span> As example again<span class="token punctuation">:</span> a Timer that kicks off after
+     <span class="token operator">*</span> <span class="token number">5</span> seconds and jumnps to the gameover state<span class="token punctuation">.</span>
+     <span class="token operator">*</span><span class="token operator">/</span>
+    create<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>time<span class="token punctuation">.</span>events<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>Phaser<span class="token punctuation">.</span>Timer<span class="token punctuation">.</span>SECOND <span class="token operator">*</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>onTimerEnd<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+    <span class="token operator">/</span>`
+     <span class="token operator">*</span> The important update
+     <span class="token operator">*</span>
+     <span class="token operator">*</span> This <span class="token keyword">function</span> will be called on every frame<span class="token punctuation">.</span>
+     <span class="token operator">*</span> This is basicly the gameloop and contains
+     <span class="token operator">*</span> all calculations and changes of the game
+     <span class="token operator">*</span> behavior <span class="token punctuation">(</span><span class="token keyword">get</span> input<span class="token punctuation">,</span> process input<span class="token punctuation">,</span> change player
+     <span class="token operator">*</span> position or change image
+     <span class="token operator">*</span>
+     <span class="token operator">*</span> For the demo purpose <span class="token keyword">this</span> is empty
+     <span class="token operator">*</span><span class="token operator">/</span>
+    update<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">update</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// gameloop here</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+    <span class="token operator">/</span>`
+     <span class="token operator">*</span> Callback <span class="token keyword">for</span> timer
+     <span class="token operator">*</span> Jump to the gameover state
+     <span class="token operator">*</span>
+     <span class="token operator">*</span> @param <span class="token punctuation">{</span>Phaser<span class="token punctuation">.</span>Timer<span class="token punctuation">}</span> timer
+     <span class="token operator">*</span><span class="token operator">/</span>
+    onTimerEnd<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">onTimerEnd</span><span class="token punctuation">(</span>timer<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token string">&apos;gameover&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Der <code>play</code> State is das eigentliche Spiel und hier wird bei der Entwicklung eines
+Spiels die meisten Aktionen und &#xC4;nderungen vorgenommen. Die <code>update()</code> Funktion habe
+ich hier mal mit aufgenommen, denn das ist quasi das Herz des ganzen Spiels: der Gameloop.
+Die Funktion <code>update()</code> wird f&#xFC;r die Darstellung eines jeden Frames aufgerufen und ist
+somit f&#xFC;r die Steuerung des gesamten Spiels verantwortlich.
+F&#xFC;r das Beispiel wird in dem <code>play</code> State wird auch nur ein Timer gesetzt, der nach 5
+Sekunden in den <code>gameover</code> State gewechselt.</p>
+<pre><code class="language-javascript">  <span class="token keyword">function</span> <span class="token function">Gameover</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+  Gameover<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token operator">/</span>`
+     <span class="token operator">*</span> Preload the Gameover state
+     <span class="token operator">*</span><span class="token operator">/</span>
+    preload<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">preload</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// mostly nothing to do here</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+    <span class="token operator">/</span>`
+     <span class="token operator">*</span> Create the GameOver state<span class="token punctuation">,</span> show results
+     <span class="token operator">*</span> like time player<span class="token punctuation">,</span> items collected
+     <span class="token operator">*</span> or a rank <span class="token keyword">with</span> highscores
+     <span class="token operator">*</span>
+     <span class="token operator">*</span> As example again<span class="token punctuation">:</span> a Timer that kicks off after
+     <span class="token operator">*</span> <span class="token number">5</span> seconds and jumnps to the gameover state<span class="token punctuation">.</span>
+     <span class="token operator">*</span><span class="token operator">/</span>
+    create<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>time<span class="token punctuation">.</span>events<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>Phaser<span class="token punctuation">.</span>Timer<span class="token punctuation">.</span>SECOND <span class="token operator">*</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>onTimerEnd<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+    <span class="token operator">/</span>`
+     <span class="token operator">*</span> Callback <span class="token keyword">for</span> timer
+     <span class="token operator">*</span>
+     <span class="token operator">*</span> Jump back to the menu state and
+     <span class="token operator">*</span> start all over<span class="token punctuation">.</span>
+     <span class="token operator">*</span><span class="token operator">/</span>
+    onTimerEnd<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">onTimerEnd</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token string">&apos;menu&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Der <code>gameover</code> State ist in dem Beispiel wieder nur ein Timer der
+weiterleitet auf den bereits definierten <code>menu</code> State. Es wird also der
+gleiche Menu-State aufgerufen, der bereits am Anfang genutzt wurde, jedoch neu initialisiert.</p>
+<p>Als n&#xE4;chstes kommt <code>script.js</code> und hier wird das Spiel zusammengeschn&#xFC;rt, bedeutet alle
+States werden der Phaser Game Engine bekannt gemacht und sind somit von Phaser nutzbar.</p>
+<pre><code class="language-javascript">  window<span class="token punctuation">.</span>onload <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> game <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Phaser<span class="token punctuation">.</span>Game</span><span class="token punctuation">(</span><span class="token number">960</span><span class="token punctuation">,</span> <span class="token number">640</span><span class="token punctuation">,</span> Phaser<span class="token punctuation">.</span>AUTO<span class="token punctuation">,</span> <span class="token string">&apos;gamecanvas&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    game<span class="token punctuation">.</span>state<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">&apos;boot&apos;</span><span class="token punctuation">,</span> Boot<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    game<span class="token punctuation">.</span>state<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">&apos;preload&apos;</span><span class="token punctuation">,</span> Preload<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    game<span class="token punctuation">.</span>state<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">&apos;menu&apos;</span><span class="token punctuation">,</span> Menu<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    game<span class="token punctuation">.</span>state<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">&apos;play&apos;</span><span class="token punctuation">,</span> Play<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    game<span class="token punctuation">.</span>state<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">&apos;gameover&apos;</span><span class="token punctuation">,</span> Gameover<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// boot the game</span>
+    game<span class="token punctuation">.</span>state<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token string">&apos;boot&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>In der ersten Zeile erzeugen wir ein <code>Phaser.Game</code>, also ein neues Spiel. Die Werte die als
+Parameter &#xFC;bergeben werden bedeuten folgendes:</p>
+<ol>
+<li>960: Breite in Pixel des Spiels</li>
+<li>480: H&#xF6;he in Pixel des Spiels</li>
+<li>Phaser.AUTO: Phaser erkennt selbstst&#xE4;ndig ob 2D Canvas oder WebGl als Renderer benutzt werden soll</li>
+<li>gamecanvas: Das HTML Element, in das Phaser das Spiel setzen soll</li>
+</ol>
+<p>W&#xE4;hrend der Parameter eins und zwei selbsterkl&#xE4;rend sind, ein paar Worte noch zum dritten Parameter.
+Ein Renderer ist die Technik die Phaser vom Browser nutzt um dynamische Inhalte (wie ein Spiel) im
+Browser darstellen zu k&#xF6;nnen. Alle Browserhersteller unterst&#xFC;tzen Canvas (2D Darstellung, <code>Phaser.CANVAS</code>) und
+WebGL (3D Darstellung, <code>Phaser.WEBGL</code>). W&#xE4;hrend WebGL in der Lage ist auch vollwertige 3D Spiele
+darzustellen, nutzt Phaser die WebGL Technologie nur im gleichen Umfang wie bei den 2D Canvas
+Darstellung. Ein 3D EgoShooter im Browser ist mit WebGL machbar, aber PhaserJS ist nicht f&#xFC;r ein
+3D EgoShooter ausgelegt. Der einzige Vorteil der die WebGL Nutzung sind Lichteffekte und WebGL Shader
+auf der 2D Darstellung. Jedoch gibt es Benchmarks die zeigen, das Phaser mit WebGL nicht die gleiche
+Performance bringt, wie mit der 2D Canvas RenderEngine. Daran arbeitet das Phaser Team aber, denn
+mit Phaser Version 3.x (aktuell 2.4.x) wird der WebGL Renderer komplett neu geschrieben.</p>
+<p>Das Bekanntmachen der States an die Phaser Engine l&#xE4;sst sich in dem Beispiel gut lesen:
+<code>game.state.add(&apos;boot&apos;, Boot);</code> macht den <code>boot</code> State bekannt. Die Variable <code>Boot</code> (2ter Parameter)
+wurde vorab in der Datei <code>boot.js</code> definiert und zwar via <code>function Boot() {}</code>.
+Und den Bootstate triggern wir hier auch via <code>game.state.start(&apos;boot&apos;) - also mit dem Namen der
+bei</code>game.state.add()` gew&#xE4;hlt wurde.</p>
+<p>Zuletzt das ganze noch in HTML packen, damit der Browser auch eine Webseite mit dem eingebetteten
+Spiel &#xF6;ffnen und laden kann.</p>
+<pre><code class="language-markup"><span class="token doctype">&lt;!DOCTYPE html&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>utf-8<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>language<span class="token punctuation">&quot;</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>en<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>viewport<span class="token punctuation">&quot;</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>width<span class="token punctuation">=</span>device-width, initial-scale<span class="token punctuation">=</span>1<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">&gt;</span></span>Simple Intro<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>gamecanvas<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">&gt;</span></span>
+  <span class="token script language-javascript"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>https://cdnjs.cloudflare.com/ajax/libs/phaser/2.4.3/phaser.min.js<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span></span>
+  <span class="token script language-javascript"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>boot.js<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span></span>
+  <span class="token script language-javascript"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>preload.js<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span></span>
+  <span class="token script language-javascript"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>menu.js<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span></span>
+  <span class="token script language-javascript"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>play.js<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span></span>
+  <span class="token script language-javascript"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>gameover.js<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span></span>
+  <span class="token script language-javascript"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>script.js<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+<p>Es wird im HTML Body nur ein DIV Container <code>#gamecanvas</code> erstellt (auf den wir in Phaser.Game()
+referenziert haben) und alle notwendigen JavaScripts in einer notwendigen Reihenfolge geladen.
+Die Reihenfolge ist in diesem Beispiel wichtig, da wir zum Beispiel in <code>script.js</code> die
+Phaser Engine nutzen (via <code>new Phaser.Game()</code>) und daher sollte Phaser vorher geladen sein.</p>
+<p>In dem Beispiel wird die Phaser Engine von einem &#xF6;ffentlichen CDN geladen. Es empfiehlt sich
+in der Entwicklung eine lokale Kopie zu haben, damit nicht bei jedem Testrun aus dem Netz
+die Phaser Engine geladen werden muss und der CDN nicht unn&#xF6;tig belastet wird.</p>
+<p>Um das ganze lokal zu testen wird nun ein Webbrowser und ein Webserver verwendet. Abh&#xE4;ngig
+von dem Betriebssystem das verwendet wird, ist ein Webserver mit Python die schnellste L&#xF6;sung.
+Auf jedem Betriebssystem au&#xDF;er MS Windows ist fast immer Python installiert und via folgender
+Kommoandozeileeingabe wird ein HTTP Server gestartet: <code>python -m SimpleHTTPServer</code>
+Im Browser ist nun mit der Adresse <code>http://localhost:8000</code> das &quot;Spiel&quot; aufrufbar...also ein
+schwarzer Bildschirm ist sichtbar der aber alle 5 Sekunden die States wechselt (glaubt mir ;) )</p>
+<p>Damit haben wir die Basis f&#xFC;r jedes Phaser Spiel erstellt. Das Laden der Phaser Engine, die
+Erstellung von States die Schrittweise das Laden und das Vorbereiten des eigentlichen Spiels
+erledigt. Da dies ein sich immer wiederholender Schritt ist, kann man es als Template oder
+Boilerplate verwenden oder es in einem Workflow automatisieren (was ich gemacht habe).</p>
+<h4 id="zusammenfassung">Zusammenfassung</h4>
+<p>In diesem Posting ist die Auswahl der Engine beschrieben und der erste Schritt, wie man die Engine
+nutzt. Die PhaserJS Engine ist ein f&#xFC;r die Nutzung im Browser ausgelegtes Framework und nutzt
+die Funktionen und Features des Browsers nativ ohne ein zus&#xE4;tzliches Plugin (Bsp Unity Webplayer).</p>
+<p>Nach der Erstellung des Spiels mittels via <code>new Phaser.Game()</code> werden States geladen und die
+States sind einfache JavaScript Funktionen die angereichert werden durch die Phaser Engine mit
+zus&#xE4;tzlichen Eigenschaften (<code>this.game</code>, <code>this.scale</code>).</p>
+<p>Bei den States gibt es zwei Merkmale, die man sich merken sollte. States werden durch den
+Programmierer definiert und gestartet/getriggered. Wenn ein State gestartet wurde, wird durch
+die Phaser Engine eine bestimmte Reihenfolge von Methoden in jedem State durchlaufen
+(<code>init</code>, <code>preload</code>, <code>create</code>, <code>update</code>) ohne das der Programmierer extra einen Trigger setzen muss.</p>
+<p>Der erste Schritt ist somit getan und es geht weiter im n&#xE4;chsten Blogpost.</p>
+</div>
+      <div class="share-social clearfix">
+        <h6>Share this if you like</h6>
+        <ul><a href="/rss.xml" class="social-item rss">
+            <li><i class="fa fa-rss"></i></li></a><a href="http://twitter.com/intent/tweet?url=http://ikkewa.github.io/blog/technische-grundlagen-und-details&amp;text=Read:%20Technische Grundlagen und Details&amp;via=ikkewa_" class="social-item twitter">
+            <li><i class="fa fa-twitter"></i></li></a><a href="https://github.com/ikkewa" class="social-item github">
+            <li><i class="fa fa-github-alt"></i></li></a><a href="https://plus.google.com/share?url=http://ikkewa.github.io/blog/technische-grundlagen-und-details" class="social-item google">
+            <li><i class="fa fa-google"></i></li></a><a href="https://www.facebook.com/sharer.php?u=http://ikkewa.github.io/blog/technische-grundlagen-und-details&amp;t=#{Read:%20title}" class="social-item facebook">
+            <li><i class="fa fa-facebook"></i></li></a></ul>
+      </div>
+      <div class="tags"><b>Tags:</b><a href="/tags/game.html" class="tag">game</a><a href="/tags/frameworks.html" class="tag">frameworks</a>
+      </div>
+      <div id="disqus_thread"></div>
+    </article>
+  </section>
+  <footer class="footer clearfix">
+    <ul class="links">
+      <li><a href="https://twitter.com/ikkewa_">@ikkewa_</a></li>
+      <li><a href="mailto:xikkewa@gmail.com">mail@me</a></li>
+      <li><a href="/rss.xml">rss</a></li>
+    </ul>
+    <figure class="logo_icon transCubic"><a href="/" style="background-image: url('/assets/logo.png');" class="transCubic">Ikke</a></figure>
+    <h2 class="nav_title transCubic"><a href="/">IkkeBlog</a></h2>
+  </footer>
+  <script src="/assets/script.js"></script>
+</html>

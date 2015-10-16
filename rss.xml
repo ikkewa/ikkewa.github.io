@@ -1,0 +1,1312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[IkkeWa Blog]]></title><description><![CDATA[IkkeWa Blog]]></description><link>http://www.example.org</link><generator>metalsmith-feed</generator><lastBuildDate>Fri, 16 Oct 2015 18:34:56 GMT</lastBuildDate><atom:link href="http://www.example.org/rss.xml" rel="self" type="application/rss+xml"/><author><![CDATA[ikke]]></author><language><![CDATA[de]]></language><item><title><![CDATA[Game Mechanic 101 - Bewegung]]></title><description><![CDATA[<p>Mit diesem Posting geht es an die erste Spielmechanik - im englischen h&#xF6;rt sich das spannender an: game mechanic.
+F&#xFC;r mich war es zun&#xE4;chst wichtig was GameMechanics sind und ich habe mich auf den Weg gemacht das herauszufinden.
+Beim Lesen von Wikipedia, Blogartikeln und Expertenmeinungen kommt man dann schon etwas in Wanken und fragt sich 
+ob dieser Begriff so eindeutig definiert ist. Von Spielmechanik, game mechanics, gameplay, game design, usability,
+game theory springen die erkl&#xE4;renden Seiten von Begriff zu Begriff.</p>
+<p>F&#xFC;r mich definiere ich die Begriff nun wie folgt:</p>
+<h4 id="game-theory">Game Theory</h4>
+<p>Der Begriff &quot;Game Theory&quot; ist f&#xFC;r mich die akademische Ann&#xE4;herung an Games und untersucht die Einfl&#xFC;sse und
+Auswirkungen von Spielen oder Inhalte eines Spiels auf das Spiel, den Spieler oder den Spielproduzenten.
+Somit ist der Faktor von politischer Situation und wirtschaftliches Umfeld genauso einzubeziehen, wie die
+psychologischen, physiologischen und biologischen Eigenschaften von Spielern. Damit kann dann ein Spiel
+grob skizziert werden in der Planung oder bei der Bewertung des Effekts.</p>
+<h4 id="game-design">Game Design</h4>
+<p>Der Begriff &quot;Game Design&quot; ist das konkrete Planen eines Spieles. Game Designer sind die k&#xFC;nstlerische Komponente
+in der Planungsphase, die mit ihrer Vorstellungskraft die technischen M&#xF6;glichkeiten, (zu erstellenden) visuellen
+oder akustischen Effekte ausloten und verbinden mit einer Geschichte die erz&#xE4;hlt werden m&#xF6;chte.
+Sie greifen bei der Erstellung des Konzepts auf Ergebnisse der &quot;Game Theory&quot; zur&#xFC;ck und erzeugen mit dem Konzept
+das grundlegende Spiel von Singleplayer Jump&amp;Run bis Multiplayer Fantasygame (das eine Story haben kann, aber nicht muss).
+Wenn das Spiel dann entwickelt wird, sind sie die Berater und bewerten &quot;Soll&quot; von &quot;Ist&quot; und passen notfalls die Idee
+und das Konzept an technische Machbarkeit an.</p>
+<h4 id="game-mechanic">Game Mechanic</h4>
+<p>Der Begriff &quot;Game Mechanic&quot; ist ein Element in einem Spiel das dem Konzept aus dem &quot;Game Design&quot; folgt und
+unterst&#xFC;tzt, die gew&#xFC;nschte Wirkung zu erreichen. Es ist der technische Aspekt in der Entwicklung, da
+eine Reihung von Spielmechaniken die Stimmung oder das &quot;Gameplay&quot; mitentwickelt.
+Eine Mechanik kann von Einfach bis Komplex das ganze Spiel bestimmen und reicht von nicht-interaktiven Inhalten
+bis hin zu interaktiven, k&#xF6;rperlichen Einbringung.</p>
+<h4 id="gameplay">GamePlay</h4>
+<p>GamePlay ist das Ergebnis f&#xFC;r den Spieler, das mit GameDesign und GameMechanic erzeugt wurde. Im deutschen w&#xE4;re
+es einfach der Spielspa&#xDF; und die Bindung zu einem Spiel die man aufbauen kann.</p>
+<hr>
+<p>Nachdem ich die Begriffe aufgeschrieben habe w&#xFC;rde ich die n&#xE4;chsten T&#xE4;tigkeiten eindeutig als &quot;GameMechanic&quot;
+sehen, denn es geht nur um einen kleinen Teil in einem Spiel. Es ist kein Design und kein Konzept, sondern
+nur ein Baustein in einem Puzzle: Die GameMechanic &quot;Bewegung&quot; - die Bewegung einer Spielfigur in einer Welt.</p>
+<p>Direkt zum Github Repository geht es <a href="https://github.com/ikkewa/game-mechanics-01">mit diesem Link</a> und zur
+Online Demo <a href="http://ikkewa.github.io/game-mechanics-01/">mit diesem Link</a></p>
+<p>In einem vorherigen Artikel habe ich meine Entwicklungsumgebung beschrieben und diese werde ich f&#xFC;r dieses
+Projekt nat&#xFC;rlich auch nutzen. Zuerst wird ein neuer Ordner erstellt und in dem Ordner lasse ich den
+Yeoman Generator <code>phaser-alt</code> seine Arbeit erledigen, sodass das Grundger&#xFC;st steht.</p>
+<pre><code class="language-bash">$ <span class="token function">mkdir</span> mech01
+$ <span class="token function">cd</span> mech01
+$ yo phaser<span class="token operator">-</span>alt
+</code></pre>
+<p>Um sich vorzustellen zu k&#xF6;nnen wie das Ergebnis aussehen sein soll, habe ich mit <a href="https://inkscape.org/">Inkscape</a>
+eine grobe Zeichnung erstellt auf der ein Boden (schwarz), drei Hindernisse (blau) und die Startposition der
+Spielfigur (rot) zu sehen ist.</p>
+<p><img src="/assets/mech01_idea.png" alt="Mechanic pre drawing" title="Mechanic Pre Drawing"></p>
+<p>Diese Blockformen werden wir auch als einfachen Grafikersatz nutzen, sprich es gibt keine k&#xFC;nstlerisch
+animierten Charakter oder detaillierte Texturen. Es geht mir nur um den Aufbau und die M&#xF6;glichkeiten
+der Mechanik &quot;Bewegung&quot;. Die Grafiken sind drei quadratische Bilder (32x32px) mit den jeweiligen Farben:</p>
+<p><img src="/assets/mech01_sprite_blackblock.png" alt="Asset black block" title="Asset: Black Block">
+<img src="/assets/mech01_sprite_blueblock.png" alt="Asset blue block" title="Asset: Blue Block">
+<img src="/assets/mech01_sprite_redblock.png" alt="Asset red block" title="Asset: Red Block"></p>
+<p>Nun kann man endlich mit dem coden anfangen und wir beginnen damit die Image Assets im <code>preload</code> State
+einzubinden und zu laden:</p>
+<pre><code class="language-javascript"><span class="token string">&apos;use strict&apos;</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">/**
+ * Preload state
+ *
+ * Preloader for the game to load all kind of
+ * assets and lastly start the menu state
+ */</span>
+<span class="token keyword">function</span> <span class="token function">Preload</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token punctuation">}</span>
+
+Preload<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">/**
+   * Preload the preload state
+   *
+   * In the preload state all assets are loaded
+   * via the `this.load` reference to Phaser.Loader.
+   *
+   * The visually indicate for the use the loading,
+   * setup the preloadSprite system.
+   */</span>
+  preload<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">preload</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> cx <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>width <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>
+    <span class="token keyword">var</span> cy <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">this</span><span class="token punctuation">.</span>loadBackground <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span>cx <span class="token operator">-</span> <span class="token number">100</span><span class="token punctuation">,</span> cy <span class="token operator">-</span> <span class="token number">30</span><span class="token punctuation">,</span> <span class="token string">&apos;preload-bg&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>loadBar <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span>cx <span class="token operator">-</span> <span class="token number">100</span><span class="token punctuation">,</span> cy <span class="token operator">-</span> <span class="token number">30</span><span class="token punctuation">,</span> <span class="token string">&apos;preload-fg&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">this</span><span class="token punctuation">.</span>load<span class="token punctuation">.</span><span class="token function">setPreloadSprite</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>loadBar<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// load the play button spritesheet</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>load<span class="token punctuation">.</span><span class="token function">spritesheet</span><span class="token punctuation">(</span>
+      <span class="token string">&apos;menu-btn-play&apos;</span><span class="token punctuation">,</span>
+      <span class="token string">&apos;/assets/images/menu-btn-play.png&apos;</span><span class="token punctuation">,</span>
+      <span class="token number">128</span><span class="token punctuation">,</span> <span class="token number">32</span>  <span class="token comment" spellcheck="true">// width+height of each frame</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// load the audio for the menu</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>load<span class="token punctuation">.</span><span class="token function">audio</span><span class="token punctuation">(</span><span class="token string">&apos;audio-menu-tick&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;/assets/audio/menu-tick.mp3&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>load<span class="token punctuation">.</span><span class="token function">audio</span><span class="token punctuation">(</span><span class="token string">&apos;audio-menu-select&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;/assets/audio/menu-select.mp3&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+
+    <span class="token operator">/</span><span class="token comment" spellcheck="true">/******
+    // Load the 3 quadratic 32x32 images
+    //******
+    this.load.image(&apos;block-black&apos;, &apos;/assets/images/sprite_blockblack.png&apos;);
+    this.load.image(&apos;block-blue&apos;, &apos;/assets/images/sprite_blue.png&apos;);
+    this.load.image(&apos;block-red&apos;, &apos;/assets/images/sprite_red.png&apos;);
+  },
+
+  /**
+   * Create the preload state
+   *
+   * When the `create` method is called, then the preload
+   * of assets has been done and we can jump over
+   * to the `play` state.
+   */</span>
+  create<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token string">&apos;menu&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> Preload<span class="token punctuation">;</span>
+</code></pre>
+<p>F&#xFC;r die &#xDC;bersicht folgen nun nochmal die 3 neuen Zeilen die entscheidend sind f&#xFC;r das Laden der Bilder.
+Phaser bietet via <code>Phaser.Loader</code> (nutzbar mit <code>this.load</code>) die einfache M&#xF6;glichkeit &#xFC;ber ein Imagekey (<em>block-xyz</em>)
+und der URL zum Bild (<em>/assets/images/sprite_xyz</em>), das Bild vorladen und sp&#xE4;ter zu nutzen &#xFC;ber den ImageKey</p>
+<pre><code class="language-javascript">  <span class="token comment" spellcheck="true">//******</span>
+  <span class="token comment" spellcheck="true">// Load the 3 quadratic 32x32 images</span>
+  <span class="token comment" spellcheck="true">// this.load.image(&apos;image-key&apos;, &apos;path-to-image-on-server&apos;);</span>
+  <span class="token comment" spellcheck="true">//******</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>load<span class="token punctuation">.</span><span class="token function">image</span><span class="token punctuation">(</span><span class="token string">&apos;block-black&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;/assets/images/sprite_blockblack.png&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>load<span class="token punctuation">.</span><span class="token function">image</span><span class="token punctuation">(</span><span class="token string">&apos;block-blue&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;/assets/images/sprite_blue.png&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>load<span class="token punctuation">.</span><span class="token function">image</span><span class="token punctuation">(</span><span class="token string">&apos;block-red&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;/assets/images/sprite_red.png&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Und damit verlassen wir auch die <code>preload.js</code> State Datei und begeben uns zum <code>play</code> State (<code>/app/js/states/play.js</code>).</p>
+<hr>
+<p>Der Play-State wird nun der State sein in dem wir uns die n&#xE4;chste Zeit bewegen werden. Hierbei sind die Funktionen
+<code>create()</code> und <code>update()</code> die Hauptakteure und daher werde ich das Grundger&#xFC;st der <code>play.js</code> Datei einmal
+komplett aufzeigen und bei den folgenden Ver&#xE4;nderungen nur noch die entsprechenden &#xC4;nderungen dokumentieren.</p>
+<pre><code class="language-javascript"><span class="token string">&apos;use strict&apos;</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">/**
+ * Play state - the actual game
+ */</span>
+<span class="token keyword">function</span> <span class="token function">Play</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token punctuation">}</span>
+
+Play<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">/**
+   * Preload the game
+  */</span>
+  preload<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">preload</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// prevent window jumping, by binding the keys that</span>
+    <span class="token comment" spellcheck="true">// trigger the browser to scroll</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>input<span class="token punctuation">.</span>keyboard<span class="token punctuation">.</span><span class="token function">addKeyCapture</span><span class="token punctuation">(</span><span class="token punctuation">[</span>
+      Phaser<span class="token punctuation">.</span>Keyboard<span class="token punctuation">.</span>LEFT<span class="token punctuation">,</span>
+      Phaser<span class="token punctuation">.</span>Keyboard<span class="token punctuation">.</span>RIGHT<span class="token punctuation">,</span>
+      Phaser<span class="token punctuation">.</span>Keyboard<span class="token punctuation">.</span>UP<span class="token punctuation">,</span>
+      Phaser<span class="token punctuation">.</span>Keyboard<span class="token punctuation">.</span>DOWN<span class="token punctuation">,</span>
+      Phaser<span class="token punctuation">.</span>Keyboard<span class="token punctuation">.</span>SPACEBAR
+    <span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// if arrow keys needed, use `createCursorKeys`</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>cursors <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>input<span class="token punctuation">.</span>keyboard<span class="token punctuation">.</span><span class="token function">createCursorKeys</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// enable advance (precission) timing</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>time<span class="token punctuation">.</span>advancedTiming <span class="token operator">=</span> <span class="token keyword">true</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * Create the game instance that makes a 
+   * level playable. Constructs the entities and
+   * the basic logic that is needed
+   */</span>
+  create<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * Update function - called on every frame
+   */</span>
+  update<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">update</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * Render function, mostly used for debugging
+   */</span>
+  render<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// example: debug a sprite object when physics are enabled</span>
+    <span class="token comment" spellcheck="true">//  this.game.debug.body(this.player);</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> Play<span class="token punctuation">;</span>
+</code></pre>
+<h4 id="schritt-1-laden-der-bilder-in-den-play-state">Schritt 1: Laden der Bilder in den play state</h4>
+<p>Die Bilder sind im <code>preload</code> State bereits geladen, jedoch noch nicht dem <code>play</code> State bekannt gemacht.
+Also werden wir jetzt bei der Erstellung des Play State (<code>function create()</code>) die Bilder adden und weisen
+die Referenzen auf die hinzugef&#xFC;gten Bilder direkt passenden Variablen zu.</p>
+<pre><code class="language-javascript">Play<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
+  create<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>stage<span class="token punctuation">.</span><span class="token function">setBackgroundColor</span><span class="token punctuation">(</span><span class="token number">0xffffff</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// set backgroundcolor of stage (white)</span>
+
+    <span class="token keyword">this</span><span class="token punctuation">.</span>platform <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">&apos;block-black&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole1 <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">-</span> <span class="token number">32</span><span class="token punctuation">,</span> <span class="token string">&apos;block-blue&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole2 <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">350</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">-</span> <span class="token number">32</span><span class="token punctuation">,</span> <span class="token string">&apos;block-blue&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole3 <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">-</span> <span class="token number">32</span><span class="token punctuation">,</span> <span class="token string">&apos;block-blue&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>player <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">64</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">-</span> <span class="token number">32</span><span class="token punctuation">,</span> <span class="token string">&apos;block-red&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Alle 5 Sprites werden hinzugef&#xFC;gt mittels <code>this.game.add.sprite(x-pos, y-pos, image-key)</code> - die Syntax ist
+grundlegend selbsterkl&#xE4;rend - der <code>image-key</code> Parameter ist der Name, den man im <code>preload</code> State gew&#xE4;hlt hat.
+Wenn das Spiel nun im Browser ge&#xF6;ffnet wird, dann sollte man folgendes sehen</p>
+<p><img src="/assets/mech01_step01.png" alt="Mechanic Step 01" title="Mechanic Step 01"></p>
+<h4 id="schritt-2-plattform-und-hindernisse-skalieren">Schritt 2: Plattform und Hindernisse skalieren</h4>
+<p>Die schwarze Plattform ist noch keine durchgehende Plattform und die blauen Bl&#xF6;cke als Hindernisse sind keine
+wirklichen Hindernisse, daher Skalieren wir die Elemente auf der Y-Achse.</p>
+<pre><code class="language-javascript">  create<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>stage<span class="token punctuation">.</span><span class="token function">setBackgroundColor</span><span class="token punctuation">(</span><span class="token number">0xffffff</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// set backgroundcolor of stage (white)</span>
+
+    <span class="token keyword">this</span><span class="token punctuation">.</span>platform <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">&apos;block-black&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole1 <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">-</span> <span class="token number">32</span><span class="token punctuation">,</span> <span class="token string">&apos;block-blue&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole2 <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">350</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">-</span> <span class="token number">32</span><span class="token punctuation">,</span> <span class="token string">&apos;block-blue&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole3 <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">-</span> <span class="token number">32</span><span class="token punctuation">,</span> <span class="token string">&apos;block-blue&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>player <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">64</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">-</span> <span class="token number">32</span><span class="token punctuation">,</span> <span class="token string">&apos;block-red&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">this</span><span class="token punctuation">.</span>platform<span class="token punctuation">.</span>scale<span class="token punctuation">.</span>x <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>width <span class="token operator">/</span> <span class="token number">32</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole1<span class="token punctuation">.</span>scale<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole2<span class="token punctuation">.</span>scale<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">6</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole3<span class="token punctuation">.</span>scale<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre>
+<p><img src="/assets/mech01_step02.png" alt="Mechanic Step 02" title="Mechanic Step 02"></p>
+<h5 id="ankerpunkte-anchors-eines-sprites">Ankerpunkte (Anchors) eines Sprites</h5>
+<p>Das Ergebnis der Skalierung zeigt eine durchgehende schwarze Plattform und wachsende Hindernisse.
+Jedoch sind die blauen Bl&#xF6;cke nicht mehr richtig ausgerichtet und gehen durch den schwarzen Boden.
+Was ist passiert? Phaser (und vermutlich jede andere Engine auch) hat einen Referenzpunkt auf einem Sprite
+und bei Aktionen die die Gr&#xF6;&#xDF;e, Position oder Rotation des Sprites ver&#xE4;ndern wird, abh&#xE4;ngig von diesem
+Referenzpunkt, die Aktion ausgef&#xFC;hrt. Der Referenzpunkt hei&#xDF;t Ankerpunkt (engl. Anchor) und ist der
+Punkt x:0, y:0 des Sprites. Bei Phaser befindet sich dieser Nullpunkt immer links-oben, alle Aktionen
+werden also ausgehend von der oberen, linken Ecke des Sprites ausgef&#xFC;hrt.</p>
+<p>Als einfaches Beispiel ist die Positionierung eines Sprites in unserem Spiel. Wenn wir ein Sprite an der
+Position x:100, y:100 setzen dann wird der Anchor (0, 0) des Sprites auf die Position gesetzt und von
+dieser Position das Bild gezeichnet:</p>
+<p><img src="/assets/sprite_anchors_basexample.png" alt="Sprite Anchors Example Defaults" title="Sprite Anchor Example Defaults"></p>
+<p>Das ver&#xE4;ndern des Anchorpoints in Phaser pro Sprite funktioniert &#xFC;ber die Eigenschaft <code>anchor</code></p>
+<pre><code class="language-javascript"><span class="token keyword">this</span><span class="token punctuation">.</span>pole1<span class="token punctuation">.</span>anchor<span class="token punctuation">.</span><span class="token function">setTo</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Die Zahlen <code>0, 1</code> sind zu erkl&#xE4;ren: Ausgehend vom Nullpunkt eines Sprites kann auf einer Werteskala zwischen
+0 und 1 f&#xFC;r den X und Y Ankerpunkt gew&#xE4;hlt werden. Um sich das merken zu k&#xF6;nnen eine kleine Zeichnung:</p>
+<p><img src="/assets/sprite_anchors_general.png" alt="Sprite Anchors" title="Sprite Anchors"></p>
+<p>In dem obigen Code-Beispiel setzen wir den x Ankerpunkt auf 0 (unver&#xE4;ndert zum Defaultwert) und den y Ankerpunkt
+auf 1, also die maximale Breite vom Sprite.
+Man kann sich das auch merken mit Prozentangaben. Die Werteskala zwischen 0 und 1 entspricht 0 und 100% der
+Breite (x-Achse), bzw. H&#xF6;he (y-Achse) des Bildes. Das setzen des Ankerpunkts auf die Mitte des Bildes (also
+50% der Breite und 50% der H&#xF6;he) w&#xFC;rde bedeuten, den Ankerpunkt auf x:0,5 und y:0,5 zu setzen (50%/100=0,5).</p>
+<p>Wenn wir diesen Ankerpunkt nun gesetzt haben und f&#xFC;hren eine Aktion auf das Sprite aus, f&#xFC;hrt das nat&#xFC;rlich
+zu unterschiedlichen Ergebnissen. Als Beispiel habe ich nun die Rotation eines Bildes gew&#xE4;hlt mit
+unterschiedlichen Anchorpoints und der Auswirkung der unterschiedlichen Anchors:</p>
+<p><img src="/assets/sprite_anchors_rotateexample.png" alt="Sprite Rotation Example" title="Sprite Rotation Example"></p>
+<p>Um das nun f&#xFC;r alle Elemente im Spiel anzuwenden, &#xE4;ndern wir die jeweiligen Anchors und m&#xFC;ssen dann die
+initiale Positionierung des jeweiligen Element anpassen.</p>
+<pre><code class="language-javascript">Play<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
+  create<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>stage<span class="token punctuation">.</span><span class="token function">setBackgroundColor</span><span class="token punctuation">(</span><span class="token number">0xffffff</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// set backgroundcolor of stage (white)</span>
+
+    <span class="token keyword">this</span><span class="token punctuation">.</span>platform <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">&apos;block-black&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole1 <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">&apos;block-blue&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole2 <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">350</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">&apos;block-blue&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole3 <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">&apos;block-blue&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>player <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">64</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">-</span> <span class="token number">32</span><span class="token punctuation">,</span> <span class="token string">&apos;block-red&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">this</span><span class="token punctuation">.</span>platform<span class="token punctuation">.</span>scale<span class="token punctuation">.</span>x <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>width <span class="token operator">/</span> <span class="token number">32</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole1<span class="token punctuation">.</span>scale<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole2<span class="token punctuation">.</span>scale<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">6</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole3<span class="token punctuation">.</span>scale<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole1<span class="token punctuation">.</span>anchor<span class="token punctuation">.</span><span class="token function">setTo</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole2<span class="token punctuation">.</span>anchor<span class="token punctuation">.</span><span class="token function">setTo</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole3<span class="token punctuation">.</span>anchor<span class="token punctuation">.</span><span class="token function">setTo</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Das Ergebnis sollte dann wie folgt aussehen und der Vorstellung entsprechen:</p>
+<p><img src="/assets/mech01_step03.png" alt="Mechanic Step 03" title="Mechanic Step 03"></p>
+<h4 id="physik-aktivieren">Physik aktivieren</h4>
+<p>Das Layout unserer Sprites ist abgeschlossen und es geht nun darum die Interaktivit&#xE4;t zu aktivieren.
+Interaktivit&#xE4;t bedeutet in Spielen das Arbeiten gegen etwas und in diesem einfachen Beispiel
+arbeiten wir auch gegen etwas einfaches: N&#xE4;mlich Physik.</p>
+<p>Phaser bietet das grundlegende Feature an und l&#xE4;sst w&#xE4;hlen zwischen den Physik Engines Arcade, Ninja und P2.
+Arcade die einfache und P2 eine komplexere Physik Engine, zudem kann man weitere Physik Engines
+einbinden um die Komplexit&#xE4;t der Physikberechnung zu erh&#xF6;hen.
+Auch hier gilt, einfaches Spiel -&gt; einfache Physik Engine und es wird die Arcade Engine genutzt.</p>
+<p>Im Boot State ist die Engine bereits eingestellt mittels</p>
+<pre><code class="language-javascript"><span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>physics<span class="token punctuation">.</span><span class="token function">startSystem</span><span class="token punctuation">(</span>Phaser<span class="token punctuation">.</span>Physics<span class="token punctuation">.</span>ARCADE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Jetzt geht es darum zu sagen, auf welche Elemente im Spiel die Physik Engine angewandt werden soll.
+Dazu &#xFC;berlegen wir uns was eine Physik Engine macht.</p>
+<h4 id="basics-physik-engine">Basics Physik Engine</h4>
+<p>Eine Physik Engine macht aus einem Sprite einen Gegenstand und ein Gegenstand hat unter anderem
+eine Masse und die Spielwelt erh&#xE4;lt eine Gravitation die einen Gegenstand je nach Masse nach unten zieht.</p>
+<p>Wenn in einem Phaser Game die Physik Engine aktiviert wird, m&#xFC;ssten somit alle Element (wie zum
+Beispiel der Boden oder die Hindernisse) nach unten fallen. Das passiert allerdings nicht, denn
+der Physik Engine wurden zwei Merkmale noch nicht bekannt gemacht: Welche Elemente haben eine Masse
+und m&#xFC;ssen in der Physik Engine berechnet werden und welche Gravitation herrscht in der Spielwelt.</p>
+<p>Standardm&#xE4;ssig wird kein Sprite oder Gegenstand im Spiel der Physik Engine bekannt gemacht und die
+Gravitation ist x:0, y:0 - sprich es ist ein Raum ohne Gravitation. Das ist bei einem Jump&amp;Run
+eher unvorteilhaft, denn ohne Gravitation macht das Springen wenig Sinn.
+Der Hintergrund warum Phaser kein Objekt, trotz aktivierter Physik, keine Masse gibt ist vermutlich
+dem Umstand geschuldet, das nicht jedes Element ein interaktives Element sein muss. So kann ein Sprite
+auch nur ein dekoratives Bild im Hintergrund sein oder das muss die Physik Engine ja nicht berechnen.
+Das sollte man aus dem Absatz auch mitnehmen: Physik Engine kostet Performance - je weniger die
+Physik Engine zu berechnen hat, desto fl&#xFC;ssiger wird das Spiel laufen.</p>
+<p>Also werden nun die Spielobjekte der Physik Engine bekannt gemacht und die Spielwelt erh&#xE4;lt eine
+y-Gravitation und Gegenst&#xE4;nde fallen nach unten.</p>
+<pre><code class="language-javascript">Play<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
+  create<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>stage<span class="token punctuation">.</span><span class="token function">setBackgroundColor</span><span class="token punctuation">(</span><span class="token number">0xffffff</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// set backgroundcolor of stage (white)</span>
+
+    <span class="token keyword">this</span><span class="token punctuation">.</span>platform <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">&apos;block-black&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole1 <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">&apos;block-blue&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole2 <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">350</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">&apos;block-blue&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole3 <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">&apos;block-blue&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>player <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">64</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">-</span> <span class="token number">32</span><span class="token punctuation">,</span> <span class="token string">&apos;block-red&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">this</span><span class="token punctuation">.</span>platform<span class="token punctuation">.</span>scale<span class="token punctuation">.</span>x <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>width <span class="token operator">/</span> <span class="token number">32</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole1<span class="token punctuation">.</span>scale<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole2<span class="token punctuation">.</span>scale<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">6</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole3<span class="token punctuation">.</span>scale<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole1<span class="token punctuation">.</span>anchor<span class="token punctuation">.</span><span class="token function">setTo</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole2<span class="token punctuation">.</span>anchor<span class="token punctuation">.</span><span class="token function">setTo</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole3<span class="token punctuation">.</span>anchor<span class="token punctuation">.</span><span class="token function">setTo</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+
+    <span class="token comment" spellcheck="true">// ****</span>
+    <span class="token comment" spellcheck="true">// enable pyhsics for these objects</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>physics<span class="token punctuation">.</span>arcade<span class="token punctuation">.</span><span class="token function">enable</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token keyword">this</span><span class="token punctuation">.</span>platform<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>pole1<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>pole2<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>pole3<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>player<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// enable gravity, so that elements &quot;fall down&quot;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>physics<span class="token punctuation">.</span>arcade<span class="token punctuation">.</span>gravity<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">2000</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Mit diesen zwei Zeilen ist das ganze schon erledigt und nun ergeben sich neue Probleme. Denn die
+Gravitation wirkt sich auf alle Objekte aus, die eine Masse haben (der Physik Engine bekannt sind)
+und beim starten/reloaden das Spieles f&#xE4;llt alles nach unten aus dem Bildschirm. Bl&#xF6;d aber logisch.</p>
+<p>Damit das unterbunden werden kann muss der Physik Engine gesagt werden das zum Beispiel der Boden
+und die blauen Hindernisse zwar in der Physik Engine vorhanden sein sollen, aber nicht von der
+Gravitation beeinflusst werden d&#xFC;rfen. Ebenso wird direkt gesagt, das auch kein anderer Einfluss
+diese Gegenst&#xE4;nde die Position ver&#xE4;ndern k&#xF6;nnen. Ein &quot;anderer Einfluss&quot; k&#xF6;nnte sp&#xE4;ter die Spielfigur
+sein, die gegen die Hindernisse l&#xE4;uft und damit diese wegschiebt. Das kann f&#xFC;r manche Arten von
+Spielen nat&#xFC;rlich ein gew&#xFC;nschter Effekt sein (Puzzle Game, bei dem man Kisten verschieben muss),
+aber hier in der Erkl&#xE4;rung der Mechanik &quot;Bewegung einer Spielfigur&quot; macht es kein Sinn.</p>
+<pre><code class="language-javascript">Play<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
+  create<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>stage<span class="token punctuation">.</span><span class="token function">setBackgroundColor</span><span class="token punctuation">(</span><span class="token number">0xffffff</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// set backgroundcolor of stage (white)</span>
+
+    <span class="token keyword">this</span><span class="token punctuation">.</span>platform <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">&apos;block-black&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole1 <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">&apos;block-blue&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole2 <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">350</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">&apos;block-blue&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole3 <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">&apos;block-blue&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>player <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>add<span class="token punctuation">.</span><span class="token function">sprite</span><span class="token punctuation">(</span><span class="token number">64</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">-</span> <span class="token number">32</span><span class="token punctuation">,</span> <span class="token string">&apos;block-red&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">this</span><span class="token punctuation">.</span>platform<span class="token punctuation">.</span>scale<span class="token punctuation">.</span>x <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>width <span class="token operator">/</span> <span class="token number">32</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole1<span class="token punctuation">.</span>scale<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole2<span class="token punctuation">.</span>scale<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">6</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole3<span class="token punctuation">.</span>scale<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole1<span class="token punctuation">.</span>anchor<span class="token punctuation">.</span><span class="token function">setTo</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole2<span class="token punctuation">.</span>anchor<span class="token punctuation">.</span><span class="token function">setTo</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole3<span class="token punctuation">.</span>anchor<span class="token punctuation">.</span><span class="token function">setTo</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// enable pyhsics for these objects</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>physics<span class="token punctuation">.</span>arcade<span class="token punctuation">.</span><span class="token function">enable</span><span class="token punctuation">(</span><span class="token punctuation">[</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>platform<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>pole1<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>pole2<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>pole3<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>player<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// enable gravity, so that elements &quot;fall down&quot;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>physics<span class="token punctuation">.</span>arcade<span class="token punctuation">.</span>gravity<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">2000</span><span class="token punctuation">;</span>
+
+
+    <span class="token comment" spellcheck="true">// *****</span>
+    <span class="token comment" spellcheck="true">// Set platform and poles to be static</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>platform<span class="token punctuation">.</span>body<span class="token punctuation">.</span>immovable <span class="token operator">=</span> <span class="token keyword">true</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>platform<span class="token punctuation">.</span>body<span class="token punctuation">.</span>allowGravity <span class="token operator">=</span> <span class="token keyword">false</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole1<span class="token punctuation">.</span>body<span class="token punctuation">.</span>immovable <span class="token operator">=</span> <span class="token keyword">true</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole1<span class="token punctuation">.</span>body<span class="token punctuation">.</span>allowGravity <span class="token operator">=</span> <span class="token keyword">false</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole2<span class="token punctuation">.</span>body<span class="token punctuation">.</span>immovable <span class="token operator">=</span> <span class="token keyword">true</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole2<span class="token punctuation">.</span>body<span class="token punctuation">.</span>allowGravity <span class="token operator">=</span> <span class="token keyword">false</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole3<span class="token punctuation">.</span>body<span class="token punctuation">.</span>immovable <span class="token operator">=</span> <span class="token keyword">true</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pole3<span class="token punctuation">.</span>body<span class="token punctuation">.</span>allowGravity <span class="token operator">=</span> <span class="token keyword">false</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Bei einem neuen Test des Spieles werden die Plattform und Poles stehen bleiben, aber die
+rote Spielfigur wird weiterhin nach unten fallen. Es w&#xFC;rde keinen Sinn machen, die
+Eigenschaften <code>immovable</code> und <code>allowGravity</code> wie bei der Plattform/Poles zu setzen, denn
+eine Spielfigur die man nicht bewegen kann macht nicht besonders viel Spa&#xDF;. Das Thema wird
+sp&#xE4;ter in der <code>update()</code> Funktion gel&#xF6;st.</p>
+<p>Wir belassen die <code>create()</code> Funktion erst einmal so wie sie ist und f&#xFC;hren eine kleine
+Zusammenfassung durch. In dieser Funktion wurden die drei Sprites in den Play State
+hinzugef&#xFC;gt, positioniert und skaliert. Anschlie&#xDF;end ist diesen Objekten die Physik
+und der gesamten Spielwelt eine Gravitation auf der vertikalen Achse zugewiesen.
+Damit die Physik auf die statischen Elemente (Boden, Hindernisse) keine Auswirkung hat,
+sind diese explizit von der Beeinflussung durch die Gravitation (allowGravity = false)
+und einem generellen ver&#xE4;ndern der Position (immovable = true) ausgenommen. Der
+Spieler hat weiterhin die Eigenschaft, das er den Regeln der Physik folgt und f&#xE4;llt
+durch den Boden. Der Code ist derzeit nicht sch&#xF6;n und sehr repetetiv und muss noch aufger&#xE4;umt werden.</p>
+<h4 id="gameloop-update-">GameLoop <code>update()</code></h4>
+<p>In Phaser wird wenig von einem GameLoop gesprochen, sondern der GameLoop besteht daraus,
+das bei jedem Frame die <code>update()</code> Funktion im State aufgerufen wird. Somit wird
+jede Bewegung der Spielfigur und die Auswirkung der Bewegung in <code>update()</code> gesteuert.</p>
+<p>Das erste Thema das angegangen wird ist das fallen der roten Spielfigur. Der Spieler
+soll sich nach links/rechts/oben bewegen k&#xF6;nnen und dabei mit dem Boden und den
+Hindernissen kollidieren - sprich er l&#xE4;uft auf dem Boden und gegen die Hindernisse.
+In der Aussage ist auch gleichzeitig die L&#xF6;sung f&#xFC;r den fallen roten Klotz gegeben:
+Die Spielfigur muss mit dem Boden in der Physik Engine kollidieren, sodass die
+Physik Engine die Bewegung (fallen) stoppt.</p>
+<pre><code class="language-javascript">Play<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// other code</span>
+
+  update<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">update</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// check physics between player and ground</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>physics<span class="token punctuation">.</span>arcade<span class="token punctuation">.</span><span class="token function">collide</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>player<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>platform<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Mit dieser einen Zeile ist die Kollision zwischen Spieler und Boden bereits definiert
+und die rote Spielfigur f&#xE4;llt nicht mehr durch den Boden durch. Das gleiche k&#xF6;nnen wir
+auch direkt schon f&#xFC;r die blauen Hindernisse tun und die Kollision zwischen Player
+und Pole definieren.</p>
+<pre><code class="language-javascript">Play<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// other code</span>
+
+  update<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">update</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// check physics between player and ground</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>physics<span class="token punctuation">.</span>arcade<span class="token punctuation">.</span><span class="token function">collide</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>player<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>ptlatform<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>physics<span class="token punctuation">.</span>arcade<span class="token punctuation">.</span><span class="token function">collide</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>player<span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token keyword">this</span><span class="token punctuation">.</span>pole1<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>pole2<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>pole3<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<h5 id="die-spielfigur-bewegen">Die Spielfigur bewegen</h5>
+<p>Das nun entscheidene Element im Spiel und der eigentlichen GameMechanic kommt endlich:
+Die Bewegung der Spielfigur! Dazu ist es wichtig zu verstehen, was denn Bewegung in diesem
+kleinen Spiel eigentlich bedeutet: Wenn wir mit den Pfeiltasten auf der Tastatur eine
+Bewegung vom Spiel fordern, wird dieser Tastendruck l&#xE4;nger andauernd als 1 Frame (16ms) und
+pro Frame und gedr&#xFC;ckter Taste m&#xFC;ssen die x/y Position der Spielfigur ver&#xE4;ndert werden.
+Das k&#xF6;nnte einfach &#xFC;ber <code>this.player.position.setTo(x, y)</code> erfolgen, doch da m&#xFC;ssen wir
+zuerst noch die aktuelle Position des Spielers ermitteln und eine Anzahl von Pixel addieren.
+Also ist die Bewegung der Spielfigur im Spiel pro Frame(!) die aktuelle Position plus
+die vom Entwickler gew&#xFC;nschte Ver&#xE4;nderung &quot;v&quot; pro Pixel pro Frame. Wenn wir die Variable &quot;v&quot;
+nun hoch ansetzen, bewegt sich unsere Spielfigur pro Frame schneller vorw&#xE4;rts und das Spiel
+wirkt schnell und aktionreich. Wenn dieser Wert aber gering ist, bewegt sich die Spielfigur
+eben langsamer.</p>
+<p>Phaser als GameEngine hat zusammen mit der Physik Engine nat&#xFC;rlich bereits alles an Board
+um das sehr schnell und einfach zu l&#xF6;sen. Wir brauchen die Informationen &#xFC;ber Input vom
+Spieler (Tastendruck Keyboard) um damit der Physik Engine zu sagen das die Figur bewegt werden
+soll um einen Wert &quot;v&quot; (pro Frame). Die Physik Engine wird zun&#xE4;chst eine Kollision pr&#xFC;fen
+und wenn das erfolgreich ist, die Position der Spielfigur aktualisieren.</p>
+<p>Die &#xDC;berwachung der Pfeiltasten der Tastatur wurde bereits in Play::preload() aktiviert mit
+der Zeile <code>this.cursors = this.input.keyboard.createCursorKeys();</code> und der Status &#xFC;ber einen
+Tastendruck liegt nun in <code>this.cursors</code> vor. Da wir die Bewegung &quot;links|rechts|oben&quot; in
+dem Spiel simulieren wollen, pr&#xFC;fen wir pro Frame ob die entsprechen Pfeiltasten gedr&#xFC;ckt werden.
+Wenn einer dieser Taste gedr&#xFC;ckt wird ver&#xE4;ndern wir die &quot;velocity&quot; der Masse des Spielers,
+was bei Phaser der &quot;body&quot; ist. Velocity ist eigentlich die Geschwindigkeit und ich finde
+den Begriff nicht deutlich, daher ist f&#xFC;r mich Velocity hier die Ver&#xE4;nderung der aktuellen
+Position um einen Faktor &quot;v&quot; in Pixel und laut Phaser Dokumentation ist der Faktor &quot;v&quot; die
+Anzahl der Pixel pro Sekunde (nicht Frame).</p>
+<p>Wir lassen die Spielfigur sich bewegen:</p>
+<pre><code class="language-javascript">Play<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// other code</span>
+
+  update<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">update</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// check physics between player and ground</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>physics<span class="token punctuation">.</span>arcade<span class="token punctuation">.</span><span class="token function">collide</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>player<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>platform<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>physics<span class="token punctuation">.</span>arcade<span class="token punctuation">.</span><span class="token function">collide</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>player<span class="token punctuation">,</span>
+        <span class="token punctuation">[</span><span class="token keyword">this</span><span class="token punctuation">.</span>pole1<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>pole2<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>pole3<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">var</span> v <span class="token operator">=</span> <span class="token number">300</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>cursors<span class="token punctuation">.</span>left<span class="token punctuation">.</span>isDown<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>player<span class="token punctuation">.</span>body<span class="token punctuation">.</span>velocity<span class="token punctuation">.</span>x <span class="token operator">=</span> <span class="token operator">-</span>v<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>cursors<span class="token punctuation">.</span>right<span class="token punctuation">.</span>isDown<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>player<span class="token punctuation">.</span>body<span class="token punctuation">.</span>velocity<span class="token punctuation">.</span>x <span class="token operator">=</span> v<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>player<span class="token punctuation">.</span>body<span class="token punctuation">.</span>velocity<span class="token punctuation">.</span>x <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>cursors<span class="token punctuation">.</span>up<span class="token punctuation">.</span>isDown<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>player<span class="token punctuation">.</span>body<span class="token punctuation">.</span>velocity<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token operator">-</span>v<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>player<span class="token punctuation">.</span>body<span class="token punctuation">.</span>velocity<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Wenn die Taste &apos;Pfeil links&apos; oder &apos;Pfeil rechts&apos; gedr&#xFC;ckt ist, ver&#xE4;ndere die Velocity auf
+der x-Achse um den Wert &quot;v&quot; (sprich hier 300px pro Sekunde). Wenn keiner der beiden
+Tasten gedr&#xFC;ckt werden, dann setzte die Velocity wieder auf 0 zur&#xFC;ck (ansonsten rutscht
+die Spielfigur einfach weiter). Das Prinzip funktioniert bei der &apos;Pfeil oben&apos; Abhandlung das identisch.</p>
+<p>Dabei wird man vielleicht zwei Probleme feststellen:</p>
+<ol>
+<li>Die Spielfigur kann aus dem Bildschirm gehen</li>
+<li>Die Spielfigur springt nicht einmal, sie schwebt wie mit einem JetPack</li>
+</ol>
+<p>Und auch das wird nun gefixt. F&#xFC;r Punkt 1 bieter Phaser bereits eine einfache L&#xF6;sung. In <code>create()</code> wird
+der Player auf die Spielwelt limitiert mit der Zeile:</p>
+<pre><code class="language-javascript">
+Play<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// other code</span>
+  create<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// other code</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>player<span class="token punctuation">.</span>body<span class="token punctuation">.</span>collideWorldBounds <span class="token operator">=</span> <span class="token keyword">true</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token comment" spellcheck="true">// other code</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Bei Punkt 2 wird der Aufwand etwas gr&#xF6;&#xDF;er, denn die Situation sieht wie folgt aus:</p>
+<p>W&#xE4;hrend es beim laufen nach links oder rechts okay ist, wenn der Spieler durchgehen laufen kann (es 
+entspricht ein wenig der Logik das man lange laufen kann), so sieht es beim Springen anders aus.
+Springen ist ein Akt, bei dem einmal Kraft aufgewandt und sich vom Boden abgesto&#xDF;en wird. Ausgehend
+von der Kraft springt man hoch und wird dann sofort von der Schwerkraft herunter gezogen, jedoch hier
+kann der Spieler so lange wie er will auf die Pfeiltaste &quot;up&quot; dr&#xFC;ck und damit ist die Kraft unendlich.</p>
+<p>Als Optionen gibt es zwei Wege: Das dr&#xFC;cken der Sprungtaste h&#xE4;lt nur f&#xFC;r ~100ms an und alle Tastendr&#xFC;cke
+danach werden ignoriert oder man pr&#xFC;ft beim Tastendruck ob der Spieler Kontakt mit einem Untergrund hat
+und l&#xE4;sst ihn dann springen. Der zweite Weg unterbindet damit auch einen anderen Trick den der Spieler
+anwenden kann: F&#xE4;llt er von einem Hindernis kann er in der Luft immer noch &quot;springen&quot;, da der Timer
+erst nach dem ersten Sprung anl&#xE4;uft. Somit wird der zweite Weg, die Pr&#xFC;fung ob der Spieler auf dem
+Grund steht, gegangen.</p>
+<p>Hierbei ist Phaser aber auch wieder hilfreich, denn es gibt &#xFC;ber das Physik System die Option zu pr&#xFC;fen,
+ob das Player Sprite Ber&#xFC;hrung zu einem anderen (der Physik Engine bekannten) Sprite hat.
+Die Implementierung in <code>update()</code> sieht wie folgt aus:</p>
+<pre><code class="language-javascript">
+Play<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// other code</span>
+  update<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">update</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// other code</span>
+    <span class="token keyword">var</span> isOnGround <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>player<span class="token punctuation">.</span>body<span class="token punctuation">.</span>touching<span class="token punctuation">.</span>down<span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// check if touching ground</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>isOnGround <span class="token operator">&amp;&amp;</span> <span class="token keyword">this</span><span class="token punctuation">.</span>cursors<span class="token punctuation">.</span>up<span class="token punctuation">.</span>isDown<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>player<span class="token punctuation">.</span>body<span class="token punctuation">.</span>velocity<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token operator">-</span>v <span class="token operator">*</span> <span class="token number">2</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token comment" spellcheck="true">// other code</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Damit sollten die Probleme gefixt sein, jedoch wird der Sprung auf das erste Hindernis schon zum
+&#xC4;rgernis, denn es ist einfach zu hoch oder wie springen nicht hoch genug. Hierbei einfach mit den
+<code>scale</code> Werten der Hindernisse, Gravitation oder dem <code>v</code> Velocity Wert spielen, bis ein angenehmes
+Spielgef&#xFC;hl entsteht.</p>
+<h4 id="zusammenfassung">Zusammenfassung</h4>
+<p>Der Post war sehr lang und enth&#xE4;lt eigentlich auch nicht viel Code und Inhalt, aber es die erste
+grundlegende Spielmechanik oder so wichtig f&#xFC;r das Spielgeschehen, das es mir wichtig war jeden
+einzelnen Punkt genau zu erkl&#xE4;ren.</p>
+<p>Die Beispiele die man bei der Entwicklung entdeckt hat geben viele M&#xF6;glichkeiten f&#xFC;r Spiele. Nehmen
+wir nur die Thematik um das durchgehende Springen beim dr&#xFC;cken der Pfeiltaste &quot;up&quot;. Aus einem Sprung
+ist ein JetPack verhalten geworden nur durch eine Eigenschaft der Physik Engine und dem verhalten
+wie ein simpler Code reagiert.</p>
+<p>Weiter wird man beim einstellen der Werte f&#xFC;r Hohe der Hindernisse, Velocity oder Gravity merken,
+das man eine breite an Spielen nur mit den Werten erstellen und ein anderes Spielgef&#xFC;hl erstellen
+kann. Fastpace Jump &amp; Run oder sneaky hiding Game? Die Werte machen eine Menge aus.</p>
+<p>Das der Code nicht sch&#xF6;n aussieht, wartbar ist und schlecht zu erweitern ist, ist ein Umstand der
+gefixt werden muss. In dem Zusammenhang sollte ich auch die Erweiterung der Welt und Platzierung
+von Hindernissen angehen. Aber das ist ein Thema f&#xFC;r ein anderen Blogpost.</p>
+]]></description><link>http://www.example.org/blog/game-mechanic-101-bewegung</link><guid isPermaLink="true">http://www.example.org/blog/game-mechanic-101-bewegung</guid><dc:creator><![CDATA[IkkeWa]]></dc:creator><pubDate>Fri, 16 Oct 2015 00:00:00 GMT</pubDate></item><item><title><![CDATA[Entwicklungsumgebung und Workflow]]></title><description><![CDATA[<p>Nach Abschluss des letzten Blogpost habe ich mich kurzfristig entschlossen meine Entwicklungsumgebung
+fit und nutzbar zu machen f&#xFC;r alle die, die es m&#xF6;gen und m&#xF6;chten. Wer sich den ganzen Text und Infos
+sparen m&#xF6;chte, kann direkt auf <a href="https://github.com/ikkewa/generator-phaser-alt">Github</a> oder
+<a href="https://www.npmjs.com/package/generator-phaser-alt">NPM</a> den Code ansehen und nutzen.</p>
+<h4 id="basis-ist-nodejs-mitsamt-npm">Basis ist NodeJS mitsamt NPM</h4>
+<p>Es gibt viele Programmiersprachen und Umgebungen mit Vorteilen und Nachteilen. Nachdem ich PhaserJS
+und damit JavaScript in der Entwicklung des Spiels nutzen werde, war es f&#xFC;r mich ein leichtes auch
+JavaScript auf der Tooling Seite nutzen zu wollen.</p>
+<p>JavaScript auf dem Server ist seit NodeJS ein wunderbares Werkzeug und die Entwicklungsumgebung f&#xFC;r
+die Programmierung des Spiels ist eigentlich nichts anderes als ein Server der lokal l&#xE4;uft.
+Da wir aber nicht nur einen Webserver ben&#xF6;tigen der Daten ausliefert, sondern auch
+ein Tooling das bei der Entwicklung des Spiels an allen m&#xF6;glichen Stellen helfen soll, nehme ich
+NodeJS nicht nur als Webserver, sondern als allgemeines Tool f&#xFC;r s&#xE4;mtliche Aufgaben/Tasks.
+Wenn ihr mehr zu NodeJS erfahren wollt, dann hilft euch das Internet mit Millionen Treffern in der
+Suchmaschine des Vertrauens. F&#xFC;r diesen Blogpost ist jetzt nur wichtig: NodeJS ist Javascript
+und es steht vielen anderen Sprachen als allgemeine Tooling Plattform in nichts nach.</p>
+<h4 id="tooling-was-ist-denn-das-">Tooling - was ist denn das?</h4>
+<p>Ich verwende immer das Wort <del>Tooling</del> f&#xFC;r unterst&#xFC;tzende Helfer beim Programmieren. Ein Tool
+ist ein Werkzeug und NodeJS ist quasi der Werkzeugkoffer, der fast jedes Problem l&#xF6;sen kann.
+Wo werde ich den Tools ben&#xF6;tigen? Eigentlich kann man sagen, das jede Aufgabe die man &#xF6;fters
+wiederholen muss, durch ein Tool ersetzen sollte das diese Aufgabe automatisiert durchf&#xFC;hrt.</p>
+<p>Das automatisieren von Aufgaben funktioniert nat&#xFC;rlich nur bei programmatischen Aufgaben, also
+kopiere Datei A in Ordner B oder reloade ein Fenster. Ein Tool, das mir automatisiert fantastische
+Grafiken f&#xFC;r ein Spiel generiert habe ich noch nicht gefunden, aber sicherlich wird es in der
+Richtung bereits etwas geben.</p>
+<p>Bleiben wir erst mal bei den doch einfachen Tasks. In dem letzten Intro Blogpost zu PhaserJS
+wurden die States vorgestellt und jeder State war in einer eigenen Datei gespeichert. Dann
+musste jede Datei in der HTML Datei einzeln referenziert werden damit wir damit arbeiten k&#xF6;nnen.
+Jetzt k&#xF6;nnte man auch einfach eine gro&#xDF;e JavaScript Datei erstellen und alle States dort rein packen,
+aber das w&#xE4;re gegen meine Vorstellung von Organisation von Code und die Abgrenzung von Inhalten.
+Logisch w&#xE4;re jetzt, wenn wir nach dem Erstellen der State Files diese zusammenf&#xFC;gen in eine
+Datei und dann diese eine Datei nur noch im HTML referenzieren. Klingt gut, ist einfach, aber
+wird beim zweiten Durchf&#xFC;hren bereits l&#xE4;stig und damit haben wir auch schon unser erstes Tool
+definiert: Nehme alle JavaScript Dateien und f&#xFC;ge diese in eine JavaScript Datei zusammen.</p>
+<p>Es gibt weitere einfache Beispiele, die ich jetzt nicht alle benennen m&#xF6;chte, aber ein weiteres
+w&#xE4;re: Sobald eine Datei ge&#xE4;ndert und gespeichert wurde, f&#xFC;hre den oben beschriebenen Task
+automatisch aus (zusammenf&#xFC;hren einzelner JS Files). Der n&#xE4;chste Task w&#xE4;re: Wenn eine neue
+Zusammengef&#xFC;hrte JavaScript Datei erstellt wurde, reload das Browserfenster.</p>
+<p>Diese drei beschrieben Tasks w&#xFC;rde dann w&#xE4;hrend der Entwicklung des Spiels bedeuten, das ich
+Code schreibe und irgendwann speichere, direkt zu meinem Browserfenster wechseln kann und sehe
+den aktuellsten Code direkt im Browser laufen. Ohne Dateien anfassen, ohne F5 im Browser dr&#xFC;cken.</p>
+<h4 id="willkommen-nodejs">Willkommen NodeJS</h4>
+<p>Die oben beschriebenen Tasks habe alle Webdesigner und Entwickler in einer Form in ihren Projekten
+und daher ist es kein Wunder das die JavaScript / NodeJS / WebDeveloper Community hier bereits
+ein unglaubliches Portfolio an Tools entwickelt und frei zur Verf&#xFC;gung gestellt hat.
+Da mein kleines Spiel auch ein <em>Web</em> Ding ist, k&#xF6;nnen wir auf diese Tools 1:1 zur&#xFC;ckgreifen.</p>
+<p>Tools die verwendet werden:</p>
+<ul>
+<li>Gulp</li>
+<li>JSHint</li>
+<li>Browserify</li>
+<li>Jade</li>
+<li>Stylus</li>
+<li>UglifyJS</li>
+<li>CSS Optimizer</li>
+<li>ImageMin</li>
+<li>LiveReload</li>
+<li>Serve</li>
+</ul>
+<p>Jeweils eine kurze Erkl&#xE4;rung zu den Tools:</p>
+<h5 id="gulp">Gulp</h5>
+<p><a href="http://www.gulpjs.com">Gulp</a> ist ein Taskrunner, also ein Tool das ein oder mehrere definierte
+Tasks in einer Reihenfolge durchf&#xFC;hren kann. In anderen Programmiersprachen sind das ANT, MAKE usw.</p>
+<h5 id="jshint">JSHint</h5>
+<p><a href="http://www.jshint.com">JSHint</a> ist ein Tool um grobe Schnitzer im JS Code aufzudecken und
+an zu mahnen. Es kann nicht jeden Fehler im Code entdecken oder logische Fehler erkennen, aber
+Tippfehler, ung&#xFC;ltige Nutzung von Funktionen und Sprachkonstrukten werden erkannt. Das hilft
+sehr gut gegen komische Effekte und unerkl&#xE4;rliche Erscheinungen im Spiel/App.</p>
+<h5 id="browserify">Browserify</h5>
+<p><a href="http://www.browserify.org">Browserify</a> ist unser Bundler, also das Tool das mehrere JavaScript
+Dateien zusammenf&#xFC;hrt und daraus eine JavaScript Datei macht. Es ist eigentlich noch viel mehr,
+aber als Erkl&#xE4;rung soll das hier ausreichen. Beim Schreiben von JavaScript Code bedeutet das nur
+eine kleine &#xC4;nderung und zwar das man das Prinzip <em>CommonJS</em> verwenden muss (<code>module.exports</code>).</p>
+<h5 id="jade">Jade</h5>
+<p><a href="http://www.jade-lang.com">Jade</a> ist ein HTML Preprocessor und um das zu Erkl&#xE4;ren k&#xF6;nnte man
+einen eigenen Blogpost schreiben. Kurzum: Wer schon &#xF6;fters HTML Markup geschrieben hat der
+wird irgendwann keine Lust mehr haben dauern die <code>&lt;&gt;</code> Syntax zu verwenden. Bei mir ist der
+Punkt erreicht, an dem ich nichts mehr mit HTML Markup zu tun haben will, denn es nervt.
+Daher Jade als Helfer in der Not vor HTML Markup. Jade ist eine eigene Sprache und erm&#xF6;glicht
+es mittels eine eigenen Syntax (&#xE4;hnlich HTML) daraus dann valides HTML zu generieren. Anstatt
+also zu schreiben</p>
+<pre><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>myId<span class="token punctuation">&quot;</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>hello<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>Text<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+<p>kann man in Jade schreiben</p>
+<pre><code>div#myId.hello Text
+</code></pre><p>und der Jade Preprocessor wandelt es in das obige HTML Fragment um. Herrlich!</p>
+<h5 id="stylus">Stylus</h5>
+<p><a href="https://github.com/stylus/stylus">Stylus</a> ist ebenfalls ein Preprocessor nur f&#xFC;r CSS und
+es hat den gleichen Gedanken wie Jade f&#xFC;r HTML: Weniger schreiben, mehr erreichen. Und hier
+ist direkt das vergleichende Beispiel f&#xFC;r CSS versus Stylus:</p>
+<p>CSS</p>
+<pre><code class="language-css"><span class="token selector">#myId .hello </span><span class="token punctuation">{</span>
+  <span class="token property">margin</span><span class="token punctuation">:</span> 10px<span class="token punctuation">;</span>
+  <span class="token property">position</span><span class="token punctuation">:</span> relative<span class="token punctuation">;</span>
+  <span class="token property">float</span><span class="token punctuation">:</span> left
+<span class="token punctuation">}</span>
+</code></pre>
+<p>kann man in Stylus schreiben</p>
+<pre><code>#myId .hello
+  margin 10px
+  position relative
+  float left
+</code></pre><p>und es wird das gleiche CSS erzeugt ohne die Verwendung der Zeichen <code>{};:</code> usw. Auch
+hier gibt es unendlich viele weitere Features (die ich auch nutze), aber f&#xFC;r die Vorstellung
+in diesem Blogpost nicht notwendig sind. Googlen und lesen...</p>
+<h5 id="uglifyjs">UglifyJS</h5>
+<p><a href="https://github.com/mishoo/UglifyJS2">UglifyJS</a> komprimiert JavaScript Dateien auf
+die m&#xF6;glichst kleinste Dateigr&#xF6;&#xDF;e. Das ist bei Webanwendung wichtig, denn der Ladevorgang
+von JS Files im Web (gerade im Mobile Bereich) erzeugt die l&#xE4;ngste Wartezeit. In der
+Zeit der lokalen Entwicklung des Spiels ist das Tool allerdings nicht zwingend notwendig.</p>
+<h5 id="css-optimizer">CSS Optimizer</h5>
+<p><a href="https://github.com/css/csso">CSSO</a> ist wie UglifyJS ein Optimierer allerdings f&#xFC;r CSS.
+Es organisiert den CSS Code und kann dadurch doppelte oder ung&#xFC;ltige CSS Definitionen
+erkennen und entfernen (Ziel: kleinerer Code).</p>
+<h5 id="imagemin">ImageMin</h5>
+<p><a href="https://github.com/imagemin/imagemin">ImageMin</a> ist ebenfalls ein Optimierer f&#xFC;r Bilddaten.
+Teilweise werden Grafiken von den erstellenden Tools nicht optimal gespeichert oder es ist
+ein gewollter Overhead in den Grafiken vorhanden. Da dies aber f&#xFC;r den Enduser nicht das
+beste Erlebnis bietet, wenn ein Bild nur gro&#xDF;er ist weil irgendein unn&#xF6;tiger Overhead
+die Ladezeiten der Webseite erh&#xF6;ht, wird das Tool verwendet um entgegenzuwirken.</p>
+<h5 id="livereload">LiveReload</h5>
+<p><a href="https://github.com/vohof/gulp-livereload">LiveReload</a> ist das Tool das den Browser
+automatisch refreshed, wenn eine bestimmte Aktion diesen Refresh ausgel&#xF6;st hat.
+Das F5 dr&#xFC;cken im Browser dauert zwar immer nur 2 Sekunden, aber hunderte Male
+manuell den Refresh ansto&#xDF;en ergibt eine Menge Lebenszeit. Einmal genutzt will man
+es nie wieder missen.</p>
+<h5 id="serve">Serve</h5>
+<p><a href="https://www.npmjs.com/package/gulp-serve">Gulp-Serve</a> ist ein lokalen Webserver f&#xFC;r
+statische Dateien. Wie ganz am Anfang erw&#xE4;hnt ben&#xF6;tigen wir einen Webserver der unser
+Spiel an den Browser ausliefert und diese minimale Tool macht es.</p>
+<h4 id="kosten">Kosten</h4>
+<p>Wenn man sich die ganzen Tools anschaut und was sie alles beherrschen k&#xF6;nnte die Frage
+aufkommen, was das den alles kostet. Nicht das ich etwas dagegen h&#xE4;tte Geld auszugeben
+f&#xFC;r Tools, die mir das Leben viel einfacher machen, aber wenn es kostenlos geht, sage
+ich nicht Nein.</p>
+<p>Und das ist auch das gute an den ganzen Tools: Fast alle stehen unter der
+<a href="http://opensource.org/licenses/MIT">MIT Lizenz</a> oder anderen freien OpenSource Lizenzen
+und die private und sogar kommerzielle Nutzung ist ausdr&#xFC;cklich erlaubt.
+Damit sind wir wieder bei einem Punkt, der bereits in einer der letzten Postings erw&#xE4;hnt
+wurde: Die &quot;Share &amp; Help&quot; Mentalit&#xE4;t der JavaScript Community!</p>
+<h4 id="entwicklungsumgebung-und-workflow">Entwicklungsumgebung und Workflow</h4>
+<p>Nachdem ganzen Vorstellen von Tools und was sie alle f&#xFC;r sich alleine k&#xF6;nnen, kommt nun
+die Frage, wie das ganze nun im Zusammenspiel funktioniert. Ich habe die Tools
+bereits zusammengef&#xFC;hrt und bestm&#xF6;glich aufeinander abgestimmt und im Sinne des
+&quot;Share &amp; Help&quot; Gedankens zur Verf&#xFC;gung gestellt auf
+<a href="https://github.com/ikkewa/generator-phaser-alt">Github</a>, bzw.
+<a href="https://www.npmjs.com/package/generator-phaser-alt">NPM</a></p>
+<p>Wenn ihr das auch nutzen wollt, dann schaut euch einfach mal die README an.
+Dort ist beschrieben, was alles notwendig ist um das Tooling direkt nutzen zu k&#xF6;nnen.</p>
+<p>F&#xFC;r den Blog eine kurze Zusammenfassung: NodejS + NPM + Yeoman installieren, ein Order
+erstellen und meinen Generator laufen lassen. Fertig.</p>
+<p>Wenn ihr den Generator nutzt, dann wird innerhalb kurzer Zeit ein Template f&#xFC;r euer
+neues Game aufgesetzt. Eine Ordnerstruktur, die ganzen Tools mit den Tasks im Background.</p>
+<p>Die Ordnerstruktur sieht dann wie folgt aus:</p>
+<pre><code>.
+&#x251C;&#x2500;&#x2500; app                       // main app folder, contains Jade files
+&#x2502;   &#x251C;&#x2500;&#x2500; images                // image folder for your website images, not game images
+&#x2502;   &#x251C;&#x2500;&#x2500; js                    // main folder vor all your javascripts including game js files
+&#x2502;   &#x2502;   &#x251C;&#x2500;&#x2500; components        // components in your game
+&#x2502;   &#x2502;   &#x251C;&#x2500;&#x2500; prefabs           // prefabs in your game
+&#x2502;   &#x2502;   &#x2514;&#x2500;&#x2500; states            // states folder with predefined states
+&#x2502;   &#x2514;&#x2500;&#x2500; stylesheets           // folder for the Stylus files
+&#x251C;&#x2500;&#x2500; assets                    // main assets folder for your game assets
+&#x2502;   &#x251C;&#x2500;&#x2500; audio                 // audio game assets, used when build game
+&#x2502;   &#x251C;&#x2500;&#x2500; designs               // design folder, contains only design which are not used in the game
+&#x2502;   &#x251C;&#x2500;&#x2500; images                // game image folder, which will be used when build
+&#x2502;   &#x251C;&#x2500;&#x2500; js                    // extra JS files, which are not directly game related
+&#x2502;   &#x2514;&#x2500;&#x2500; tilemaps              // tilemaps folder
+&#x251C;&#x2500;&#x2500; build                     // build folder will be created on each build
+&#x2502;   &#x251C;&#x2500;&#x2500; assets                // assets copied from the /assets folder
+&#x2502;   &#x2502;   &#x251C;&#x2500;&#x2500; audio
+&#x2502;   &#x2502;   &#x2514;&#x2500;&#x2500; images
+&#x2502;   &#x251C;&#x2500;&#x2500; css                   // generated CSS files from stylus
+&#x2502;   &#x2514;&#x2500;&#x2500; js                    // copied JS files (game js files, included JS)
+&#x251C;&#x2500;&#x2500; dist                      // distribution folder, all assets are optimized and minified
+&#x2514;&#x2500;&#x2500; gulp                      // gulp folder with config
+    &#x2514;&#x2500;&#x2500; task                  // js files with the definition of all tasks
+</code></pre><p>Im Ordner <code>app/js/states</code> sind dann die einzelnen JavaScript State Files (boot.js, preload.js ...)
+und die werden durch die Tools automatisch bei jedem Speichern in den Ordner <code>build/js</code>
+zusammengef&#xFC;hrt, optimiert usw. usf.</p>
+<p>Mein Workflow mit diesem Template Generator l&#xE4;sst mich also sofort das Spiel entwickeln
+und ich muss keine Zeit mehr verschwenden um Dateien zu kopieren, zusammenzuf&#xFC;hren oder F5 im Browser zu dr&#xFC;cken.</p>
+<h4 id="weitere-infos">Weitere Infos</h4>
+<p>Der Generator enth&#xE4;lt ein kompletten Flow von <code>boot</code> zum <code>gameover</code> State mitsamt dem beispielhaften Laden von
+Bildern und Keybindings. Startet man also Gulp (indem man <code>gulp</code> in der Kommandozeilen ausf&#xFC;hrt) und den Browser
+auf die Webseite <code>http://localhost:3000</code> f&#xFC;hrt, wird ein neues Phaser.Game initiiert und die States <code>boot</code> und 
+<code>preload</code> durchlaufen. Den <code>preload</code> State wird man nicht wahrnehmen, da die Ladephase vom lokalen Server zu
+schnell erfolgt. Nach dem Ladevorgang wird dann im <code>menu</code> State ein einfaches Menu angezeigt mit einem <em>Play</em>
+Button, der beim klicken den <code>play</code> State startet. Der <code>play</code> State stellt einfach nur den sich drehenden <em>Play</em>
+Button da und soll zeigen, das man im <code>play</code> State ist. Beim dr&#xFC;cken von <em>ESC</em> springt man in den <code>gameover</code>
+State und ein kompletter Flow durch das Phaser.Game ist erfolgt.</p>
+<p>Nat&#xFC;rlich dient das nur als Orientierung, wo und wann man etwas einf&#xFC;gen und programmieren kann. F&#xFC;r mich ist
+es immer eine Gedankenst&#xFC;tze und so soll es auch gesehen werden.</p>
+<h5 id="commonjs-und-js-code-schreiben">CommonJS und JS Code schreiben</h5>
+<p>Wie weiter oben geschrieben nutzen wir die Methodik <em>CommonJS</em> um unseren Code zu schreiben. CommonJS ist
+ein Best-Practice wie JS Code, prim&#xE4;r durch NodeJS und die Entwicklung auf dem NodeJS Server, strukturiert
+sein soll, damit er mit NodeJS strukturiert geladen werden kann.</p>
+<p>Grobe Zusammenfassung CommonJS:</p>
+<ul>
+<li>es gibt Module</li>
+<li>jedes Modul wird in eine eigene Datei abgelegt</li>
+<li>jedes Modul hat <em>einen</em> Zweck/Funktion/Ziel</li>
+<li>Module k&#xF6;nnen untereinander eingebunden werden</li>
+</ul>
+<p>Ziel des ganzen ist es den Code zu strukturieren und das Prinzip <strong>DRY</strong> (Don<code>t Repeat Yourself) zu etablieren.
+Wenn wir Code haben der einen einfachen Zweck erf&#xFC;llt, wird daraus Module-A erstellt. Haben wir
+ein Modul-B, das genaue diesen Zweck aus Module-A ben&#xF6;tigt um zu funktionieren, k&#xF6;nnen wir
+Module-A einbinden durch das Keyword</code>require()`. Somit m&#xFC;ssen wir den Zweck in Modul-B nicht neu entwickeln
+und bei Bugs in der Implementierung des Zwecks in Modul-A, m&#xFC;ssen wir nur Modul-A korrigieren.</p>
+<p>Beispiel (Zwei Dateien: modul-a.js und modul-b.js):</p>
+<pre><code class="language-javascript"><span class="token comment" spellcheck="true">// module-a.js</span>
+
+<span class="token keyword">function</span> <span class="token function">addTwo</span><span class="token punctuation">(</span>num<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> num <span class="token operator">+</span> <span class="token number">2</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> addTwo<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// end of modul-a.js</span>
+<span class="token comment" spellcheck="true">// -----</span>
+<span class="token comment" spellcheck="true">// modul-b.js</span>
+
+<span class="token keyword">var</span> add2 <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&apos;./modul-a&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> val <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">add2</span><span class="token punctuation">(</span>val<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// will print 12</span>
+<span class="token comment" spellcheck="true">// end of modul-b.js</span>
+</code></pre>
+<p>In Modul-A m&#xFC;ssen wir also sagen, welche Funktion (oder Variablen) exportiert werden mit <code>module.exports</code>.
+In Modul-B binden wir das Modul-A dann mit <code>require(&apos;./modul-a&apos;)</code> ein und k&#xF6;nnen es dort nutzen.</p>
+<p>Bei dem Spiel das ich hier entwickle nutzen wir dieses Prinzip nat&#xFC;rlich aus, da ein organisierter Code
+der frei von redundanten Code einfacher sch&#xF6;ner aussieht und viel einfacher zu  warten ist.
+Um das ganze an den bisher bekannten States sichtbar zu machen (Beispiel <code>boot.js</code> State):</p>
+<pre><code class="language-javascript">
+<span class="token keyword">function</span> <span class="token function">Boot</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+
+Boot<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// definition of preload(), create() et cetera</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> Boot<span class="token punctuation">;</span>
+</code></pre>
+<p>Diese reduzierte Version der in dem letzten Blogpost gezeigten <code>boot.js</code> Datei exportiert die
+Funktion <code>Boot</code> als Modul. In dem Blogpost habe ich dann die ganzen States einzeln im HTML Code
+durch das <code>&lt;script&gt;</code> HTML Tag eingebunden und dann sp&#xE4;ter in der <code>script.js</code> genutzt.
+Mit CommonJS und dem automatisierten Workflow sieht die gleiche Datei nun wie folgt aus:</p>
+<pre><code class="language-javascript">  window<span class="token punctuation">.</span>onload <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> Boot <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&apos;./states/boot&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">var</span> Preload <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&apos;./states/preload&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// more states here</span>
+
+    <span class="token keyword">var</span> game <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Phaser<span class="token punctuation">.</span>Game</span><span class="token punctuation">(</span><span class="token number">960</span><span class="token punctuation">,</span> <span class="token number">640</span><span class="token punctuation">,</span> Phaser<span class="token punctuation">.</span>AUTO<span class="token punctuation">,</span> <span class="token string">&apos;gamecanvas&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    game<span class="token punctuation">.</span>state<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">&apos;boot&apos;</span><span class="token punctuation">,</span> Boot<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    game<span class="token punctuation">.</span>state<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">&apos;preload&apos;</span><span class="token punctuation">,</span> Preload<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// add more states here</span>
+
+    <span class="token comment" spellcheck="true">// boot the game</span>
+    game<span class="token punctuation">.</span>state<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token string">&apos;boot&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Dank des Workflows wird das ganze automatisch nun zu einer Javascript Datei geb&#xFC;ndelt und diese
+eine Javascript Datei muss dann nur noch im HTML Code referenziert werden mittels <code>&lt;script&gt;</code> Tag. Easy!</p>
+<h4 id="zusammenfassung">Zusammenfassung</h4>
+<p>Die Zusammenfassung f&#xE4;llt mir etwas schwer, denn der Workflow ist f&#xFC;r mich t&#xE4;gliches Brot und viele Punkte
+sind f&#xFC;r mich selbstverst&#xE4;ndlich und ich denke dar&#xFC;ber einfach gar nicht mehr nach. Da ich nicht wei&#xDF; ob
+und wer meine Leser sind, versuche ich f&#xFC;r ein Level zu dokumentieren, das auch ein Einsteiger in das Thema
+hoffentlich sich zurecht findet. Das wirkt zumindest f&#xFC;r mich beim Gegenlesen des Textes teilweise sehr
+komisch, da ich nicht absch&#xE4;tzen kann, was noch Anf&#xE4;nger-Unwissenheit oder Profi-Wissen ist.
+Alles in allem hoffe ich jedoch, das es mindestens zum Nachdenken und selbst ausprobieren anregt oder man
+weitere Quellen sucht, sich mit dem Thema zu besch&#xE4;ftigen.</p>
+<p>Zum Workflow kann ich zu diesem Zeitpunkt nicht mehr sagen, denn alles sollte gesagt sein. Wenn dieser
+Workflow und die Tools nicht gefallen, es gibt viele weitere dieser Yeoman Generators oder andere Optionen
+die man f&#xFC;r den Einstieg nutzen kann. Es muss auch nicht NodeJS sein, sondern kann Python, Java, PHP sein.</p>
+<p>Feedback via Twitter w&#xFC;rde mich freuen :)</p>
+]]></description><link>http://www.example.org/blog/entwicklungsumgebung-und-workflow</link><guid isPermaLink="true">http://www.example.org/blog/entwicklungsumgebung-und-workflow</guid><dc:creator><![CDATA[IkkeWa]]></dc:creator><pubDate>Wed, 14 Oct 2015 00:00:00 GMT</pubDate></item><item><title><![CDATA[Technische Grundlagen und Details]]></title><description><![CDATA[<p>Im letzten Post wurde die Absicht, Ziele und der Rahmen gesetzt und nun kommen wir endlich
+zu einem Thema, das ich hoffentlich etwas fl&#xFC;ssiger aus den Fingern in diesen Blog geschrieben kriege.
+Es geht um die grundlegende Technik die ich benutzten werde und wie in den Zielen beschrieben, werde
+ich ein fertiges Framework als Basis f&#xFC;r das erste Spiel nutzen.</p>
+<h4 id="vorstellung-frameworks">Vorstellung Frameworks</h4>
+<p>In der Welt der Programmierung ist ein Framework die Grundlage f&#xFC;r das zu entwerfende Produkt, das
+bereits viele technische Aspekte abdeckt. Man nimmt mit einem Framework aus der Entwicklungsphase
+viel Arbeit und kann sich mehr um das eigentliche Produkt k&#xFC;mmern.</p>
+<p>In der Webentwicklung sind Frameworks oft Ansto&#xDF; einer langen und pausenlosen Diskussion, welche
+Aspekte ein Framework abdecken muss, in welche Bereiche ein Framework nicht vorsto&#xDF;en soll und somit
+die Optionen f&#xFC;r den Entwickler und sein Produkt nicht einschr&#xE4;nken darf.
+Bei nativen Anwendungen sind Frameworks auch das Fundament, jedoch sind die Entscheidungen oft
+limitiert denn das direkte Zusammenspiel zwischen Betriebssystem und Anwendung in Paarung mit der
+gew&#xE4;hlten Programmiersprache (und dem Hersteller) lassen weniger Optionen.</p>
+<p>Beim Game Development wird die Basis/Fundament nicht Framework genannt, sondern Engine (GameEngine).
+Im Vergleich zu einem Framework ist es f&#xFC;r den Entwickler aber das gleiche, denn es nimmt einem
+einen unglaublichen Berg an Arbeit ab und deckt nahezu alle Bereiche ab, die notwendig sind.
+Bekannte native GameEngines sind Epic UnrealEngine, CryTek CryEngine, Unity UnityEngine und viele
+propriet&#xE4;re Engines von GameStudios, die vom Namen bekannt, aber f&#xFC;r die Masse nicht zug&#xE4;nglich sind.</p>
+<h4 id="entscheidung-f-r-ein-framework">Entscheidung f&#xFC;r ein Framework</h4>
+<p>F&#xFC;r das Spiel ist das Ziel definiert die Webplattform/Browser zu nutzen.
+Damit ergibt sich die M&#xF6;glichkeit das Spiel auf dem PC, Smartphone und sogar modernen Fernsehern (Smart-TV)
+laufen zu lassen, denn alles was man ben&#xF6;tigt ist ein moderner Browser.
+Die Entscheidung k&#xF6;nnte weiterhin lauten: UnrealEngine, CryEngine oder Unity, denn alle Engines
+erlauben einen Export des Werkes f&#xFC;r das Web. Damit k&#xF6;nnen wir aber noch keine Entscheidung treffen,
+sondern per Zufall eine Wahl treffen, die sp&#xE4;ter bereut wird. Daher suche ich weitere Kriterien.</p>
+<p>Als n&#xE4;chstes ist f&#xFC;r mich die Auswahl der Programmiersprache ein entscheidender Faktor ob
+das Ziel erreicht werden kann oder ob man aufgrund der Programmiersprache und seinen Besonderheiten
+sich in Feinheiten verliert und nicht vorw&#xE4;rts kommt. So habe ich nur wenig bis keine Erfahrung in
+Java und C/C++ und der Anfang der Entwicklung w&#xE4;re gepr&#xE4;gt vom Lernen der Sprache.</p>
+<p>Meine Wahl f&#xE4;llt auf JavaScript/ECMAScript. Die Erkl&#xE4;rung m&#xF6;chte ich kurz halten. Javascript
+ist in allen Browser bereits vorhanden, die Community ist gro&#xDF; und es existiert in der Community
+ein gro&#xDF;es Gef&#xFC;hl an &quot;Share &amp; Help&quot;. Das zeigt sich in Unmengen an Tutorials in Blogs und Youtube,
+an Communityprojekten die offen f&#xFC;r jeden sind und jeder sich beteiligen kann und darf.
+Somit wird dieser Blog auch ein Teil dieses Spirits beinhalten: Ich teile mein Wissen was
+ich gelernt habe w&#xE4;hrend der Entwicklung und es besteht die M&#xF6;glichkeit sich zu beteiligen.</p>
+<p>Mit der Auswahl der Sprache habe ich zwar die Auswahl der GameEngines reduziert, aber nicht die
+Engine bestimmt. Engines wie Unity erlauben einen JavaScript &#xE4;hnlichen Dialekt in ihrer Engine.
+UnrealEngine kann theoretisch ohne eine Programmiersprache genutzt werden durch die Nutzung der
+Blueprints und des &quot;visualisierten Programmierens&quot;.</p>
+<h5 id="die-entscheidung">Die Entscheidung</h5>
+<p>Ich habe mich entschieden f&#xFC;r das FrameWork <a href="http://www.phaser.io" title="Phaser Website">PhaserJS</a>.
+Phaser ist ein quell-offenes Framework das in JavaScript geschrieben und f&#xFC;r die direkte Nutzung
+im Browser gedacht ist. Es deckt viele Bereiche ab die man f&#xFC;r die Entwicklung eines Spiels ben&#xF6;tigt:
+Graphics, Video, Timing, Input, Audio, Assets...</p>
+<p>Weiter ist der Support f&#xFC;r die Engine grandios und sucht meiner Meinung nach seines Gleichen.
+Es gibt hunderte Beispiele f&#xFC;r fast jeden Aspekt der Engine inklusive Code und kurzen Erkl&#xE4;rungen.
+Die Dokumentation ist vollst&#xE4;ndig und auf einem aktuellen Stand, via Forum kann man auf die freundliche
+Unterst&#xFC;tzung von vielen anderen Entwicklern bauen oder sogar direkten Kontakt mit den Entwicklern
+herstellen. Und das ganze f&#xFC;r lau und ohne Klauseln, denn die Engine steht unter der <a href="https://github.com/photonstorm/phaser/blob/master/license.txt">MIT Lizenz</a>.</p>
+<h4 id="einstieg-in-phaserjs">Einstieg in PhaserJS</h4>
+<p>Die Webseite von Phaser bietet ein Tutorial, wie man die GameEngine herunterl&#xE4;dt und die ersten
+Schritte hin zu einer Entwicklungsumgebung, die das Programmieren und Experimentieren vereinfachen.
+Ich erspare mir diese Erkl&#xE4;rung zu wiederholen, merke aber direkt an das ich hier zu diesem Zeitpunkt
+einen Teil unterschlage.</p>
+<p>Im Vorfeld zu diesem Blog habe ich mir bereits eine Entwicklungsumgebung und einen Workflow
+zusammengesetzt, der es mir erm&#xF6;glicht, nur auf das entwickeln zu konzentrieren.
+Basis ist daf&#xFC;r NodeJS mit all seinen Helfern und Tools die ich gerne in Zukunft noch weiter
+beschreiben werden, sowie meinen darauf aufsetzenden Workflow und Tooling.</p>
+<p>Jetzt aber m&#xF6;chte ich erst einmal etwas Lust auf Phaser machen und warum es meine Wahl war als Engine.</p>
+<h5 id="state-konzept-von-phaser">State Konzept von Phaser</h5>
+<p>Phaser ist eine GameEngine und erm&#xF6;glicht mit der unkomplizierten Programmiersprache JavaScript
+einen schnellen Einstieg und Ergebnisse. Dazu passiert viel im Hintergrund (wof&#xFC;r eine Engine
+auch da ist) und man besch&#xE4;ftigt sich prim&#xE4;r nur mit der Spitze vom Eisberg.</p>
+<p>Zun&#xE4;chst hat Phaser das Konzept der &quot;States&quot; die in einer Reihenfolge von Phaser abgespielt werden.
+In jedem dieser States wird ein Programmteil abgedeckt und triggered eventuell den Aufruf eines
+weiteren States an. Best Practice sind die States: Boot, Preload, Menu, Play, GameOver, jedoch
+kann jeder die States nennen wie er lustig ist, es sind einfach nur Namen f&#xFC;r einen Spielstatus.</p>
+<p><img src="/assets/phaser_state_cycle.png" alt="Phaser state cycle" title="Phaser state cycle"></p>
+<p>Wenn wir Phaser initiieren, sagen wir zun&#xE4;chst: Rufe den <code>boot</code> State auf. Im Bootvorgang
+werden dann Dinge erledigt wie das Setzen von Parametern f&#xFC;r das gesamte Spiel (z.B. Skalierung)
+und Assets (Bilder/Ton) f&#xFC;r den n&#xE4;chsten State vorladen und sobald abgeschlossen auch aufgerufen.
+Denn der n&#xE4;chste State ist <code>preload</code> State und hier laden wir, wie der Name schon sagt, alle
+Assets vor, die sp&#xE4;ter im eigentlichen Spiel genutzt werden. Damit das f&#xFC;r den Spieler nicht
+das Starren auf einen schwarzen Screen bedeutet, haben wir im <code>boot</code> state als Asset einen
+Ladebalken und gegebenenfalls ein Logo vorgeladen und der User kann nun den Fortschritt beobachten.
+Sobald der Fortschritt die 100% erreicht hat, springen wir zum <code>menu</code> State. Ein Men&#xFC; ist ein Men&#xFC;
+und es gibt dazu nicht viel zu erkl&#xE4;ren. Man gibt dem User die M&#xF6;glichkeit Spieleinstellungen
+vorzunehmen, sich Credits und Bonusmaterial anzusehen und das wichtigste, den <code>play</code> State aufzurufen.
+Denn der <code>play</code> State ist das Herz des ganzen Spiels, denn hier wird das eigentliche Spiel
+abgehandelt: Userinput wird erkannt und verarbeitet, Audio zum richtigen Zeitpunkt abgespielt oder
+die Physikberechnung einbezogen und final dann Bilder generiert, positioniert und dargestellt.
+Zum Schluss dann der <code>gameOver</code> State, der dem User das Ergebnis seines Spiels aufzeigt und die
+M&#xF6;glichkeit gibt, wieder zum Men&#xFC; zur&#xFC;ckzukehren f&#xFC;r eine neue Runde.</p>
+<p>Diesen ganzen Zyklus kennen wir aus jedem Spiel und jede Spielengine bietet eine L&#xF6;sung, die
+Namen sind nur unterschiedlich. Unity nennt es &quot;Scene&quot;, bei UnrealEngine m&#xFC;sste es ein &quot;Level&quot; sein.</p>
+<p>F&#xFC;r Phaser vielleicht notwendig zu sagen: Abh&#xE4;ngig vom Umfang des Spiels kann es notwendig und
+sinnvoll sein den <code>play</code> State zu unterteilen. Dieser Unterteilung kann zum Beispiel die
+Aufteilung jedes Levels in einen eigenen State sein, womit die Abfolge w&#xE4;re: Boot, Preload, Menu,
+Level1, Level2, Level3, ..., Gameover.</p>
+<h4 id="gliederung-eines-state">Gliederung eines State</h4>
+<p>Ein State ist aber nicht nur ein gro&#xDF;er Block, sondern ein State hat jeweils f&#xFC;r sich ebenfalls
+eine Abfolge von Funktionen die automatisch abgearbeitet werden. Das ist ein Unterschied zum
+Aufruf eines State, denn ein State wird durch den Programmierer absichtlich getriggered, wobei
+innerhalb eines States die Funktionen durch die Phaser Engine automatisch aufgerufen werden.</p>
+<p><img src="/assets/phaser_state_metods.png" alt="Phaser State Methods" title="Phaser state methods"></p>
+<p>In dieser dargestellten State Transition von <code>boot</code> nach <code>preload</code> passiert folgendes:
+Der <code>boot</code> state wird von oben nach unten abgearbeitet bis zu <code>shutddown()</code> und irgendwo
+im <code>boot</code> State setzt der Programmierer den Trigger, den <code>preload</code> State zu starten.
+Aufgrund des Triggers wird jetzt <code>shutdown()</code> im <code>boot</code> durchlaufen und es geht weiter mit 
+<code>init()</code> im <code>preload</code> State und endet zun&#xE4;chst wieder bei <code>render()</code>, bis ein Trigger
+vom Programmierer erreicht wird, das den Aufruf eines weiteren States bedeutete.</p>
+<h4 id="code-endlich-code-">Code, endlich Code!</h4>
+<p>Nun mit diesem kurzen Intro in Phaser States will ich auf das HTML Grundger&#xFC;st eingehen.
+In diesem Beispiel nutze ich nicht meine Entwicklungsumgebung und Workflow, sondern einfaches
+HTML mit Javascript auf den klassischen Weg.</p>
+<p>Zun&#xE4;chst definiere ich f&#xFC;r jeden State eine eigene JavaScript Datei und benenne sie wie der State
+auch hei&#xDF;t, also <code>boot</code> State wird zu <code>boot.js</code>, der <code>preload</code> State wird <code>preload.js</code> usw.
+Dabei hat jeder State keine wirkliche Funktion, da es sich hier bei nur ein Beispiel handelt und
+der Wechsel zwischen den einzelnen States wird durch Timer gel&#xF6;st.</p>
+<pre><code class="language-javascript">
+  <span class="token keyword">function</span> <span class="token function">Boot</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token punctuation">}</span>
+
+  Boot<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token operator">/</span>`
+     <span class="token operator">*</span> Boot preload
+     <span class="token operator">*</span>
+     <span class="token operator">*</span> Load the images used <span class="token keyword">in</span> the preload state
+     <span class="token operator">*</span><span class="token operator">/</span>
+    preload<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">preload</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// prepare the boot, load images used</span>
+      <span class="token comment" spellcheck="true">// in the preload state</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+    <span class="token operator">/</span>`
+     <span class="token operator">*</span> Create the boot state
+     <span class="token operator">*</span>
+     <span class="token operator">*</span> Setup the game settings <span class="token keyword">for</span> phaser framework
+     <span class="token operator">*</span> and kick off the preload state
+     <span class="token operator">*</span><span class="token operator">/</span>
+    create<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>scale<span class="token punctuation">.</span>windowConstraints<span class="token punctuation">.</span>bottom <span class="token operator">=</span> <span class="token string">&apos;visual&apos;</span><span class="token punctuation">;</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>scale<span class="token punctuation">.</span>scaleMode <span class="token operator">=</span> Phaser<span class="token punctuation">.</span>ScaleManager<span class="token punctuation">.</span>SHOW_ALL<span class="token punctuation">;</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>scale<span class="token punctuation">.</span>pageAlignHorizontally <span class="token operator">=</span> <span class="token keyword">true</span><span class="token punctuation">;</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>scale<span class="token punctuation">.</span>pageAlignVertically <span class="token operator">=</span> <span class="token keyword">false</span><span class="token punctuation">;</span>
+
+      <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>state<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token string">&apos;preload&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// trigger transition to preload state</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Im <code>boot</code> State wird die Skalierung definiert und sofort der <code>preload</code> State
+aufgerufen via <code>this.game.state.start(&apos;preload&apos;);</code>. Eine berechtigte Frage w&#xE4;re:
+Woher kommt <code>this.game</code> und <code>this.scale</code>? Nun, die Properties werden nachher durch
+das Einbinden der States in die jeweiligen States durch Phaser gesetzt. Das sehen
+wir aber sp&#xE4;ter im file <code>script.js</code></p>
+<pre><code class="language-javascript">  <span class="token keyword">function</span> <span class="token function">Preload</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+  Preload<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token operator">/</span>`
+     <span class="token operator">*</span> Preload the Menu state
+     <span class="token operator">*</span><span class="token operator">/</span>
+    preload<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">preload</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// here we would load assets (images/sounds used in the game)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+    <span class="token operator">/</span>`
+     <span class="token operator">*</span> After everything has been preloaded<span class="token punctuation">,</span>
+     <span class="token operator">*</span> `create` the preload state<span class="token punctuation">,</span> which means<span class="token punctuation">,</span>
+     <span class="token operator">*</span> go to the next state<span class="token punctuation">.</span>
+     <span class="token operator">*</span><span class="token operator">/</span>
+    create<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token string">&apos;menu&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Auch im <code>preload</code> State passiert aktuell nicht viel, sondern es wird sofort
+(und ohne Timer) der <code>menu</code> State getriggered.</p>
+<pre><code class="language-javascript">  <span class="token keyword">function</span> <span class="token function">Menu</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+  Menu<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token operator">/</span>`
+     <span class="token operator">*</span> Preload the Menu state
+     <span class="token operator">*</span><span class="token operator">/</span>
+    preload<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">preload</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// mostly nothing to do here</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+    <span class="token operator">/</span>`
+     <span class="token operator">*</span> Create the menu and bind interactions when
+     <span class="token operator">*</span> clicking on buttons and stuff<span class="token punctuation">.</span>
+     <span class="token operator">*</span>
+     <span class="token operator">*</span> As example<span class="token punctuation">:</span> use a timer that kicks off after <span class="token number">5</span> seconds
+     <span class="token operator">*</span><span class="token operator">/</span>
+    create<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>time<span class="token punctuation">.</span>events<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>Phaser<span class="token punctuation">.</span>Timer<span class="token punctuation">.</span>SECOND <span class="token operator">*</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>onTimerEnd<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+    <span class="token operator">/</span>`
+     <span class="token operator">*</span> Callback <span class="token keyword">for</span> timer
+     <span class="token operator">*</span>
+     <span class="token operator">*</span> Call the play state
+     <span class="token operator">*</span>
+     <span class="token operator">*</span> @param <span class="token punctuation">{</span>Phaser<span class="token punctuation">.</span>Timer<span class="token punctuation">}</span> timer
+     <span class="token operator">*</span><span class="token operator">/</span>
+    onTimerEnd<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">onTimerEnd</span><span class="token punctuation">(</span>timer<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token string">&apos;play&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Der <code>menu</code> State verh&#xE4;lt etwas anders als die vorherigen States, denn es wird ein
+Timer gesetzt, der nach 5 Sekunden ein Callback Event ausl&#xF6;st und die Function <code>onTimerEnd()</code>
+aufruft. In diesem Callback wird der <code>play</code> State getriggered.</p>
+<pre><code class="language-javascript">  <span class="token keyword">function</span> <span class="token function">Play</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+  Play<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token operator">/</span>`
+     <span class="token operator">*</span> Preload the play state
+     <span class="token operator">*</span><span class="token operator">/</span>
+    preload<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">preload</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// setup some general state things</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+    <span class="token operator">/</span>`
+     <span class="token operator">*</span> Create the play state means here<span class="token punctuation">,</span> create
+     <span class="token operator">*</span> the game<span class="token punctuation">:</span> load images<span class="token punctuation">,</span> setup inputcontrollers
+     <span class="token operator">*</span> and a lot more<span class="token punctuation">.</span>
+     <span class="token operator">*</span> Basicly everything that needs to be created to
+     <span class="token operator">*</span> show the game at time<span class="token operator">=</span><span class="token number">0</span>
+     <span class="token operator">*</span>
+     <span class="token operator">*</span> As example again<span class="token punctuation">:</span> a Timer that kicks off after
+     <span class="token operator">*</span> <span class="token number">5</span> seconds and jumnps to the gameover state<span class="token punctuation">.</span>
+     <span class="token operator">*</span><span class="token operator">/</span>
+    create<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>time<span class="token punctuation">.</span>events<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>Phaser<span class="token punctuation">.</span>Timer<span class="token punctuation">.</span>SECOND <span class="token operator">*</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>onTimerEnd<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+    <span class="token operator">/</span>`
+     <span class="token operator">*</span> The important update
+     <span class="token operator">*</span>
+     <span class="token operator">*</span> This <span class="token keyword">function</span> will be called on every frame<span class="token punctuation">.</span>
+     <span class="token operator">*</span> This is basicly the gameloop and contains
+     <span class="token operator">*</span> all calculations and changes of the game
+     <span class="token operator">*</span> behavior <span class="token punctuation">(</span><span class="token keyword">get</span> input<span class="token punctuation">,</span> process input<span class="token punctuation">,</span> change player
+     <span class="token operator">*</span> position or change image
+     <span class="token operator">*</span>
+     <span class="token operator">*</span> For the demo purpose <span class="token keyword">this</span> is empty
+     <span class="token operator">*</span><span class="token operator">/</span>
+    update<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">update</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// gameloop here</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+    <span class="token operator">/</span>`
+     <span class="token operator">*</span> Callback <span class="token keyword">for</span> timer
+     <span class="token operator">*</span> Jump to the gameover state
+     <span class="token operator">*</span>
+     <span class="token operator">*</span> @param <span class="token punctuation">{</span>Phaser<span class="token punctuation">.</span>Timer<span class="token punctuation">}</span> timer
+     <span class="token operator">*</span><span class="token operator">/</span>
+    onTimerEnd<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">onTimerEnd</span><span class="token punctuation">(</span>timer<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token string">&apos;gameover&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Der <code>play</code> State is das eigentliche Spiel und hier wird bei der Entwicklung eines
+Spiels die meisten Aktionen und &#xC4;nderungen vorgenommen. Die <code>update()</code> Funktion habe
+ich hier mal mit aufgenommen, denn das ist quasi das Herz des ganzen Spiels: der Gameloop.
+Die Funktion <code>update()</code> wird f&#xFC;r die Darstellung eines jeden Frames aufgerufen und ist
+somit f&#xFC;r die Steuerung des gesamten Spiels verantwortlich.
+F&#xFC;r das Beispiel wird in dem <code>play</code> State wird auch nur ein Timer gesetzt, der nach 5
+Sekunden in den <code>gameover</code> State gewechselt.</p>
+<pre><code class="language-javascript">  <span class="token keyword">function</span> <span class="token function">Gameover</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+  Gameover<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token operator">/</span>`
+     <span class="token operator">*</span> Preload the Gameover state
+     <span class="token operator">*</span><span class="token operator">/</span>
+    preload<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">preload</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// mostly nothing to do here</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+    <span class="token operator">/</span>`
+     <span class="token operator">*</span> Create the GameOver state<span class="token punctuation">,</span> show results
+     <span class="token operator">*</span> like time player<span class="token punctuation">,</span> items collected
+     <span class="token operator">*</span> or a rank <span class="token keyword">with</span> highscores
+     <span class="token operator">*</span>
+     <span class="token operator">*</span> As example again<span class="token punctuation">:</span> a Timer that kicks off after
+     <span class="token operator">*</span> <span class="token number">5</span> seconds and jumnps to the gameover state<span class="token punctuation">.</span>
+     <span class="token operator">*</span><span class="token operator">/</span>
+    create<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>game<span class="token punctuation">.</span>time<span class="token punctuation">.</span>events<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>Phaser<span class="token punctuation">.</span>Timer<span class="token punctuation">.</span>SECOND <span class="token operator">*</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>onTimerEnd<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+    <span class="token operator">/</span>`
+     <span class="token operator">*</span> Callback <span class="token keyword">for</span> timer
+     <span class="token operator">*</span>
+     <span class="token operator">*</span> Jump back to the menu state and
+     <span class="token operator">*</span> start all over<span class="token punctuation">.</span>
+     <span class="token operator">*</span><span class="token operator">/</span>
+    onTimerEnd<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">onTimerEnd</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token string">&apos;menu&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Der <code>gameover</code> State ist in dem Beispiel wieder nur ein Timer der
+weiterleitet auf den bereits definierten <code>menu</code> State. Es wird also der
+gleiche Menu-State aufgerufen, der bereits am Anfang genutzt wurde, jedoch neu initialisiert.</p>
+<p>Als n&#xE4;chstes kommt <code>script.js</code> und hier wird das Spiel zusammengeschn&#xFC;rt, bedeutet alle
+States werden der Phaser Game Engine bekannt gemacht und sind somit von Phaser nutzbar.</p>
+<pre><code class="language-javascript">  window<span class="token punctuation">.</span>onload <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> game <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Phaser<span class="token punctuation">.</span>Game</span><span class="token punctuation">(</span><span class="token number">960</span><span class="token punctuation">,</span> <span class="token number">640</span><span class="token punctuation">,</span> Phaser<span class="token punctuation">.</span>AUTO<span class="token punctuation">,</span> <span class="token string">&apos;gamecanvas&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    game<span class="token punctuation">.</span>state<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">&apos;boot&apos;</span><span class="token punctuation">,</span> Boot<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    game<span class="token punctuation">.</span>state<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">&apos;preload&apos;</span><span class="token punctuation">,</span> Preload<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    game<span class="token punctuation">.</span>state<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">&apos;menu&apos;</span><span class="token punctuation">,</span> Menu<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    game<span class="token punctuation">.</span>state<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">&apos;play&apos;</span><span class="token punctuation">,</span> Play<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    game<span class="token punctuation">.</span>state<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">&apos;gameover&apos;</span><span class="token punctuation">,</span> Gameover<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// boot the game</span>
+    game<span class="token punctuation">.</span>state<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token string">&apos;boot&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>In der ersten Zeile erzeugen wir ein <code>Phaser.Game</code>, also ein neues Spiel. Die Werte die als
+Parameter &#xFC;bergeben werden bedeuten folgendes:</p>
+<ol>
+<li>960: Breite in Pixel des Spiels</li>
+<li>480: H&#xF6;he in Pixel des Spiels</li>
+<li>Phaser.AUTO: Phaser erkennt selbstst&#xE4;ndig ob 2D Canvas oder WebGl als Renderer benutzt werden soll</li>
+<li>gamecanvas: Das HTML Element, in das Phaser das Spiel setzen soll</li>
+</ol>
+<p>W&#xE4;hrend der Parameter eins und zwei selbsterkl&#xE4;rend sind, ein paar Worte noch zum dritten Parameter.
+Ein Renderer ist die Technik die Phaser vom Browser nutzt um dynamische Inhalte (wie ein Spiel) im
+Browser darstellen zu k&#xF6;nnen. Alle Browserhersteller unterst&#xFC;tzen Canvas (2D Darstellung, <code>Phaser.CANVAS</code>) und
+WebGL (3D Darstellung, <code>Phaser.WEBGL</code>). W&#xE4;hrend WebGL in der Lage ist auch vollwertige 3D Spiele
+darzustellen, nutzt Phaser die WebGL Technologie nur im gleichen Umfang wie bei den 2D Canvas
+Darstellung. Ein 3D EgoShooter im Browser ist mit WebGL machbar, aber PhaserJS ist nicht f&#xFC;r ein
+3D EgoShooter ausgelegt. Der einzige Vorteil der die WebGL Nutzung sind Lichteffekte und WebGL Shader
+auf der 2D Darstellung. Jedoch gibt es Benchmarks die zeigen, das Phaser mit WebGL nicht die gleiche
+Performance bringt, wie mit der 2D Canvas RenderEngine. Daran arbeitet das Phaser Team aber, denn
+mit Phaser Version 3.x (aktuell 2.4.x) wird der WebGL Renderer komplett neu geschrieben.</p>
+<p>Das Bekanntmachen der States an die Phaser Engine l&#xE4;sst sich in dem Beispiel gut lesen:
+<code>game.state.add(&apos;boot&apos;, Boot);</code> macht den <code>boot</code> State bekannt. Die Variable <code>Boot</code> (2ter Parameter)
+wurde vorab in der Datei <code>boot.js</code> definiert und zwar via <code>function Boot() {}</code>.
+Und den Bootstate triggern wir hier auch via <code>game.state.start(&apos;boot&apos;) - also mit dem Namen der
+bei</code>game.state.add()` gew&#xE4;hlt wurde.</p>
+<p>Zuletzt das ganze noch in HTML packen, damit der Browser auch eine Webseite mit dem eingebetteten
+Spiel &#xF6;ffnen und laden kann.</p>
+<pre><code class="language-markup"><span class="token doctype">&lt;!DOCTYPE html&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>utf-8<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>language<span class="token punctuation">&quot;</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>en<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>viewport<span class="token punctuation">&quot;</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>width<span class="token punctuation">=</span>device-width, initial-scale<span class="token punctuation">=</span>1<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">&gt;</span></span>Simple Intro<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>gamecanvas<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">&gt;</span></span>
+  <span class="token script language-javascript"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>https://cdnjs.cloudflare.com/ajax/libs/phaser/2.4.3/phaser.min.js<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span></span>
+  <span class="token script language-javascript"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>boot.js<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span></span>
+  <span class="token script language-javascript"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>preload.js<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span></span>
+  <span class="token script language-javascript"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>menu.js<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span></span>
+  <span class="token script language-javascript"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>play.js<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span></span>
+  <span class="token script language-javascript"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>gameover.js<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span></span>
+  <span class="token script language-javascript"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>script.js<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+<p>Es wird im HTML Body nur ein DIV Container <code>#gamecanvas</code> erstellt (auf den wir in Phaser.Game()
+referenziert haben) und alle notwendigen JavaScripts in einer notwendigen Reihenfolge geladen.
+Die Reihenfolge ist in diesem Beispiel wichtig, da wir zum Beispiel in <code>script.js</code> die
+Phaser Engine nutzen (via <code>new Phaser.Game()</code>) und daher sollte Phaser vorher geladen sein.</p>
+<p>In dem Beispiel wird die Phaser Engine von einem &#xF6;ffentlichen CDN geladen. Es empfiehlt sich
+in der Entwicklung eine lokale Kopie zu haben, damit nicht bei jedem Testrun aus dem Netz
+die Phaser Engine geladen werden muss und der CDN nicht unn&#xF6;tig belastet wird.</p>
+<p>Um das ganze lokal zu testen wird nun ein Webbrowser und ein Webserver verwendet. Abh&#xE4;ngig
+von dem Betriebssystem das verwendet wird, ist ein Webserver mit Python die schnellste L&#xF6;sung.
+Auf jedem Betriebssystem au&#xDF;er MS Windows ist fast immer Python installiert und via folgender
+Kommoandozeileeingabe wird ein HTTP Server gestartet: <code>python -m SimpleHTTPServer</code>
+Im Browser ist nun mit der Adresse <code>http://localhost:8000</code> das &quot;Spiel&quot; aufrufbar...also ein
+schwarzer Bildschirm ist sichtbar der aber alle 5 Sekunden die States wechselt (glaubt mir ;) )</p>
+<p>Damit haben wir die Basis f&#xFC;r jedes Phaser Spiel erstellt. Das Laden der Phaser Engine, die
+Erstellung von States die Schrittweise das Laden und das Vorbereiten des eigentlichen Spiels
+erledigt. Da dies ein sich immer wiederholender Schritt ist, kann man es als Template oder
+Boilerplate verwenden oder es in einem Workflow automatisieren (was ich gemacht habe).</p>
+<h4 id="zusammenfassung">Zusammenfassung</h4>
+<p>In diesem Posting ist die Auswahl der Engine beschrieben und der erste Schritt, wie man die Engine
+nutzt. Die PhaserJS Engine ist ein f&#xFC;r die Nutzung im Browser ausgelegtes Framework und nutzt
+die Funktionen und Features des Browsers nativ ohne ein zus&#xE4;tzliches Plugin (Bsp Unity Webplayer).</p>
+<p>Nach der Erstellung des Spiels mittels via <code>new Phaser.Game()</code> werden States geladen und die
+States sind einfache JavaScript Funktionen die angereichert werden durch die Phaser Engine mit
+zus&#xE4;tzlichen Eigenschaften (<code>this.game</code>, <code>this.scale</code>).</p>
+<p>Bei den States gibt es zwei Merkmale, die man sich merken sollte. States werden durch den
+Programmierer definiert und gestartet/getriggered. Wenn ein State gestartet wurde, wird durch
+die Phaser Engine eine bestimmte Reihenfolge von Methoden in jedem State durchlaufen
+(<code>init</code>, <code>preload</code>, <code>create</code>, <code>update</code>) ohne das der Programmierer extra einen Trigger setzen muss.</p>
+<p>Der erste Schritt ist somit getan und es geht weiter im n&#xE4;chsten Blogpost.</p>
+]]></description><link>http://www.example.org/blog/technische-grundlagen-und-details</link><guid isPermaLink="true">http://www.example.org/blog/technische-grundlagen-und-details</guid><dc:creator><![CDATA[IkkeWa]]></dc:creator><pubDate>Tue, 13 Oct 2015 00:00:00 GMT</pubDate></item><item><title><![CDATA[Absicht und die Möglichkeiten]]></title><description><![CDATA[<p>Grundlage des ganzen Blogs ist die Idee, aufzuschreiben wie die Entwicklung eines Spiels funktioniert.
+Es geht dabei nicht um die Absicht an große AAA Titel oder selbst kleine Indie Titel heranzutreten,
+sondern die einfachen Basics in einem Spiel einmal selbst geschaffen zu haben, darauf aufzubauen
+und in vielen kleinen Schritten weiterzuentwickeln.</p>
+<h4 id="projektmanagement-oder-massaker-in-der-planung">Projektmanagement oder Massaker in der Planung</h4>
+<p>Eine Aufgabe oder ein Ziel ist immer ein Puzzle aus vielen kleinen Teilen und wenn man sich überlegt
+was ein komplettes Spiel an Puzzleteilen enthält für die Erschaffung eines Spiels, sollte jedem klar
+sein das ich hier nicht den nächsten GTA, Final Fantasy oder CoD Nachfolger bauen kann und werde.
+Zudem sehe ich die Weiterentwicklung und die Möglichkeiten die die Gamingbranche noch vor sich hat
+nicht bei den großen Firmen, sondern der Indie Bereich wird in Zukunft das Zugpferd für neues sein.
+Sicherlich werden die AAA Firmen daran gut verdienen, da sie im Indiebereich einkaufen oder Ideen
+&quot;ausleihen&quot; werden. Das bedeutet, dass sie nicht ein Element sind das bald Geschichte ist, aber die
+eigentlichen Innovationen werden aus dem Indie Bereich kommen. Auch sollte klar sein, das AAA Firmen ein
+notwendiges Element in der Branche sind, denn ohne diese gäbe es kein Steam und keine Querfinanzierung
+von experimentellen Indie Titel für die große Bühne. Ja, der Indiebereich ist abhängig von der
+Marktmacht eines EA, MS, Blizzard, aber so sind diese Firmen auch abhängig vom Indiebereich,
+wenn sie sich weiterhin ein gutes Stück vom Kuchen erarbeiten wollen.</p>
+<p>Um hier nicht falsche Erwartungen wecken zu wollen: Ich bin auch kein Indie Entwickler der versucht
+den Sprung auf den Markt zu schaffen. Ich gehe einem Hobby nach und ich wage einen Versuch meine
+Erlebnisse und Erkenntnisse aus diesem Hobby aufschreiben zu wollen. Da ich so etwas nicht gewohnt
+bin ist der Schreibstil doch sehr banal, schwammig und holprig. Vielleicht wird es dich überraschen
+wenn ich jetzt schreibe, das mir das sogar bewusst ist, aber selbst mehrfaches überdenken von
+Textabschnitten hat nur diesen Text hervorgebracht, der hier nun steht.</p>
+<p>Jetzt die spannende Frage: Warum schreibe ich über AAA Titel, Indiefirmen und meinen Schreibstil
+ in einem Abschnitt, der eigentlich die Überschrift &quot;Projektmanagement&quot; trägt?</p>
+<p>Die Antwort ist für mich logisch, denn Projektmanagement heißt Ziele, Nicht-Ziele und Meilensteine
+zu definieren und aufzuschreiben: Ja mein Projekt ist es, ein kleines Spiel zu entwickeln. Nein,
+ich bin kein Profientwickler und strebe nicht einen kommerziellen Erfolg an. Nein, Innovationen
+und neue Spielideen werden nicht erdacht. Ja, ich sehe meine Schwächen und erkenne sie an und werde
+an ihnen Arbeiten. Da ich kein Buch schreibe, sondern ein Blog werde ich die Schwächen Post für Post
+hoffentlich reduzieren. Genauso wird es in der Entwicklung des Spiels laufen. Es wird Schwächen und
+Fehler haben und diese werden beseitigt.</p>
+<p>Nun mal Fakten auf den Tisch, denn bisher habe ich das eigentliche Thema &quot;Spiel entwickeln&quot; sehr
+gut umschifft und eher durch die Brust ins Auge einen Rahmen gesteckt.</p>
+<h4 id="ziel">Ziel</h4>
+<p>Ein kleines Spiel entwickeln, das Menschen zwischendurch spielen können. Dabei werde ich
+die Bausteine GameDesign, GameMechanics, Graphics, Audio, Physik und Steuerung mir anschauen und
+nutzen. Das Spiel wird auf einem existierenden Framework basieren und auf mehreren Geräten laufen,
+da die Zielplattform das Web und moderne Browser sind.</p>
+<p>Das Spiel wird keine Story oder eine Nachhaltigkeit über mehrere Spielerlebnisse haben, da keine
+zentrale Steuerung über eine Server erfolgt. Ohne Server und die Möglichkeit Spieler zu verbinden
+wird es auch kein Networking in Form von Multiplayer geben.</p>
+<p>Das Spiel wird eine einfache Geometrie-Grafik und Steuerung haben, die als Grundlage für das nächste Spiel
+dient. Mit jeder Erweiterung werden die unterschiedlichen Elemente verbessert und verfeinert.
+Die Definition der nächsten Schritte wird in eigenen Zielvorstellungen abgehandelt.</p>
+<h4 id="erkenntnis-und-entt-uschung">Erkenntnis und Enttäuschung</h4>
+<p>Beim Aufschreiben des Gesamtziels kommt ein leichtes Gefühl der Enttäuschung auf denn alle
+Elemente die ein Spiel liebenswert macht, fehlen in der Zieldefinition.
+Story, Grafik und Steuerung sind kaum beschrieben und erwecken nicht den Reiz, das etwas 
+Besonderes am Ende als Ergebnis zur Verfügung steht.</p>
+<p>Und dennoch bin ich ein wenig stolz und finde es richtig das meine Erwartungen an das erste Projekt 
+dermaßen niedrig sind. 99,9% der Menschen die ein Spiel entwickeln wollen, setzen die 
+Erwartungshaltung viel zu hoch an. Zum Vergleich: Wenn die Erwartung an sich selbst und das Spiel
+die Messlatte beim Hochsprung sind, wird man sehr schnell beim leichten straucheln im Anlauf 
+zum Sprung unsicher, man kriegt Zweifel und stellt das ganze Projekt in Frage. 
+Damit sinkt die Motivation und das ganze wird auf Eis gelegt oder stillschweigend
+verschoben und versinkt in der Ablage &quot;Projekte die ich mal machen wollte&quot;.
+Woher ich das weiß? Meine Ablage ist voll mit diesen tollen Ideen und Enttäuschungen.</p>
+<h4 id="zusammenfassung">Zusammenfassung</h4>
+<p>Bevor ich die eigentliche Zusammenfassung aufschreibe, möchte ich kurz erklären was für mich
+die Zusammenfassung in diesem Blog bedeutet.</p>
+<p>Während ich versuche jeden Post detailreich zu beschreiben, soll in der Zusammenfassung
+die für mich wichtigen Entscheidungen stehen. Dabei soll es kein TL;DR sein das man
+überfliegt und meint, das Posting gelesen und verstanden zu haben. Das Fazit wird manchmal
+kurz und manchmal lang ausfallen abhängig davon, wie das Thema mich beschäftigt hat.</p>
+<p>Was nehme ich nun als Zusammenfassung in diesem ersten inhaltlichen Post?
+Zum einen ist es natürlich das vorhandene Wissen das man ein Projekt planen und abschätzen 
+muss zu Beginn des Projektes. Dies wurde in einem gewissen Rahmen auch gemacht, jedoch 
+möchte ich mir auch Spielraum lassen für die Qualität der Planungsphase.
+Derzeit brennt es in mir endlich die technische Seite des Spiels anzugehen und viel Zeit
+in eine detaillierte Planungsphase zu stecken scheint mir einfach nicht in Relation 
+zu stehen mit dem unspektakulären Ziel was ich gerade vor Augen habe. Um einen Vergleich
+heranzuziehen: Ich plane zum Bäcker zu gehen und nicht einen dreiwöchigen Urlaub in Fernost.</p>
+<p>Was für mich persönlich einen unglaublich Wert darstellt sind die nicht vorhandenen
+Worte und Sätze rund um das Thema Perfektion. Den Anspruch an eine gewisse Perfektion trage ich
+(leider) in mir und es behinderte mich bisher stark in der Vollendung von Ideen. Stattdessen 
+habe ich endlich mal aufgeschrieben, das eine Idee/Projekt sich in Schritten entwickelt und
+ich hoffe, ich kann diese Einstellung in mir durch die nächsten Postings innehalten.</p>
+<p>Damit beende ich jetzt diesen Post und trotz der Gewissheit, das kein Mensch dieser Welt
+es jemals lesen wird, werde ich weiter machen. Selbst wenn es nur für mich ein öffentliches
+Tagebuch rund um ein Hobby ist, wird es mir helfen das Hobby zu verbessern und die
+Entwicklung in der Zukunft, dann im Nachgang, Revue passieren lassen zu können.</p>
+]]></description><link>http://www.example.org/blog/absicht-und-die-m-glichkeiten</link><guid isPermaLink="true">http://www.example.org/blog/absicht-und-die-m-glichkeiten</guid><dc:creator><![CDATA[IkkeWa]]></dc:creator><pubDate>Mon, 12 Oct 2015 00:00:00 GMT</pubDate></item><item><title><![CDATA[Der erste Blogeintrag]]></title><description><![CDATA[<p><code>Hallo!</code></p>
+<p>Wie bei jedem Anfang einer neuen Sache muss ein erster Schritt gemacht werden um die Sache zum laufen zu kriegen.
+Mit diesem Blog versuche ich ein paar dieser Schritte zu gehen und berichte, was, wie und warum manches funktioniert
+oder auch nicht funktioniert. Es wird inhaltlich die Themen Games und Programmieren behandelt. Zwei Bereiche, die
+mich seit meiner Kindheit fesseln, bannen und teilweise einschränken.</p>
+<p>Zum Anfang nur ein kurzes und einfaches <strong>Hallo</strong>!</p>
+<p>Vielleicht findest du hier Themen die dich interessieren, die dir helfen oder dich reizen aufgrund der Blogeinträge
+etwas in Gaming oder Programming zu versuchen.</p>
+<p>Also, viel Spaß und Feedback ist immer gerne willkommen!</p>
+]]></description><link>http://www.example.org/blog/der-erste-blogeintrag</link><guid isPermaLink="true">http://www.example.org/blog/der-erste-blogeintrag</guid><dc:creator><![CDATA[IkkeWa]]></dc:creator><pubDate>Sat, 10 Oct 2015 00:00:00 GMT</pubDate></item></channel></rss>
